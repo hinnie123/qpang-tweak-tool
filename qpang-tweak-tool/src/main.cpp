@@ -78,9 +78,9 @@ BOOL WINAPI DllMain(
 	if (fdwReason == DLL_PROCESS_ATTACH) {
 		// Uncomment if you want to open a console that you can print to
 
-		/*AllocConsole();
+		AllocConsole();
 		AttachConsole(GetCurrentProcessId());
-		freopen("CON", "w", stdout);*/
+		freopen("CON", "w", stdout);
 
 		init();
 		setupHooks();

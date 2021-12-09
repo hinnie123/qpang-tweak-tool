@@ -1,6 +1,6 @@
 #pragma once
 
-#include "helpers/globals.h"
+#include "features/resolution.h"
 
 namespace hooks {
 	typedef int(__thiscall* tSetCursorBounds)(void*, int, int);
@@ -8,10 +8,7 @@ namespace hooks {
 
 	int __fastcall hkSetCursorBounds(void* _this, void*, int width, int height) {
 		// Original function doesn't really do anything interesting, we don't need to call it.
-
-		*(int*)((uintptr_t)_this + 0x38c) = globals::targetWidth;
-		*(int*)((uintptr_t)_this + 0x390) = globals::targetHeight;
-
+		features::fixCursorBounds(_this);
 		return width;
 	}
 }

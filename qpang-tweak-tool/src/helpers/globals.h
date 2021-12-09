@@ -6,6 +6,7 @@ namespace globals {
 
 	inline uintptr_t* onnetRenderSystem = nullptr;
 
-	inline int targetWidth = 1920;
-	inline int targetHeight = 1080;
+	inline int targetWidth = GetSystemMetrics(SM_CXSCREEN);
+	inline int targetHeight = GetSystemMetrics(SM_CYSCREEN);
+	inline bool fullScreen = false;
 }

@@ -1,9 +1,10 @@
 ﻿#pragma once
 
+#include <vector>
 #include <string>
 
 namespace lua {
-	std::string squareInitLua = R"(
+	std::vector<std::string> squareInitLua = { R"(
 
 		dofile('UI\\GlobalVar.lua')
 		dofile('UI\\mnemonic.lua')
@@ -96,5 +97,5 @@ namespace lua {
 		dofile('UI\\common_ui.lua')
 		dofile('UI\\square_screen.lua')
 
-	)";
+	)" };
 }

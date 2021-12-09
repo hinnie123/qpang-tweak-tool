@@ -1,6 +1,6 @@
 #pragma once
 
-#include "helpers/globals.h"
+#include "features/resolution.h"
 
 namespace hooks {
 	typedef int(__thiscall* tSetWorldToScreenResolution)(void*);
@@ -8,10 +8,7 @@ namespace hooks {
 
 	int __fastcall hkSetWorldToScreenResolution(void* _this, void*) {
 		int retVal = oSetWorldToScreenResolution(_this);
-
-		*(int*)((uintptr_t)_this + 0x218) = globals::targetWidth;
-		*(int*)((uintptr_t)_this + 0x21c) = globals::targetHeight;
-
+		features::fixWorldToScreen(_this);
 		return retVal;
 	}
 }
