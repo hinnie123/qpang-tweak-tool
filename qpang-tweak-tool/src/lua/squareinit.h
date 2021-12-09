@@ -4,7 +4,7 @@
 #include <string>
 
 namespace lua {
-	std::vector<std::string> squareInitLua = { R"(
+	inline std::vector<std::string> squareInitLua = { R"(
 
 		dofile('UI\\GlobalVar.lua')
 		dofile('UI\\mnemonic.lua')

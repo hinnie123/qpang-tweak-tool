@@ -1,8 +1,14 @@
 #include "ui.h"
 
+#include <Windows.h>
+#include <string>
+#include <fstream>
+
 #include "helpers/globals.h"
 
 #include "features/resolution.h"
+
+#include "lua/squareinit.h"
 
 namespace ui {
 	IDirect3DDevice9* _device = nullptr;
@@ -53,7 +59,12 @@ namespace ui {
 
 		static bool resolutionTab = true, miscTab = false;
 
+		RECT rect;
+		GetWindowRect(globals::qpangWindow, &rect);
+
+		ImGui::SetNextWindowPos({ (float)(rect.right - rect.left) / 2 - (float)ui::width / 2, (float)(rect.bottom - rect.top) / 2 - (float)ui::height / 2 });
 		ImGui::SetNextWindowSize({ (float)ui::width, (float)ui::height });
+
 		ImGui::Begin("QPang Tweak Tool v0.1 - by Hinnie"); {
 			if (ImGui::BeginTabBar("#tabBar")) {
 				if (ImGui::BeginTabItem("Resolution", &resolutionTab)) {
@@ -78,12 +89,23 @@ namespace ui {
 				//	
 				//}
 
-				//if (ImGui::Button("Apply")) {
-				//	changedVideoSettings = true;
-				//}
+				/*if (ImGui::Button("Apply")) {
+					changedVideoSettings = true;
+				}*/
 			}
 
 			ImGui::End();
+		}
+	}
+
+	void replaceAll(std::string& str, const std::string& from, const std::string& to) {
+		if (from.empty())
+			return;
+
+		size_t startPos = 0;
+		while ((startPos = str.find(from, startPos)) != std::string::npos) {
+			str.replace(startPos, from.length(), to);
+			startPos += to.length();
 		}
 	}
 
@@ -92,6 +114,41 @@ namespace ui {
 		ImGui::Render();
 
 		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+
+		//if (changedVideoSettings) {
+		//	changedVideoSettings = false;
+
+		//	// this works, however, the ui needs to be reloaded, and I got no idea how to do that yet
+		//	{
+		//		uintptr_t* renderWindow = *(uintptr_t**)((uintptr_t)globals::onnetRenderSystem + 0x240);
+
+		//		static auto reSizeFn = (void(__thiscall*)(void*, uint32_t, uint32_t))(GetProcAddress(GetModuleHandleA("On3D.dll"), "?ReSize@D3DRenderWindow@OnNet3D@@UAEXII@Z"));
+		//		static auto resetDeviceFn = (void(__thiscall*)(void*))(GetProcAddress(GetModuleHandleA("On3D.dll"), "?ResetDevice@D3DRenderSystem@OnNet3D@@QAEXXZ"));
+
+		//		reSizeFn(renderWindow, globals::targetWidth, globals::targetHeight);
+		//		resetDeviceFn(globals::onnetRenderSystem);
+
+		//		ImGui_ImplDX9_InvalidateDeviceObjects();
+		//		ImGui_ImplDX9_CreateDeviceObjects();
+		//	}
+
+		//	std::string path = std::tmpnam(nullptr);
+		//	std::ofstream out(path);
+
+		//	for (std::string squareInitLuaPart : lua::squareInitLua) {
+		//		replaceAll(squareInitLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
+		//		replaceAll(squareInitLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
+		//		out << squareInitLuaPart;
+		//	}
+
+		//	out.close();
+
+		//	static auto getLuaStateFn = (DWORD**(*)())((uintptr_t)globals::qpangModule + 0x21cb0);
+		//	static auto luaTinkerDoFileFn = (int(*)(DWORD*, const char*))((uintptr_t)globals::qpangModule + 0x1d8da0);
+
+		//	*(int*)((uintptr_t)globals::qpangModule + 0x3c1d14) = 0;
+		//	luaTinkerDoFileFn(getLuaStateFn()[1], path.c_str());
+		//}
 
 		/*if (changedVideoSettings) {
 			changedVideoSettings = false;

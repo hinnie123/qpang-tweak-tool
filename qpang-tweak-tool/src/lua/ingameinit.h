@@ -3,7 +3,7 @@
 #include <string>
 
 namespace lua {
-	std::vector<std::string> ingameInitLua = { R"(
+    inline std::vector<std::string> ingameInitLua = { R"(
 
 	    SCREEN_WIDTH = $SCREEN_WIDTH
 	    SCREEN_HEIGHT = $SCREEN_HEIGHT

@@ -7,25 +7,24 @@
 
 #include "lua/squareinit.h"
 #include "lua/ingameinit.h"
+#include "lua/loadinglua.h"
 
 namespace hooks {
-	typedef int(__cdecl* tLuaTinkerDoFile)(DWORD*, const char*);
-	inline tLuaTinkerDoFile oLuaTinkerDoFile = nullptr;
-
 	void replaceAll(std::string& str, const std::string& from, const std::string& to) {
 		if (from.empty())
 			return;
 
-		size_t start_pos = 0;
-		while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
-			str.replace(start_pos, from.length(), to);
-			start_pos += to.length();
+		size_t startPos = 0;
+		while ((startPos = str.find(from, startPos)) != std::string::npos) {
+			str.replace(startPos, from.length(), to);
+			startPos += to.length();
 		}
 	}
 
-	int __cdecl hkLuaTinkerDoFile(DWORD* lua_state, const char* filename) {
-		std::cout << filename << std::endl;
+	typedef int(__cdecl* tLuaTinkerDoFile)(DWORD*, const char*);
+	inline tLuaTinkerDoFile oLuaTinkerDoFile = nullptr;
 
+	int __cdecl hkLuaTinkerDoFile(DWORD* lua_state, const char* filename) {
 		if (strstr(filename, "square_init")) {
 			std::string path = std::tmpnam(nullptr);
 			std::ofstream out(path);
@@ -47,6 +46,20 @@ namespace hooks {
 				replaceAll(ingameInitLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
 				replaceAll(ingameInitLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
 				out << ingameInitLuaPart;
+			}
+
+			out.close();
+
+			return oLuaTinkerDoFile(lua_state, path.c_str());
+		}
+		else if (strstr(filename, "loading0") || strstr(filename, "loading1")) {  // loading0800, loading1024, loading1280
+			std::string path = std::tmpnam(nullptr);
+			std::ofstream out(path);
+
+			for (std::string loadingLuaPart : lua::loadingLua) {
+				replaceAll(loadingLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
+				replaceAll(loadingLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
+				out << loadingLuaPart;
 			}
 
 			out.close();

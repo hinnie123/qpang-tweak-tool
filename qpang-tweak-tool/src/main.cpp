@@ -13,6 +13,9 @@
 #include "hooks/endscene.h"
 #include "hooks/reset.h"
 
+typedef int(__thiscall* tInitSquare)(DWORD*, const char*);
+inline tInitSquare oInitSquare = nullptr;
+
 void setupQpangHooks() {
 	globals::qpangModule = GetModuleHandleA(nullptr);
 	if (!globals::qpangModule)
@@ -78,9 +81,9 @@ BOOL WINAPI DllMain(
 	if (fdwReason == DLL_PROCESS_ATTACH) {
 		// Uncomment if you want to open a console that you can print to
 
-		AllocConsole();
+		/*AllocConsole();
 		AttachConsole(GetCurrentProcessId());
-		freopen("CON", "w", stdout);
+		freopen("CON", "w", stdout);*/
 
 		init();
 		setupHooks();

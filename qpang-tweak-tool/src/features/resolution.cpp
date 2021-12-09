@@ -1,11 +1,8 @@
 #include "resolution.h"
 
-#include <cstdint>
-#include <libloaderapi.h>
-
 #include "../helpers/globals.h"
 
-namespace resolution {
+namespace features {
 	void fixCursorBounds(void* unknownPointer) {
 		*(int*)((uintptr_t)unknownPointer + 0x38c) = globals::targetWidth;
 		*(int*)((uintptr_t)unknownPointer + 0x390) = globals::targetHeight;
