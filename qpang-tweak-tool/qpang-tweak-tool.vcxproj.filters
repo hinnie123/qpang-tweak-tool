@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d9ae8d45-94c1-42b9-bedc-e7e2e9066e83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{4404c855-7962-4b5b-9f64-a31b3002d399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\minhook">
+      <UniqueIdentifier>{bee85504-6fb0-488d-887f-15d315cc0b3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\minhook\hde">
+      <UniqueIdentifier>{fade47be-9c5d-49db-bd9a-26b652e4d179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\imgui">
+      <UniqueIdentifier>{cf546ae6-d484-48eb-88db-f12559313668}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\imgui\backends">
+      <UniqueIdentifier>{b6a8ceac-844f-4999-bcf6-6fee2c7cbbf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\hooks">
+      <UniqueIdentifier>{d2352a5d-60d0-4386-be56-3497f039a79f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\features">
+      <UniqueIdentifier>{daecd629-7997-492d-956c-2fb0b24e1bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\render">
+      <UniqueIdentifier>{58c48cca-7c9a-440c-b260-4784d0054475}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\helpers">
+      <UniqueIdentifier>{e92a4f76-fa78-443f-8799-fb3094542231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\lua">
+      <UniqueIdentifier>{04ff7af5-1722-4c39-b6e7-a6844b3bf2dd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\minhook\hde\hde32.c">
+      <Filter>lib\minhook\hde</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\minhook\hde\hde64.c">
+      <Filter>lib\minhook\hde</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\minhook\buffer.c">
+      <Filter>lib\minhook</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\minhook\hook.c">
+      <Filter>lib\minhook</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\minhook\trampoline.c">
+      <Filter>lib\minhook</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\imgui\imgui.cpp">
+      <Filter>lib\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\imgui\imgui_demo.cpp">
+      <Filter>lib\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\imgui\imgui_draw.cpp">
+      <Filter>lib\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\imgui\imgui_tables.cpp">
+      <Filter>lib\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\imgui\imgui_widgets.cpp">
+      <Filter>lib\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\imgui\backends\imgui_impl_dx9.cpp">
+      <Filter>lib\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\imgui\backends\imgui_impl_win32.cpp">
+      <Filter>lib\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="src\render\ui.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lib\minhook\hde\hde32.h">
+      <Filter>lib\minhook\hde</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\minhook\hde\hde64.h">
+      <Filter>lib\minhook\hde</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\minhook\hde\pstdint.h">
+      <Filter>lib\minhook\hde</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\minhook\hde\table32.h">
+      <Filter>lib\minhook\hde</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\minhook\hde\table64.h">
+      <Filter>lib\minhook\hde</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\minhook\buffer.h">
+      <Filter>lib\minhook</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\minhook\MinHook.h">
+      <Filter>lib\minhook</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\minhook\trampoline.h">
+      <Filter>lib\minhook</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\imconfig.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\imgui.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\imgui_internal.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\imstb_rectpack.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\imstb_textedit.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\imstb_truetype.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\backends\imgui_impl_dx9.h">
+      <Filter>lib\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\backends\imgui_impl_win32.h">
+      <Filter>lib\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="src\render\ui.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\setcursorbounds.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\setresolution.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\setworldtoscreenresolution.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\wndproc.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\globals.h">
+      <Filter>src\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\endscene.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\reset.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\ingameinit.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\squareinit.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\luatinkerdofile.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
