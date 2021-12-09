@@ -18,8 +18,9 @@ inline tInitSquare oInitSquare = nullptr;
 
 void setupQpangHooks() {
 	globals::qpangModule = GetModuleHandleA(nullptr);
-	if (!globals::qpangModule)
+	if (!globals::qpangModule) {
 		return;
+	}
 
 	auto setWorldToScreenResolutionFn = (uintptr_t)globals::qpangModule + 0xbf2d0;
 	auto setCursorBoundsFn = (uintptr_t)globals::qpangModule + 0x1e760;
@@ -38,11 +39,12 @@ void setupApiHooks() {
 	if (!on3DModule)
 		return;
 
-	auto getOnnet3DEngine = (uintptr_t*(*)())(GetProcAddress(on3DModule, "?GetSingleton@?$Singleton@VOnNet3DEngine@OnNet3D@@@OnNet3D@@SAAAVOnNet3DEngine@2@XZ"));
-	auto getOnnetRenderSystem = (uintptr_t*(*)(uintptr_t*))(GetProcAddress(on3DModule, "?GetRenderSystem@OnNet3DEngine@OnNet3D@@QAEPAVRenderSystem@2@XZ"));
+	auto getOnnet3DEngine = (uintptr_t*(__thiscall*)())(GetProcAddress(on3DModule, "?GetSingleton@?$Singleton@VOnNet3DEngine@OnNet3D@@@OnNet3D@@SAAAVOnNet3DEngine@2@XZ"));
+	auto getOnnetRenderSystem = (uintptr_t*(__thiscall*)(uintptr_t*))(GetProcAddress(on3DModule, "?GetRenderSystem@OnNet3DEngine@OnNet3D@@QAEPAVRenderSystem@2@XZ"));
 
-	if (!getOnnet3DEngine || !getOnnetRenderSystem)
+	if (!getOnnet3DEngine || !getOnnetRenderSystem) {
 		return;
+	}
 
 	auto onnet3DEngine = getOnnet3DEngine();
 	globals::onnetRenderSystem = getOnnetRenderSystem(onnet3DEngine);
@@ -58,12 +60,12 @@ void setupApiHooks() {
 }
 
 void setupHooks() {
-	MH_Initialize();
+	if (MH_Initialize() == MB_OK) {
+		setupQpangHooks();
+		setupApiHooks();
 
-	setupQpangHooks();
-	setupApiHooks();
-
-	MH_EnableHook(MH_ALL_HOOKS);
+		MH_EnableHook(MH_ALL_HOOKS);
+	}
 }
 
 void init() {

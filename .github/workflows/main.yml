@@ -1,0 +1,17 @@
+name: Build
+on: [push]
+jobs:
+ build:
+  runs-on: windows-2022
+  steps:
+   - name: Checkout code
+     uses: actions/checkout@v1
+     
+   - name: Setup MSBuild and add to PATH
+     uses: microsoft/setup-msbuild@v1.0.0
+     env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+     
+   - name: Build
+     working-directory: ${{ github.workspace }}
+     run: msbuild .\qpang-tweak-tool.sln
