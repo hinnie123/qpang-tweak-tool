@@ -9,12 +9,34 @@ namespace lua {
 	    SCREEN_HEIGHT = $SCREEN_HEIGHT
 
 	    dofile("UI\\GlobalVar.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT	
+
 	    dofile("UI\\mnemonic.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT	
+
 	    dofile("UI\\StringTable.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT	
+
 	    dofile("UI\\common_res.lua")
-	    dofile("UI\\common_ui.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT	    
+
+        dofile("UI\\common_ui.lua")
+        
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT	
 
 	    dofile("UI\\ingame_id.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT	
 
 	    SCREEN_CENTER_X = SCREEN_WIDTH / 2
 	    SCREEN_CENTER_Y = SCREEN_HEIGHT / 2
@@ -39,7 +61,13 @@ namespace lua {
 	    Destroyer_Texture = UIPackingImagePath.."ui-sniping-destroyer-1024.dds"
 	    PumaCannon_Texture = UIPackingImagePath.."ui-sniping-pcannon-1024.dds"
 
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
+
 	    dofile("UI\\ingame_res.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
 
 	    COUNT_BOUNDX = SCREEN_WIDTH / 2 - 74 / 2
 	    COUNT_BOUNDY = SCREEN_HEIGHT / 4 - 25
@@ -88,7 +116,13 @@ namespace lua {
 	    ENEMY_BOUNDX = SCREEN_WIDTH / 2 - 120 / 2
 	    ENEMY_BOUNDY = SCREEN_HEIGHT / 2 - 120 / 2
 
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
+
 	    dofile("UI\\ingame_effect.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
 
 	    CROSSHAIR_OFFSETX = SCREEN_WIDTH / 2 - 2
 	    CROSSHAIR_OFFSETY = SCREEN_HEIGHT / 2 - 2
@@ -563,7 +597,11 @@ namespace lua {
         )
         StaticTextDir(UI_IDS_ESSENSE_SLOT_MSG, TextDir_Center)
 
-        CreateNullDialog(UI_IDD_SNIPING, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10)
+        CreateNullDialog(UI_IDD_SNIPING, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10) )"
+
+        ,
+
+        R"(
 
         CreatePictureBox(UI_IDD_SNIPING, UI_IDP_SNIPING_CENTER, (SCREEN_WIDTH - 640) / 2, (SCREEN_HEIGHT - 460) / 2, 640, 460, 4, GAME_RES_BASE + 32, UIRECT_ONE)
         CreatePictureBox(UI_IDD_SNIPING, UI_IDP_SNIPING_TOP, 0, 0, SCREEN_WIDTH, 282, 4, GAME_RES_BASE + 31, UIRECT_ONE)
@@ -582,7 +620,6 @@ namespace lua {
          )
 
         HideDialog(UI_IDD_SNIPING)
-
         CreateDialog(UI_IDD_ONELINE_MSG, 0, 210, SCREEN_WIDTH, 19, NULL_WINDOW_TITLE, 5, GAME_RES_BASE + 2, UIRECT_ONE)
         CreateStatic(
             UI_IDD_ONELINE_MSG,
@@ -596,11 +633,8 @@ namespace lua {
             COMMON_RES_BASE + 9,
             UIRECT_NONE
         )
-        StaticTextDir(UI_IDS_ONELINE_MSG, TextDir_Center) )"
 
-        ,
-
-        R"(
+        StaticTextDir(UI_IDS_ONELINE_MSG, TextDir_Center)
 
         -- Skill Help
         if (SCREEN_WIDTH == 800) then
@@ -838,16 +872,48 @@ namespace lua {
 
 	    HideDialog(UI_IDD_GAME_PVE_FAIL)	
 
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
+
 	    dofile("UI\\game_nametag.lua")
 
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
+
 	    dofile("UI\\current_score.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
+
 	    dofile("UI\\scoreboard.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
+
 	    dofile("UI\\game_chatting.lua")
 
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
+
 	    dofile("UI\\lettering.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
+
 	    dofile("UI\\game_result.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
+
 	    dofile("UI\\game_pveresult.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
+
 	    dofile("UI\\quest.lua")
+
+        SCREEN_WIDTH = $SCREEN_WIDTH
+	    SCREEN_HEIGHT = $SCREEN_HEIGHT
 
 	    AllDialogSortingLayer()
 

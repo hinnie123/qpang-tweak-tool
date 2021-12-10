@@ -4,6 +4,8 @@
 #include "minhook/minhook.h"
 
 #include "hooks/createapp.h"
+#include "hooks/rendermessage.h"
+#include "hooks/setunknownposition.h"
 #include "hooks/setcursorbounds.h"
 #include "hooks/setresolution.h"
 #include "hooks/setworldtoscreenresolution.h"
@@ -13,9 +15,6 @@
 #include "hooks/wndproc.h"
 #include "hooks/endscene.h"
 #include "hooks/reset.h"
-
-typedef int(__thiscall* tInitSquare)(DWORD*, const char*);
-inline tInitSquare oInitSquare = nullptr;
 
 void setupQpangHooks() {
 	globals::qpangModule = GetModuleHandleA(nullptr);
@@ -27,6 +26,8 @@ void setupQpangHooks() {
 	auto setWorldToScreenResolutionFn = (uintptr_t)globals::qpangModule + 0xbf2d0;
 	auto setCursorBoundsFn = (uintptr_t)globals::qpangModule + 0x1e760;
 	auto setResolutionFn = (uintptr_t)globals::qpangModule + 0xf6aa0;
+	auto setUnknownPositionFn = (uintptr_t)globals::qpangModule + 0x13b290;
+	auto renderMessageFn = (uintptr_t)globals::qpangModule + 0x19d280;
 	auto luaTinkerDoFileFn = (uintptr_t)globals::qpangModule + 0x1d8da0;
 
 	MH_CreateHook((void*)createAppFn, (void*)hooks::hkCreateApp, (void**)&hooks::oCreateApp);
@@ -40,6 +41,12 @@ void setupQpangHooks() {
 
 	MH_CreateHook((void*)setResolutionFn, (void*)hooks::hkSetResolution, (void**)&hooks::oSetResolution);
 	MH_EnableHook((void*)setResolutionFn);
+
+	MH_CreateHook((void*)setUnknownPositionFn, (void*)hooks::hkSetUnknownPosition, (void**)&hooks::oSetUnknownPosition);
+	MH_EnableHook((void*)setUnknownPositionFn);
+
+	MH_CreateHook((void*)renderMessageFn, (void*)hooks::hkRenderMessage, (void**)&hooks::oRenderMessage);
+	MH_EnableHook((void*)renderMessageFn);
 
 	MH_CreateHook((void*)luaTinkerDoFileFn, (void*)hooks::hkLuaTinkerDoFile, (void**)&hooks::oLuaTinkerDoFile);
 	MH_EnableHook((void*)luaTinkerDoFileFn);

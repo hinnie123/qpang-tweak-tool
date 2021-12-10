@@ -32,4 +32,19 @@ namespace features {
 		*(int*)((uintptr_t)globals::qpangModule + 0x3c0f14) = globals::targetWidth;
 		*(int*)((uintptr_t)globals::qpangModule + 0x3c0f18) = globals::targetHeight;
 	}
+
+	bool isTargettingQuitMessage = false;
+	void beforeFixQuitMessage(wchar_t* message) {
+		if (wcsstr(message, L"quit?") || wcsstr(message, L"verlaten?") || wcsstr(message, L"tutorial?") || wcsstr(message, L"training")) {
+			isTargettingQuitMessage = true;
+		}
+	}
+
+	void fixQuitMessage(float* pos) {
+		if (isTargettingQuitMessage) {
+			pos[0] = globals::targetWidth / 2;
+			pos[1] = globals::targetHeight / 2;
+			isTargettingQuitMessage = false;
+		}
+	}
 }
