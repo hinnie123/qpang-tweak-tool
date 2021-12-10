@@ -186,6 +186,7 @@
     <ClInclude Include="lib\minhook\trampoline.h" />
     <ClInclude Include="src\features\resolution.h" />
     <ClInclude Include="src\helpers\globals.h" />
+    <ClInclude Include="src\hooks\createapp.h" />
     <ClInclude Include="src\hooks\endscene.h" />
     <ClInclude Include="src\hooks\luatinkerdofile.h" />
     <ClInclude Include="src\hooks\reset.h" />
@@ -195,7 +196,9 @@
     <ClInclude Include="src\hooks\wndproc.h" />
     <ClInclude Include="src\lua\ingameinit.h" />
     <ClInclude Include="src\lua\loadinglua.h" />
+    <ClInclude Include="src\lua\login.h" />
     <ClInclude Include="src\lua\squareinit.h" />
+    <ClInclude Include="src\lua\waitroom.h" />
     <ClInclude Include="src\render\ui.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

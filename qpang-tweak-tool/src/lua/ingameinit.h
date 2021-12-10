@@ -85,8 +85,8 @@ namespace lua {
 	    SKILL_EXPR_POSX = SCREEN_WIDTH - 105
 	    SKILL_EXPR_POSY = SCREEN_HEIGHT - 128
 
-	    ENEMY_BOUNDX = 464
-	    ENEMY_BOUNDY = 274
+	    ENEMY_BOUNDX = SCREEN_WIDTH / 2 - 120 / 2
+	    ENEMY_BOUNDY = SCREEN_HEIGHT / 2 - 120 / 2
 
 	    dofile("UI\\ingame_effect.lua")
 
@@ -783,7 +783,7 @@ namespace lua {
 	
 	    HideDialog(UI_IDD_GAME_HELP )
 
-	    CreateNullDialog( UI_IDD_SELECT_ENEMY , SCREEN_WIDTH / 2 - 156 , SCREEN_HEIGHT / 2 - 250 , 338 , 397 , -1 )
+	    CreateNullDialog( UI_IDD_SELECT_ENEMY , SCREEN_WIDTH / 2 - 338 / 2, SCREEN_HEIGHT / 2 - 397 / 2, 338 , 397 , -1 )
 		    CreatePictureBox(UI_IDD_SELECT_ENEMY , UI_IDP_SELECT_ENEMY, 0, 0 ,338, 397, 3, GAME_RES_BASE+75, UIRECT_ONE)
 
 	    CreateNullDialog(UI_IDD_GAME_PVENAVI, SCREEN_WIDTH - 175, SCREEN_HEIGHT - 365, 170, 365, -1)

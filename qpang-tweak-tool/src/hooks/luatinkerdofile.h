@@ -5,9 +5,11 @@
 
 #include "helpers/globals.h"
 
+#include "lua/login.h"
 #include "lua/squareinit.h"
 #include "lua/ingameinit.h"
 #include "lua/loadinglua.h"
+#include "lua/waitroom.h"
 
 namespace hooks {
 	void replaceAll(std::string& str, const std::string& from, const std::string& to) {
@@ -25,6 +27,24 @@ namespace hooks {
 	inline tLuaTinkerDoFile oLuaTinkerDoFile = nullptr;
 
 	int __cdecl hkLuaTinkerDoFile(DWORD* lua_state, const char* filename) {
+#ifdef _DEBUG
+		std::cout << filename << std::endl;
+#endif
+
+		if (strstr(filename, "login")) {
+			std::string path = std::tmpnam(nullptr);
+			std::ofstream out(path);
+
+			for (std::string loginLuaPart : lua::loginLua) {
+				replaceAll(loginLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
+				replaceAll(loginLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
+				out << loginLuaPart;
+			}
+
+			out.close();
+
+			return oLuaTinkerDoFile(lua_state, path.c_str());
+		}
 		if (strstr(filename, "square_init")) {
 			std::string path = std::tmpnam(nullptr);
 			std::ofstream out(path);
@@ -51,8 +71,7 @@ namespace hooks {
 			out.close();
 
 			return oLuaTinkerDoFile(lua_state, path.c_str());
-		}
-		else if (strstr(filename, "loading0") || strstr(filename, "loading1")) {  // loading0800, loading1024, loading1280
+		} else if (strstr(filename, "loading0") || strstr(filename, "loading1")) {  // loading0800, loading1024, loading1280
 			std::string path = std::tmpnam(nullptr);
 			std::ofstream out(path);
 
@@ -60,6 +79,19 @@ namespace hooks {
 				replaceAll(loadingLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
 				replaceAll(loadingLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
 				out << loadingLuaPart;
+			}
+
+			out.close();
+
+			return oLuaTinkerDoFile(lua_state, path.c_str());
+		} else if (strstr(filename, "WaitRoom")) {
+			std::string path = std::tmpnam(nullptr);
+			std::ofstream out(path);
+
+			for (std::string waitRoomLuaPart : lua::waitRoomLua) {
+				replaceAll(waitRoomLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
+				replaceAll(waitRoomLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
+				out << waitRoomLuaPart;
 			}
 
 			out.close();
