@@ -3,7 +3,7 @@
 #include <string>
 
 namespace lua {
-    inline std::vector<std::string> ingameInitLua = { R"(
+    inline std::vector<std::string> ingameInitLua = { R"DEL(
 
 	    SCREEN_WIDTH = $SCREEN_WIDTH
 	    SCREEN_HEIGHT = $SCREEN_HEIGHT
@@ -41,10 +41,7 @@ namespace lua {
 	    SCREEN_CENTER_X = SCREEN_WIDTH / 2
 	    SCREEN_CENTER_Y = SCREEN_HEIGHT / 2
 
-	    RESULT_ORGX = 112
-	    RESULT_ORGY = 84
-
-	    RESULT_MY_CANVAS_X = 0
+        RESULT_MY_CANVAS_X = 0
 	    RESULT_MY_CANVAS_Y = 0
 	    RESULT_MY_CANVAS_W = 280
 	    RESULT_MY_CANVAS_H = 280
@@ -54,6 +51,9 @@ namespace lua {
 	    RESULT_ALL_CANVAS_W = SCREEN_WIDTH
 	    RESULT_ALL_CANVAS_H = 225
 
+        RESULT_ORGX = SCREEN_WIDTH / 2 - 400
+	    RESULT_ORGY = SCREEN_HEIGHT / 2 - 300
+
 	    RESULT_BG = UICommonImgPath.."bg-result-1280.png"
 	    PVE_RESULT_BG = UICommonImgPath.."bg-PVE-result-1280.png"
 
@@ -61,8 +61,9 @@ namespace lua {
 	    Destroyer_Texture = UIPackingImagePath.."ui-sniping-destroyer-1024.dds"
 	    PumaCannon_Texture = UIPackingImagePath.."ui-sniping-pcannon-1024.dds"
 
-        SCREEN_WIDTH = $SCREEN_WIDTH
-	    SCREEN_HEIGHT = $SCREEN_HEIGHT
+        -- THIS IS USED TO ALLOW THE BG RESULT TO SCALE
+        SCREEN_WIDTH = 3840
+	    SCREEN_HEIGHT = 2160
 
 	    dofile("UI\\ingame_res.lua")
 
@@ -78,7 +79,7 @@ namespace lua {
 	    MSG_BIRD_APPEARY = 85
 	    MSG_DISAPPEARX = 112
 
-	    RESULT_BOUNDX = SCREEN_CENTER_X - 180
+	    RESULT_BOUNDX = SCREEN_WIDTH / 2 - 180
 	    RESULT_BOUNDY = RESULT_ORGY+74
 
 	    CARD_ACT_BOUNDX = SCREEN_WIDTH - 98
@@ -120,7 +121,7 @@ namespace lua {
 	    SCREEN_HEIGHT = $SCREEN_HEIGHT
 
 	    dofile("UI\\ingame_effect.lua")
-
+		
         SCREEN_WIDTH = $SCREEN_WIDTH
 	    SCREEN_HEIGHT = $SCREEN_HEIGHT
 
@@ -383,7 +384,11 @@ namespace lua {
 
         SetVisible(UI_IDP_I_AM_VIP, FALSE)
         StaticTextDir(UI_IDS_KEY_ADVICE, TextDir_vCenter)
-        SetVisible(UI_IDS_KEY_ADVICE, FALSE)
+        SetVisible(UI_IDS_KEY_ADVICE, FALSE))DEL"
+
+        ,
+
+        R"DEL(
 
         CreateListView(
             UI_IDD_NULLDLG,
@@ -597,11 +602,11 @@ namespace lua {
         )
         StaticTextDir(UI_IDS_ESSENSE_SLOT_MSG, TextDir_Center)
 
-        CreateNullDialog(UI_IDD_SNIPING, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10) )"
+        CreateNullDialog(UI_IDD_SNIPING, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10) )DEL"
 
         ,
 
-        R"(
+        R"DEL(
 
         CreatePictureBox(UI_IDD_SNIPING, UI_IDP_SNIPING_CENTER, (SCREEN_WIDTH - 640) / 2, (SCREEN_HEIGHT - 460) / 2, 640, 460, 4, GAME_RES_BASE + 32, UIRECT_ONE)
         CreatePictureBox(UI_IDD_SNIPING, UI_IDP_SNIPING_TOP, 0, 0, SCREEN_WIDTH, 282, 4, GAME_RES_BASE + 31, UIRECT_ONE)
@@ -637,17 +642,16 @@ namespace lua {
         StaticTextDir(UI_IDS_ONELINE_MSG, TextDir_Center)
 
         -- Skill Help
-        if (SCREEN_WIDTH == 800) then
-            CreateNullDialog(UI_IDD_SKILL_HEHLP, 282, 138, 236, 31, 7)
-        elseif (SCREEN_WIDTH == 1080) then
-            CreateNullDialog(UI_IDD_SKILL_HEHLP, 394, 142, 236, 31, 7)
-        else
-            CreateNullDialog(UI_IDD_SKILL_HEHLP, 394, 142, 236, 31, 7)
+        HELP_Y_POS = 138
+        if (SCREEN_WIDTH > 800) then
+            HELP_Y_POS = 142
         end
+
+        CreateNullDialog(UI_IDD_SKILL_HEHLP, SCREEN_WIDTH / 2 - 118, HELP_Y_POS, 236, 31, 7)
+
         CreatePictureBox(UI_IDD_SKILL_HEHLP, UI_IDP_SKILL_HELP, 0, 0, 236, 31, 4, GAME_RES_BASE + 38, UIRECT_ONE)
         HideDialog(UI_IDD_SKILL_HEHLP)
 
-        -- Skill Help CutIn
         CreateDialog(UI_IDD_SKILL_HELP_CUTIN, 0, 1500, 266, 40, NULL_WINDOW_TITLE, 5, GAME_RES_BASE + 3, UIRECT_NINE)
         CreateListBox(UI_IDD_SKILL_HELP_CUTIN, UI_IDL_SKILL_HELP, 7, 8, 216, 80, 0, COMMON_RES_BASE + 2, UIRECT_NONE)
         ControlTextDir(UI_IDL_SKILL_HELP, TextDir_Left)
@@ -839,11 +843,11 @@ namespace lua {
 	    CreateStatic(UI_IDD_GAME_EVENTER, UI_IDS_GAME_EVENTER_CURHP, 532, 23, 41, 14, "Cur/", 1, COMMON_RES_BASE+8, UIRECT_NONE)
         ControlTextDir(UI_IDS_GAME_EVENTER_CURHP, TextDir_vRight)
 	    CreateStatic(UI_IDD_GAME_EVENTER, UI_IDS_GAME_EVENTER_MAXHP, 573, 23, 35, 14, "Max", 1, COMMON_RES_BASE+8, UIRECT_NONE)
-        ControlTextDir(UI_IDS_GAME_EVENTER_MAXHP, TextDir_vLeft))"
+        ControlTextDir(UI_IDS_GAME_EVENTER_MAXHP, TextDir_vLeft))DEL"
 
         ,
 
-        R"(CreateNullDialog(UI_IDD_GAME_WAVEWARNING, SCREEN_WIDTH / 2 - 639 / 2, 202, 639, 108, 10)
+        R"DEL(CreateNullDialog(UI_IDD_GAME_WAVEWARNING, SCREEN_WIDTH / 2 - 639 / 2, 202, 639, 108, 10)
 
 	    CreatePictureBox(UI_IDD_GAME_WAVEWARNING, UI_IDP_GAME_WAVEWARNING_WAVE, 0, 22, 421, 62, 8, GAME_RES_BASE+85, UIRECT_ONE)
 	    CreatePictureBox(UI_IDD_GAME_WAVEWARNING, UI_IDP_GAME_WAVEWARNING_WAVEBACK, 0, 0, 639, 108, 10, GAME_RES_BASE+89, UIRECT_ONE)
@@ -900,7 +904,292 @@ namespace lua {
         SCREEN_WIDTH = $SCREEN_WIDTH
 	    SCREEN_HEIGHT = $SCREEN_HEIGHT
 
-	    dofile("UI\\game_result.lua")
+	    --dofile("UI\\game_result.lua") BELOW:
+
+        CreateNullDialog( UI_IDD_RESULT_TOP, RESULT_ORGX, RESULT_ORGY, SCREEN_WIDTH, SCREEN_HEIGHT, 7 )
+        CreatePictureBox(UI_IDD_RESULT_TOP, UI_IDP_RESULT_TOP_MY_CANVAS, 0, 0, RESULT_MY_CANVAS_W, RESULT_MY_CANVAS_H, 4, GAME_RES_BASE+46, UIRECT_ONE)
+            SetVisible(UI_IDP_RESULT_TOP_MY_CANVAS,FALSE)
+        CreatePictureBox(UI_IDD_RESULT_TOP, UI_IDP_RESULT_TOP_ALL_CANVAS, -RESULT_ORGX, 0, RESULT_ALL_CANVAS_W, RESULT_ALL_CANVAS_H, 3, GAME_RES_BASE+47, UIRECT_ONE)
+            SetVisible(UI_IDP_RESULT_TOP_ALL_CANVAS,FALSE)
+
+        CreateButton(UI_IDD_RESULT_TOP, UI_IDB_RESULT_TOP_GAMEROOM, 680 , 26 , 110 , 30 ,STR_NULL, 1 , GAME_RES_BASE+0, UIRECT_ONE )
+            SetVisible(UI_IDB_RESULT_TOP_GAMEROOM, FALSE)
+
+        CreateButton(UI_IDD_RESULT_TOP, UI_IDB_RESULT_TOP_PREV_ITEM, 167, 168, 24 , 24, STR_NULL, 1 , GAME_RES_BASE+1, UIRECT_ONE )
+            SetVisible(UI_IDB_RESULT_TOP_PREV_ITEM, FALSE)
+        CreateButton(UI_IDD_RESULT_TOP, UI_IDB_RESULT_TOP_NEXT_ITEM, 769, 168, 24 , 24, STR_NULL, 1 , GAME_RES_BASE+2, UIRECT_ONE )
+            SetVisible(UI_IDB_RESULT_TOP_NEXT_ITEM, FALSE)
+
+        --[[CreateButton(UI_IDD_RESULT_TOP, UI_IDB_RESULT_TOP_GAMEROOM, SCREEN_WIDTH - 120 - RESULT_ORGX, 10 - RESULT_ORGY, 110, 30, STR_NULL, 1, GAME_RES_BASE+0, UIRECT_ONE )
+            SetVisible(UI_IDB_RESULT_TOP_GAMEROOM, FALSE)
+
+        CreateButton(UI_IDD_RESULT_TOP, UI_IDB_RESULT_TOP_PREV_ITEM, 167, 10 - RESULT_ORGY, 24 , 24, STR_NULL, 1 , GAME_RES_BASE+1, UIRECT_ONE )
+            SetVisible(UI_IDB_RESULT_TOP_PREV_ITEM, FALSE)
+        CreateButton(UI_IDD_RESULT_TOP, UI_IDB_RESULT_TOP_NEXT_ITEM, SCREEN_WIDTH - 41 - RESULT_ORGX, 10 - RESULT_ORGY, 24, 24, STR_NULL, 1 , GAME_RES_BASE+2, UIRECT_ONE)
+            SetVisible(UI_IDB_RESULT_TOP_NEXT_ITEM, FALSE)]]
+
+        CreateNullDialog( UI_IDD_RESULT_DETAIL , RESULT_ORGX+184 , RESULT_ORGY+71 , 377 , 59 , 5 )
+
+        CreatePictureBox(UI_IDD_RESULT_DETAIL, UI_IDP_RESULT_DETAIL_TITLE,  31, 0, 19, 19, 3, SCOREBOARD_RES_BASE+14, UIRECT_ONE)
+
+        CreatePictureBox(UI_IDD_RESULT_DETAIL , UI_IDP_RESULT_DETAIL_GROUP, 31, 0 , 19, 19, 2, COMMON_RES_BASE+51, UIRECT_ONE)
+
+        CreateNumberBox(UI_IDD_RESULT_DETAIL ,  UI_IDN_RESULT_DETAIL_RECOMMEND , 31+3 ,0+12 ,  16 , 7 ,  2 , SCOREBOARD_RES_BASE+0, UIRECT_ONE)
+            ControlTextDir(UI_IDN_RESULT_DETAIL_RECOMMEND, TextDir_Right) 
+            NumberBox_SetValue( UI_IDN_RESULT_DETAIL_RECOMMEND , 12, -1 )
+            SetVisible(UI_IDN_RESULT_DETAIL_RECOMMEND, FALSE) 
+
+        CreateStatic(UI_IDD_RESULT_DETAIL , UI_IDS_RESULT_DETAIL_NICK, 52, 0, 132, 19 , "NICKNAME", 2, COMMON_RES_BASE+9, UIRECT_NONE)
+            StaticTextDir(UI_IDS_RESULT_DETAIL_NICK, TextDir_vLeft) 
+    
+        CreatePictureBox(UI_IDD_RESULT_DETAIL, UI_IDP_RESULT_DETAIL_DON,  0, 21, 50, 19, 3, GAME_RES_BASE+50, UIRECT_ONE)
+        CreatePictureBox(UI_IDD_RESULT_DETAIL, UI_IDP_RESULT_DETAIL_EXP,  0, 40, 50, 19, 3, GAME_RES_BASE+51, UIRECT_ONE)
+
+        CreateTwoPartGauge(UI_IDD_RESULT_DETAIL, UI_IDG_RESULT_DETAIL_EXP, 54, 44, 204, 12, 3, GAME_RES_BASE+6)
+            SetTextGap(UI_IDG_RESULT_DETAIL_EXP, 2, 2) 
+        CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT_DETAIL, UI_IDF_RESULT_DETAIL_DON, 54, 20, 102, 20, 3, GAME_RES_BASE+5, "1234567890:%*+")
+        CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT_DETAIL, UI_IDF_RESULT_DETAIL_EXP, 263, 39, 102, 20, 3, GAME_RES_BASE+5, "1234567890:%*+")
+            SetVertexColor(UI_IDF_RESULT_DETAIL_EXP, 255, 0, 255, 0)
+
+        CreateNullDialog( UI_IDD_RESULT_ITEM1 , RESULT_ORGX+194 , RESULT_ORGY+140 , 80 , 80 , 5 )
+        CreatePictureBox(UI_IDD_RESULT_ITEM1, UI_IDD_RESULT_ITEM1_IMG,  0, 0, 80, 80, 3, GAME_RES_BASE+54, UIRECT_ONE)
+        CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT_ITEM1, UI_IDF_RESULT_ITEM1_POINT, 0, 60, 80, 20, 3, GAME_RES_BASE+5, "1234567890:%*+")
+            SetVertexColor(UI_IDF_RESULT_ITEM1_POINT, 255, 255, 255, 0)
+            ControlTextDir(UI_IDF_RESULT_ITEM1_POINT, TextDir_Right)
+
+        CreateNullDialog( UI_IDD_RESULT_ITEM2 , RESULT_ORGX+276 , RESULT_ORGY+140 , 80 , 80 , 5 )
+        CreatePictureBox(UI_IDD_RESULT_ITEM2, UI_IDD_RESULT_ITEM2_IMG,  0, 0, 80, 80, 3, GAME_RES_BASE+54, UIRECT_ONE)
+        CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT_ITEM2, UI_IDF_RESULT_ITEM2_POINT, 0, 60, 80, 20, 3, GAME_RES_BASE+5, "1234567890:%*+")
+            SetVertexColor(UI_IDF_RESULT_ITEM2_POINT, 255, 255, 255, 0)
+            ControlTextDir(UI_IDF_RESULT_ITEM2_POINT, TextDir_Right)
+
+        CreateNullDialog( UI_IDD_RESULT_ITEM3 , RESULT_ORGX+358 , RESULT_ORGY+140 , 80 , 80 , 5 )
+        CreatePictureBox(UI_IDD_RESULT_ITEM3, UI_IDD_RESULT_ITEM3_IMG,  0, 0, 80, 80, 3, GAME_RES_BASE+54, UIRECT_ONE)
+        CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT_ITEM3, UI_IDF_RESULT_ITEM3_POINT, 0, 60, 80, 20, 3, GAME_RES_BASE+5, "1234567890:%*+")
+            SetVertexColor(UI_IDF_RESULT_ITEM3_POINT, 255, 255, 255, 0)
+            ControlTextDir(UI_IDF_RESULT_ITEM3_POINT, TextDir_Right)
+
+        CreateNullDialog( UI_IDD_RESULT_ITEM4 , RESULT_ORGX+440 , RESULT_ORGY+140 , 80 , 80 , 5 )
+        CreatePictureBox(UI_IDD_RESULT_ITEM4, UI_IDD_RESULT_ITEM4_IMG,  0, 0, 80, 80, 3, GAME_RES_BASE+54, UIRECT_ONE)
+        CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT_ITEM4, UI_IDF_RESULT_ITEM4_POINT, 0, 60, 80, 20, 3, GAME_RES_BASE+5, "1234567890:%*+")
+            SetVertexColor(UI_IDF_RESULT_ITEM4_POINT, 255, 255, 255, 0)
+            ControlTextDir(UI_IDF_RESULT_ITEM4_POINT, TextDir_Right)
+
+        CreateNullDialog( UI_IDD_RESULT_ITEM5 , RESULT_ORGX+522 , RESULT_ORGY+140 , 80 , 80 , 5 )
+        CreatePictureBox(UI_IDD_RESULT_ITEM5, UI_IDD_RESULT_ITEM5_IMG,  0, 0, 80, 80, 3, GAME_RES_BASE+54, UIRECT_ONE)
+        CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT_ITEM5, UI_IDF_RESULT_ITEM5_POINT, 0, 60, 80, 20, 3, GAME_RES_BASE+5, "1234567890:%*+")
+            SetVertexColor(UI_IDF_RESULT_ITEM5_POINT, 255, 255, 255, 0)
+            ControlTextDir(UI_IDF_RESULT_ITEM5_POINT, TextDir_Right)
+
+        CreateNullDialog( UI_IDD_RESULT_ITEM6 , RESULT_ORGX+604 , RESULT_ORGY+140 , 80 , 80 , 5 )
+        CreatePictureBox(UI_IDD_RESULT_ITEM6, UI_IDD_RESULT_ITEM6_IMG,  0, 0, 80, 80, 3, GAME_RES_BASE+54, UIRECT_ONE)
+        CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT_ITEM6, UI_IDF_RESULT_ITEM6_POINT, 0, 60, 80, 20, 3, GAME_RES_BASE+5, "1234567890:%*+")
+            SetVertexColor(UI_IDF_RESULT_ITEM6_POINT, 255, 255, 255, 0)
+            ControlTextDir(UI_IDF_RESULT_ITEM6_POINT, TextDir_Right)
+
+        CreateNullDialog( UI_IDD_RESULT_ITEM7 , RESULT_ORGX+686 , RESULT_ORGY+140 , 80 , 80 , 5 )
+        CreatePictureBox(UI_IDD_RESULT_ITEM7, UI_IDD_RESULT_ITEM7_IMG,  0, 0, 80, 80, 3, GAME_RES_BASE+54, UIRECT_ONE)
+        CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT_ITEM7, UI_IDF_RESULT_ITEM7_POINT, 0, 60, 80, 20, 3, GAME_RES_BASE+5, "1234567890:%*+")
+            SetVertexColor(UI_IDF_RESULT_ITEM7_POINT, 255, 255, 255, 0)
+            ControlTextDir(UI_IDF_RESULT_ITEM7_POINT, TextDir_Right)
+
+        ID_DIFF = UI_IDP_RESULT_RANK2-UI_IDP_RESULT_RANK1
+
+        CreateNullDialog( UI_IDD_RESULT , RESULT_ORGX, RESULT_ORGY , SCREEN_WIDTH, SCREEN_HEIGHT, 4)
+
+        PANEL_START_Y = -RESULT_ORGY + (SCREEN_HEIGHT / 2.32258064516)
+        PANEL_H = SCREEN_HEIGHT / 34.8387096774
+
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_SINGLE, 7, PANEL_START_Y + 4, 172, 23, 4, SCOREBOARD_RES_BASE+10, UIRECT_ONE)
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_BLUE, 7, PANEL_START_Y + 4, 172, 23, 4, SCOREBOARD_RES_BASE+11, UIRECT_ONE)
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_YELLOW, SCREEN_WIDTH / 2 - RESULT_ORGX + 7, PANEL_START_Y + 4, 172, 23, 4, SCOREBOARD_RES_BASE+12, UIRECT_ONE)
+
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_PANEL_SINGLE, -RESULT_ORGX, PANEL_START_Y, SCREEN_WIDTH, PANEL_H, 5, GAME_RES_BASE+58, UIRECT_ONE)
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_PANEL_BLUE, -RESULT_ORGX, PANEL_START_Y, SCREEN_WIDTH / 2, PANEL_H, 5, GAME_RES_BASE+59, UIRECT_ONE)
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_PANEL_YELLOW, SCREEN_WIDTH / 2 - RESULT_ORGX, PANEL_START_Y, SCREEN_WIDTH / 2, PANEL_H, 5, GAME_RES_BASE+60, UIRECT_ONE)
+
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_L_KILL, 271, PANEL_START_Y + 6, 42, 21, 4, SCOREBOARD_RES_BASE+0, UIRECT_ONE)
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_L_DEATH, 314, PANEL_START_Y + 6, 42, 21, 4, SCOREBOARD_RES_BASE+1, UIRECT_ONE)
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_L_POINT, 357, PANEL_START_Y + 6, 42, 21, 4, SCOREBOARD_RES_BASE+2, UIRECT_ONE)
+
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_R_KILL, SCREEN_WIDTH / 2 - RESULT_ORGX + 271, PANEL_START_Y + 6, 42, 21, 4, SCOREBOARD_RES_BASE+0, UIRECT_ONE)
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_R_DEATH, SCREEN_WIDTH / 2 - RESULT_ORGX + 314, PANEL_START_Y + 6, 42, 21, 4, SCOREBOARD_RES_BASE+1, UIRECT_ONE)
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_R_POINT, SCREEN_WIDTH / 2 - RESULT_ORGX + 357, PANEL_START_Y + 6, 42, 21, 4, SCOREBOARD_RES_BASE+2, UIRECT_ONE)
+
+        TOTAL_START_Y = -RESULT_ORGY + (SCREEN_HEIGHT / 1.35423197492)
+
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_L_TOTAL_SCORE, 69, TOTAL_START_Y ,94, 14, 4, SCOREBOARD_RES_BASE+7, UIRECT_ONE)
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_R_TOTAL_SCORE, SCREEN_WIDTH / 2 - RESULT_ORGX + 69, TOTAL_START_Y ,94, 14, 4, SCOREBOARD_RES_BASE+7, UIRECT_ONE)
+
+        CreateStatic(UI_IDD_RESULT , UI_IDS_RESULT_L_TOT_KILL, 277, TOTAL_START_Y, 30, 21 , STR_NULL, 2, COMMON_RES_BASE+10,UIRECT_NONE)
+            StaticTextDir(UI_IDS_RESULT_L_TOT_KILL, TextDir_Center) 
+    
+        CreateStatic(UI_IDD_RESULT , UI_IDS_RESULT_L_TOT_DEATH, 320, TOTAL_START_Y, 30, 21 , STR_NULL, 2, COMMON_RES_BASE+10,UIRECT_NONE)
+            StaticTextDir(UI_IDS_RESULT_L_TOT_DEATH, TextDir_Center) 
+    
+        CreateStatic(UI_IDD_RESULT , UI_IDS_RESULT_L_TOT_POINT, 363, TOTAL_START_Y, 30, 21 , STR_NULL, 2, COMMON_RES_BASE+10,UIRECT_NONE)
+            StaticTextDir(UI_IDS_RESULT_L_TOT_POINT, TextDir_Center) 
+    
+        CreateStatic(UI_IDD_RESULT , UI_IDS_RESULT_R_TOT_KILL, SCREEN_WIDTH / 2 - RESULT_ORGX + 277, TOTAL_START_Y, 30, 21 , STR_NULL, 2, COMMON_RES_BASE+10,UIRECT_NONE)
+            StaticTextDir(UI_IDS_RESULT_R_TOT_KILL, TextDir_Center) 
+    
+        CreateStatic(UI_IDD_RESULT , UI_IDS_RESULT_R_TOT_DEATH, SCREEN_WIDTH / 2 - RESULT_ORGX + 320, TOTAL_START_Y, 30, 21 , STR_NULL, 2, COMMON_RES_BASE+10,UIRECT_NONE)
+            StaticTextDir(UI_IDS_RESULT_R_TOT_DEATH, TextDir_Center) 
+    
+        CreateStatic(UI_IDD_RESULT , UI_IDS_RESULT_R_TOT_POINT, SCREEN_WIDTH / 2 - RESULT_ORGX + 363, TOTAL_START_Y, 30, 21 , STR_NULL, 2, COMMON_RES_BASE+10,UIRECT_NONE)
+            StaticTextDir(UI_IDS_RESULT_R_TOT_POINT, TextDir_Center) 
+
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_GETANIM, 230, 148 ,340, 64, 4, GAME_RES_BASE+61, UIRECT_ONE)
+            SetVisible(UI_IDP_RESULT_GETANIM, FALSE)
+    
+        CreatePictureBox(UI_IDD_RESULT , UI_IDP_RESULT_LEVELUP, 552, 90 ,220, 50, 4, GAME_RES_BASE+62, UIRECT_ONE)
+            SetVisible(UI_IDP_RESULT_LEVELUP, FALSE)
+        
+        SLOT_HEIGHT = SCREEN_HEIGHT / 29.2571428571
+
+        for i = 0, 15, 1 do
+    
+            local org_x = 0
+            local org_y = (PANEL_START_Y - 2) + PANEL_H + 4 + i*  SLOT_HEIGHT
+    
+            if ( i >= 8) then
+                org_x = SCREEN_WIDTH / 2 - RESULT_ORGX    
+            end
+    
+            if ( i >= 8) then                 
+                 org_y = (PANEL_START_Y - 2) + PANEL_H + 4 + (i-8) * SLOT_HEIGHT
+            end
+    
+            local ID_OFFSET = ID_DIFF*i
+
+            local IDP_RESULT_RANK = UI_IDP_RESULT_RANK1 + ID_OFFSET
+            local IDP_RESULT_TITLE = UI_IDP_RESULT_TITLE1 + ID_OFFSET
+            local IDS_RESULT_NICK = UI_IDS_RESULT_NICK1 + ID_OFFSET
+            local IDS_RESULT_KILL = UI_IDS_RESULT_KILL1 + ID_OFFSET
+            local IDS_RESULT_DEATH = UI_IDS_RESULT_DEATH1 + ID_OFFSET
+            local IDS_RESULT_POINT = UI_IDS_RESULT_POINT1 + ID_OFFSET
+            local IDP_RESULT_DON = UI_IDP_RESULT_DON1 + ID_OFFSET
+            local IDS_RESULT_DON = UI_IDS_RESULT_DON1 + ID_OFFSET
+            local IDP_RESULT_EXP = UI_IDP_RESULT_EXP1 + ID_OFFSET
+            local IDN_RESULT_EXP = UI_IDN_RESULT_EXP1 + ID_OFFSET
+            local IDG_RESULT_EXP = UI_IDG_RESULT_EXP1 + ID_OFFSET)DEL"
+
+            ,
+
+            R"DEL(
+    
+            local IDP_RESULT_BONUS1 = UI_IDP_RESULT_BONUS1_1 + ID_OFFSET
+            local IDP_RESULT_BONUS2 = UI_IDP_RESULT_BONUS1_2 + ID_OFFSET
+            local IDP_RESULT_BONUS3 = UI_IDP_RESULT_BONUS1_3 + ID_OFFSET
+            local IDP_RESULT_BONUS4 = UI_IDP_RESULT_BONUS1_4 + ID_OFFSET
+            local IDP_RESULT_LEVEL_UP = UI_IDP_RESULT_LEVEL_UP1 + ID_OFFSET
+            local IDN_RESULT_RECOMMEND = UI_IDN_RESULT_RECOMMEND1 + ID_OFFSET
+            local IDP_RESULT_USERGROUP = UI_IDP_RESULT_USERGROUP1 + ID_OFFSET
+            local IDP_RESULT_USING_EXPITEM = UI_IDP_RESULT_USING_EXPITEM1 + ID_OFFSET
+            local IDP_RESULT_USING_DONITEM = UI_IDP_RESULT_USING_DONITEM1 + ID_OFFSET
+            local IDN_RESULT_BONUS_CNT_1 = UI_IDN_RESULT_BONUS_CNT_1_1 + ID_OFFSET
+            local IDN_RESULT_BONUS_CNT_2 = UI_IDN_RESULT_BONUS_CNT_1_2 + ID_OFFSET
+            local IDN_RESULT_BONUS_CNT_3 = UI_IDN_RESULT_BONUS_CNT_1_3 + ID_OFFSET
+            local IDN_RESULT_BONUS_CNT_4 = UI_IDN_RESULT_BONUS_CNT_1_4 + ID_OFFSET
+            local IDN_RESULT_EXP_BONUS = UI_IDN_RESULT_EXP_BONUS1 + ID_OFFSET
+            local IDN_RESULT_DON_BONUS = UI_IDN_RESULT_DON_BONUS1 + ID_OFFSET
+            local IDP_RESULT_PARTNER_MARK = UI_IDP_RESULT_PARTNER_MARK1 + ID_OFFSET
+
+            CreatePictureBox(UI_IDD_RESULT , IDP_RESULT_RANK, org_x, org_y ,28, 23, 4, SCOREBOARD_RES_BASE+8, UIRECT_ONE)
+
+            CreatePictureBox(UI_IDD_RESULT, IDP_RESULT_TITLE,  org_x+49, org_y+1, 19, 19, 3, SCOREBOARD_RES_BASE+0, UIRECT_ONE)
+            CreateStatic(UI_IDD_RESULT, IDS_RESULT_NICK, org_x+69, org_y+1, 132, 19 , "NICKNAME", 3, COMMON_RES_BASE+9,UIRECT_NONE)
+                StaticTextDir(IDS_RESULT_NICK, TextDir_vLeft) 
+            CreateStatic(UI_IDD_RESULT, IDS_RESULT_KILL, org_x+277, org_y+6, 30, 19 , "0", 3, COMMON_RES_BASE+9,UIRECT_NONE)
+                StaticTextDir(IDS_RESULT_KILL, TextDir_vCenter) 
+            CreateStatic(UI_IDD_RESULT, IDS_RESULT_DEATH, org_x+320, org_y+6, 30, 19 , "0", 3, COMMON_RES_BASE+9,UIRECT_NONE)
+                StaticTextDir(IDS_RESULT_DEATH, TextDir_vCenter) 
+            CreateStatic(UI_IDD_RESULT, IDS_RESULT_POINT, org_x+363, org_y+6, 30, 19 , "0", 3, COMMON_RES_BASE+9,UIRECT_NONE)
+                StaticTextDir(IDS_RESULT_POINT, TextDir_vCenter) 
+            CreatePictureBox(UI_IDD_RESULT, IDP_RESULT_DON,  org_x+41, org_y+20, 35, 15, 3, GAME_RES_BASE+52, UIRECT_ONE)
+
+            CreateStatic(UI_IDD_RESULT, IDS_RESULT_DON, org_x+76, org_y+21, 56, 15 , "0", 3, COMMON_RES_BASE+9,UIRECT_NONE)
+                StaticTextDir(IDS_RESULT_DON, TextDir_vLeft) 
+
+            CreatePictureBox(UI_IDD_RESULT, IDP_RESULT_EXP,  org_x+132, org_y+20, 35, 15, 3, GAME_RES_BASE+53, UIRECT_ONE)
+            CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT, IDN_RESULT_EXP, org_x+169, org_y+20, 42, 7, 3, GAME_RES_BASE+6, "1234567890+")
+            CreateTwoPartGauge(UI_IDD_RESULT, IDG_RESULT_EXP, org_x+169, org_y+28, 102, 5, 3, GAME_RES_BASE+7)
+                SetTextGap(IDG_RESULT_EXP, 1, 1) 
+    
+            CreatePictureBox(UI_IDD_RESULT, IDP_RESULT_BONUS1,  org_x+201, org_y+1, 19, 19, 3, GAME_RES_BASE+55, UIRECT_ONE)
+            CreatePictureBox(UI_IDD_RESULT, IDP_RESULT_BONUS2,  org_x+220, org_y+1, 19, 19, 3, GAME_RES_BASE+55, UIRECT_ONE)
+            CreatePictureBox(UI_IDD_RESULT, IDP_RESULT_BONUS3,  org_x+239, org_y+1, 19, 19, 3, GAME_RES_BASE+55, UIRECT_ONE)
+            CreatePictureBox(UI_IDD_RESULT, IDP_RESULT_BONUS4,  org_x+258, org_y+1, 19, 19, 3, GAME_RES_BASE+55, UIRECT_ONE)
+        
+            CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT, IDN_RESULT_BONUS_CNT_1, org_x+201+3, org_y+1+12, 16, 7, 3, GAME_RES_BASE+6, "1234567890+")
+                ControlTextDir(IDN_RESULT_BONUS_CNT_1, TextDir_Right)
+            CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT, IDN_RESULT_BONUS_CNT_2, org_x+220+3, org_y+1+12, 16, 7, 3, GAME_RES_BASE+6, "1234567890+")
+                ControlTextDir(IDN_RESULT_BONUS_CNT_2, TextDir_Right)
+            CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT, IDN_RESULT_BONUS_CNT_3, org_x+239+3, org_y+1+12, 16, 7, 3, GAME_RES_BASE+6, "1234567890+")
+                ControlTextDir(IDN_RESULT_BONUS_CNT_3, TextDir_Right)
+            CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT, IDN_RESULT_BONUS_CNT_4, org_x+258+3, org_y+1+12, 16, 7, 3, GAME_RES_BASE+6, "1234567890+")
+                ControlTextDir(IDN_RESULT_BONUS_CNT_4, TextDir_Right)
+    
+            CreatePictureBox(UI_IDD_RESULT, IDP_RESULT_LEVEL_UP,  org_x+272, org_y+20, 60, 15, 3, GAME_RES_BASE+57, UIRECT_ONE)
+    
+    
+            CreatePictureBox(UI_IDD_RESULT , IDP_RESULT_USERGROUP, org_x+49, org_y+1 , 19, 19, 2, COMMON_RES_BASE+51, UIRECT_ONE)
+
+            CreateNumberBox(UI_IDD_RESULT ,  IDN_RESULT_RECOMMEND , org_x+49+3 ,org_y+1+12 ,  16 , 7 ,  2 , SCOREBOARD_RES_BASE+0, UIRECT_ONE)
+                ControlTextDir(IDN_RESULT_RECOMMEND, TextDir_Right)
+                NumberBox_SetValue( IDN_RESULT_RECOMMEND , 12, -1 )
+                SetVisible(IDN_RESULT_RECOMMEND, FALSE) 
+        
+            CreatePictureBox(UI_IDD_RESULT , IDP_RESULT_USING_DONITEM, org_x+333, org_y+20 , 30, 15, 2, GAME_RES_BASE+70, UIRECT_ONE)
+                SetSpriteCount(IDP_RESULT_USING_DONITEM,0)
+                SetVisible(IDP_RESULT_USING_DONITEM, FALSE)
+        
+            CreatePictureBox(UI_IDD_RESULT , IDP_RESULT_USING_EXPITEM, org_x+364, org_y+20 , 30, 15, 2, GAME_RES_BASE+70, UIRECT_ONE)
+                SetSpriteCount(IDP_RESULT_USING_EXPITEM,1)
+                SetVisible(IDP_RESULT_USING_EXPITEM, FALSE)
+    
+            CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT, IDN_RESULT_DON_BONUS, org_x+333+1, org_y+20+7, 21, 7, 1, GAME_RES_BASE+6, "1234567890+")
+                ControlTextDir(IDN_RESULT_DON_BONUS, TextDir_Right)    
+        
+            CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT, IDN_RESULT_EXP_BONUS, org_x+364+1, org_y+20+7, 21, 7, 1, GAME_RES_BASE+6, "1234567890+")
+                ControlTextDir(IDN_RESULT_EXP_BONUS, TextDir_Right)    
+            
+            CreatePictureBox(UI_IDD_RESULT , IDP_RESULT_PARTNER_MARK, org_x+5, org_y+20 , 24, 14, 2, GAME_RES_BASE+74, UIRECT_ONE)
+    
+        end
+
+        HideDialog(UI_IDD_RESULT)
+
+        CreateDialog(UI_IDD_RESULT_BG , 0, 0 , SCREEN_WIDTH, SCREEN_HEIGHT, NULL_WINDOW_TITLE , 100 , GAME_RES_BASE+4 , UIRECT_ONE)
+        HideDialog(UI_IDD_RESULT_BG)
+
+        CreateNullDialog( UI_IDD_RESULT_INC_GLYPHS , RESULT_ORGX, RESULT_ORGY , SCREEN_WIDTH, SCREEN_HEIGHT, 1)
+
+
+        for i = 0, 32, 1 do    
+            IDN_RESULT_INC = i+UI_IDN_RESULT_INC1
+            CreateHorzLayoutGlyphsCtl(UI_IDD_RESULT_INC_GLYPHS, IDN_RESULT_INC, -500, -500, 78, 20, 3, GAME_RES_BASE+5, "1234567890:%*+")
+            HideDialog(UI_IDD_RESULT_INC_GLYPHS)
+        end
+
+
+        function CloseAllGameUI()
+            HideDialog(UI_IDD_SCORE) 
+            HideDialog(UI_IDD_NULLDLG) 
+            HideDialog(UI_IDD_HITMARK)     
+            HideDialog(UI_IDD_BULLET_INFO)     
+            HideDialog(UI_IDD_ESSENSE_SLOT)     
+            HideDialog(UI_IDD_SNIPING)     
+            HideDialog(UI_IDD_WEAPON_SLOT)     
+            HideDialog(UI_IDD_PLAYER_STAT)
+	        HideDialog(UI_IDD_PLAYER_PVESTAT)
+            HideDialog(UI_IDD_MINIMAP)   
+	        HideDialog(UI_IDD_WORLDMAP)
+            HideDialog(UI_IDD_ONELINE_MSG)   
+            HideDialog(UI_IDD_CURRENT_SCORE) 
+            HideDialog(UI_IDD_SKILL_HEHLP) 
+	        HideDialog(UI_IDD_GAME_PVE_FAIL)
+        end
 
         SCREEN_WIDTH = $SCREEN_WIDTH
 	    SCREEN_HEIGHT = $SCREEN_HEIGHT
@@ -917,5 +1206,5 @@ namespace lua {
 
 	    AllDialogSortingLayer()
 
-	)" };
+	)DEL" };
 }

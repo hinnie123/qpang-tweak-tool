@@ -179,5 +179,11 @@
     <ClInclude Include="src\lua\login.h">
       <Filter>src\lua</Filter>
     </ClInclude>
+    <ClInclude Include="src\hooks\rendermessage.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\setunknownposition.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
