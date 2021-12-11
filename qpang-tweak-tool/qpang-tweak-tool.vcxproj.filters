@@ -185,5 +185,8 @@
     <ClInclude Include="src\hooks\setunknownposition.h">
       <Filter>src\hooks</Filter>
     </ClInclude>
+    <ClInclude Include="src\hooks\setrect.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -192,6 +192,7 @@
     <ClInclude Include="src\hooks\rendermessage.h" />
     <ClInclude Include="src\hooks\reset.h" />
     <ClInclude Include="src\hooks\setcursorbounds.h" />
+    <ClInclude Include="src\hooks\setrect.h" />
     <ClInclude Include="src\hooks\setresolution.h" />
     <ClInclude Include="src\hooks\setunknownposition.h" />
     <ClInclude Include="src\hooks\setworldtoscreenresolution.h" />

@@ -4,6 +4,7 @@
 
 #include "minhook/minhook.h"
 
+#include "hooks/setrect.h"
 #include "hooks/createapp.h"
 #include "hooks/rendermessage.h"
 #include "hooks/setunknownposition.h"
@@ -60,10 +61,10 @@ void setupQpangHooks() {
 // 
 //#include "render/ui.h"
 //
-//typedef HRESULT(WINAPI* tGetDeviceData)(IDirectInputDevice8*, DWORD, LPDIDEVICEOBJECTDATA, LPDWORD, DWORD);
+//typedef HRESULT(__stdcall* tGetDeviceData)(IDirectInputDevice8*, DWORD, LPDIDEVICEOBJECTDATA, LPDWORD, DWORD);
 //tGetDeviceData oGetDeviceData = nullptr;
 //
-//HRESULT WINAPI hkGetDeviceData(IDirectInputDevice8* pThis, DWORD cbObjectData, LPDIDEVICEOBJECTDATA rgdod, LPDWORD pdwInOut, DWORD dwFlags)
+//HRESULT __stdcall hkGetDeviceData(IDirectInputDevice8* pThis, DWORD cbObjectData, LPDIDEVICEOBJECTDATA rgdod, LPDWORD pdwInOut, DWORD dwFlags)
 //{
 //	HRESULT retValue = oGetDeviceData(pThis, cbObjectData, rgdod, pdwInOut, dwFlags);
 //
@@ -118,6 +119,9 @@ void setupApiHooks() {
 
 	MH_CreateHook(inputDeviceVtable[10], (void*)hkGetDeviceData, (void**)&oGetDeviceData);
 	MH_EnableHook(inputDeviceVtable[10]);*/
+
+	MH_CreateHook((void*)SetRect, (void*)hooks::hkSetRect, (void**)&hooks::oSetRect);
+	MH_EnableHook(SetRect);
 
 	MH_CreateHook(d3d9DeviceVtable[42], (void*)hooks::hkEndscene, (void**)&hooks::oEndscene);
 	MH_EnableHook(d3d9DeviceVtable[42]);
