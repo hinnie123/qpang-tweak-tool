@@ -1,6 +1,9 @@
 #include "resolution.h"
 
 #include "../helpers/globals.h"
+#include "../helpers/settings.h"
+
+#include <Psapi.h>
 
 namespace features {
 	void fixCursorBounds(void* unknownPointer) {
@@ -46,5 +49,42 @@ namespace features {
 			pos[1] = features::targetHeight / 2;
 			isTargettingQuitMessage = false;
 		}
+	}
+
+	wchar_t* cachedCmdLine = nullptr;
+	wchar_t* fixCmdLine() {
+		settings::ensureDirExists();
+
+		if (cachedCmdLine == nullptr) {
+			std::array<std::wstring, 3> locales = {
+				L"Dutch",
+				L"English",
+				L"German"
+			};
+
+			int fullscreen = 0;
+			int locale = 1;
+			int forceVSync = 0;
+
+			int width = features::targetWidth;
+			int height = features::targetHeight;
+
+			nlohmann::json j = settings::fileToJson("GameSettings.json");
+			j.at("DisplayMode").get_to(fullscreen);
+			j.at("GameLanguage").get_to(locale);
+			j.at("ForceVSync").get_to(forceVSync);
+
+			wchar_t moduleName[MAX_PATH] = {};
+			GetModuleBaseNameW((HANDLE)-1, globals::qpangModule, moduleName, sizeof(moduleName) * 2);
+
+			std::wstring cmdLine = std::wstring(moduleName) + L" -fullscreen:" + std::to_wstring(fullscreen) + L" -locale:" + locales[locale] + L" -width:" +
+				std::to_wstring(width) + L" -height:" + std::to_wstring(height) + L" -forcevsync:" + std::to_wstring(forceVSync);
+
+			// now copy it over to c-style wchar_t* global
+			cachedCmdLine = new wchar_t[cmdLine.length() + 1];
+			wcscpy(cachedCmdLine, cmdLine.c_str());
+		}
+
+		return cachedCmdLine;
 	}
 }

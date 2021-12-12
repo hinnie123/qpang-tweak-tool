@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace features {
 	inline int targetWidth = 0;
 	inline int targetHeight = 0;
@@ -9,6 +11,7 @@ namespace features {
 	void fixWorldToScreen(void* unknownPointer);
 	void fixResolution(void* unknownPointer);
 	void fixStretch();
+	wchar_t* fixCmdLine();
 
 	void beforeFixQuitMessage(wchar_t* message);
 	void fixQuitMessage(float* pos);

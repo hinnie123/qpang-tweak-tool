@@ -197,6 +197,7 @@
     <ClInclude Include="src\helpers\utils.h" />
     <ClInclude Include="src\hooks\createapp.h" />
     <ClInclude Include="src\hooks\endscene.h" />
+    <ClInclude Include="src\hooks\getcommandlinew.h" />
     <ClInclude Include="src\hooks\getdevicedata.h" />
     <ClInclude Include="src\hooks\luatinkerdofile.h" />
     <ClInclude Include="src\hooks\rendermessage.h" />

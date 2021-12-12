@@ -3,6 +3,7 @@
 
 #include "minhook/minhook.h"
 
+#include "hooks/getcommandlinew.h"
 #include "hooks/createapp.h"
 #include "hooks/rendermessage.h"
 #include "hooks/setunknownposition.h"
@@ -33,6 +34,9 @@ void setupQpangHooks() {
 	auto setUnknownPositionFn = (uintptr_t)globals::qpangModule + 0x13b290;
 	auto renderMessageFn = (uintptr_t)globals::qpangModule + 0x19d280;
 	auto luaTinkerDoFileFn = (uintptr_t)globals::qpangModule + 0x1d8da0;
+
+	MH_CreateHook(GetCommandLineW, (void*)hooks::hkGetCommandLineW, (void**)&hooks::oGetCommandLineW);
+	MH_EnableHook(GetCommandLineW);
 
 	MH_CreateHook((void*)createAppFn, (void*)hooks::hkCreateApp, (void**)&hooks::oCreateApp);
 	MH_EnableHook((void*)createAppFn);
@@ -135,6 +139,7 @@ void startThread() {
 
 	setupTargetResolution();
 	settings::loadAll();
+
 	setupHooks();
 
 	// setUiColor returns false if the instance doesn't have any ui elements yet to change the color of

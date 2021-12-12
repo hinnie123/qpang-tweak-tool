@@ -215,5 +215,8 @@
     <ClInclude Include="src\helpers\settings.h">
       <Filter>src\helpers</Filter>
     </ClInclude>
+    <ClInclude Include="src\hooks\getcommandlinew.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

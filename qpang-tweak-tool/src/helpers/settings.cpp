@@ -6,8 +6,6 @@
 #include <dbghelp.h>
 #include <fstream>
 
-#include "json/json.h"
-
 #include "features/resolution.h"
 #include "features/gui.h"
 
@@ -23,14 +21,14 @@ namespace settings {
 		MakeSureDirectoryPathExists(targetDir.c_str());
 	}
 
-	void jsonToFile(const nlohmann::json& j) {
+	void jsonToFile(const nlohmann::json& j, std::string fileName) {
 		std::ofstream stream(targetDir + settingsName);
 		stream << std::setw(4) << j << std::endl;
 	}
 
-	nlohmann::json fileToJson() {
+	nlohmann::json fileToJson(std::string fileName) {
 		nlohmann::json j;
-		std::ifstream stream(targetDir + settingsName);
+		std::ifstream stream(targetDir + fileName);
 		stream >> j;
 		return j;
 	}
@@ -50,14 +48,14 @@ namespace settings {
 		};
 
 		ensureDirExists();
-		jsonToFile(j);
+		jsonToFile(j, settingsName);
 	}
 
 	void loadAll() {
 		ensureDirExists();
 
 		if (std::filesystem::exists(targetDir + settingsName)) {
-			nlohmann::json j = fileToJson();
+			nlohmann::json j = fileToJson(settingsName);
 
 			j.at("resolution").at("targetWidth").get_to(features::targetWidth);
 			j.at("resolution").at("targetHeight").get_to(features::targetHeight);
