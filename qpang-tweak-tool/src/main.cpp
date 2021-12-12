@@ -1,22 +1,24 @@
 #include <Windows.h>
 #include <d3d9.h>
-#include <dinput.h>
 
 #include "minhook/minhook.h"
 
-#include "hooks/setrect.h"
 #include "hooks/createapp.h"
 #include "hooks/rendermessage.h"
 #include "hooks/setunknownposition.h"
 #include "hooks/setcursorbounds.h"
 #include "hooks/setresolution.h"
 #include "hooks/setworldtoscreenresolution.h"
-
 #include "hooks/luatinkerdofile.h"
 
+#include "hooks/setrect.h"
 #include "hooks/wndproc.h"
+#include "hooks/getdevicedata.h"
 #include "hooks/endscene.h"
 #include "hooks/reset.h"
+
+#include "helpers/settings.h"
+#include "helpers/utils.h"
 
 void setupQpangHooks() {
 	globals::qpangModule = GetModuleHandleA(nullptr);
@@ -57,29 +59,6 @@ void setupQpangHooks() {
 	*(int*)((uintptr_t)globals::qpangModule + 0x3c0ef8) = 1337;
 }
 
-// TODO: Only mouse movement is blocked this way??
-// 
-//#include "render/ui.h"
-//
-//typedef HRESULT(__stdcall* tGetDeviceData)(IDirectInputDevice8*, DWORD, LPDIDEVICEOBJECTDATA, LPDWORD, DWORD);
-//tGetDeviceData oGetDeviceData = nullptr;
-//
-//HRESULT __stdcall hkGetDeviceData(IDirectInputDevice8* pThis, DWORD cbObjectData, LPDIDEVICEOBJECTDATA rgdod, LPDWORD pdwInOut, DWORD dwFlags)
-//{
-//	HRESULT retValue = oGetDeviceData(pThis, cbObjectData, rgdod, pdwInOut, dwFlags);
-//
-//	if (ui::renderWindow) {
-//		// Set the data to 0
-//		for (size_t i = 0; i < *pdwInOut; ++i) {
-//			auto& data = rgdod[i];
-//			data.dwData = 0;
-//		}
-//		//memset(rgdod, 0, sizeof(DIDEVICEOBJECTDATA) * *pdwInOut);
-//	}
-//
-//	return retValue;
-//}
-
 void setupApiHooks() {
 	globals::qpangWindow = FindWindowA(0, "QPang");
 	while (!globals::qpangWindow) {
@@ -112,16 +91,15 @@ void setupApiHooks() {
 	auto d3d9Device = *(IDirect3DDevice9**)(onnet3DDevice + 1);
 
 	auto d3d9DeviceVtable = *(void***)d3d9Device;
-
-	// TODO: Make it work properly
-	/*auto keyBoardInputDevice = (IDirectInputDevice8*)((uintptr_t)globals::qpangModule + 0x3a8ce8 + 0x20);
+	
+	auto keyBoardInputDevice = (IDirectInputDevice8*)((uintptr_t)globals::qpangModule + 0x3a8ce8 + 0x20);
 	auto inputDeviceVtable = **(void****)keyBoardInputDevice;
 
-	MH_CreateHook(inputDeviceVtable[10], (void*)hkGetDeviceData, (void**)&oGetDeviceData);
-	MH_EnableHook(inputDeviceVtable[10]);*/
-
-	MH_CreateHook((void*)SetRect, (void*)hooks::hkSetRect, (void**)&hooks::oSetRect);
+	MH_CreateHook(SetRect, (void*)hooks::hkSetRect, (void**)&hooks::oSetRect);
 	MH_EnableHook(SetRect);
+
+	MH_CreateHook(inputDeviceVtable[10], (void*)hooks::hkGetDeviceData, (void**)&hooks::oGetDeviceData);
+	MH_EnableHook(inputDeviceVtable[10]);
 
 	MH_CreateHook(d3d9DeviceVtable[42], (void*)hooks::hkEndscene, (void**)&hooks::oEndscene);
 	MH_EnableHook(d3d9DeviceVtable[42]);
@@ -139,6 +117,14 @@ void setupHooks() {
 	}
 }
 
+void setupTargetResolution() {
+	// QPang is not dpi aware... smh Onnet. Here you go:
+	SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE);
+
+	features::targetWidth = GetSystemMetrics(SM_CXSCREEN);
+	features::targetHeight = GetSystemMetrics(SM_CYSCREEN);
+}
+
 void startThread() {
 	// Uncomment if you want to open a console that you can print to
 #ifdef _DEBUG
@@ -147,7 +133,15 @@ void startThread() {
 	freopen("CON", "w", stdout);
 #endif
 
+	setupTargetResolution();
+	settings::loadAll();
 	setupHooks();
+
+	// setUiColor returns false if the instance doesn't have any ui elements yet to change the color of
+	// meaning it hasn't initialized yet, because we're in another thread we can just keep trying it
+	// untill it succesfully changed color
+	while (!utils::setUiColor(features::uiColor))
+		continue;
 }
 
 BOOL WINAPI DllMain(

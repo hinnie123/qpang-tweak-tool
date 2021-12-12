@@ -11,6 +11,8 @@
 #include "lua/loadinglua.h"
 #include "lua/waitroom.h"
 
+#include "features/resolution.h"
+
 namespace hooks {
 	void replaceAll(std::string& str, const std::string& from, const std::string& to) {
 		if (from.empty())
@@ -36,8 +38,8 @@ namespace hooks {
 			std::ofstream out(path);
 
 			for (std::string loginLuaPart : lua::loginLua) {
-				replaceAll(loginLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
-				replaceAll(loginLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
+				replaceAll(loginLuaPart, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
+				replaceAll(loginLuaPart, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
 				out << loginLuaPart;
 			}
 
@@ -50,8 +52,8 @@ namespace hooks {
 			std::ofstream out(path);
 
 			for (std::string squareInitLuaPart : lua::squareInitLua) {
-				replaceAll(squareInitLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
-				replaceAll(squareInitLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
+				replaceAll(squareInitLuaPart, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
+				replaceAll(squareInitLuaPart, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
 				out << squareInitLuaPart;
 			}
 
@@ -63,8 +65,8 @@ namespace hooks {
 			std::ofstream out(path);
 
 			for (std::string ingameInitLuaPart : lua::ingameInitLua) {
-				replaceAll(ingameInitLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
-				replaceAll(ingameInitLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
+				replaceAll(ingameInitLuaPart, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
+				replaceAll(ingameInitLuaPart, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
 				out << ingameInitLuaPart;
 			}
 
@@ -76,8 +78,8 @@ namespace hooks {
 			std::ofstream out(path);
 
 			for (std::string loadingLuaPart : lua::loadingLua) {
-				replaceAll(loadingLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
-				replaceAll(loadingLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
+				replaceAll(loadingLuaPart, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
+				replaceAll(loadingLuaPart, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
 				out << loadingLuaPart;
 			}
 
@@ -89,8 +91,8 @@ namespace hooks {
 			std::ofstream out(path);
 
 			for (std::string waitRoomLuaPart : lua::waitRoomLua) {
-				replaceAll(waitRoomLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
-				replaceAll(waitRoomLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
+				replaceAll(waitRoomLuaPart, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
+				replaceAll(waitRoomLuaPart, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
 				out << waitRoomLuaPart;
 			}
 

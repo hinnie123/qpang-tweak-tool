@@ -2,8 +2,6 @@
 
 #include "render/ui.h"
 
-#include <windowsx.h>
-
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace hooks {
@@ -12,14 +10,15 @@ namespace hooks {
 		if (uMsg == WM_KEYDOWN && wParam == VK_HOME) {
 			ui::renderWindow = !ui::renderWindow;
 			if (ui::renderWindow) {
-				SetCursorPos(globals::targetWidth / 2, globals::targetHeight / 2);
+				SetCursorPos(features::targetWidth / 2, features::targetHeight / 2);
 			}
 		}
 
 		if (ui::renderWindow) {
-			if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam)) {
-				return true;
-			}
+			ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
+
+			// This blocks keyboard inputs when the menu is open to the game
+			return true;
 		}
 
 		return CallWindowProcA(oWndProc, hWnd, uMsg, wParam, lParam);

@@ -34,6 +34,9 @@
     <Filter Include="src\lua">
       <UniqueIdentifier>{04ff7af5-1722-4c39-b6e7-a6844b3bf2dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lib\json">
+      <UniqueIdentifier>{afc99931-9556-4257-97fc-3db1d31f9131}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -80,6 +83,15 @@
     </ClCompile>
     <ClCompile Include="src\features\resolution.cpp">
       <Filter>src\features</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\utils.cpp">
+      <Filter>src\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\features\gui.cpp">
+      <Filter>src\features</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers\settings.cpp">
+      <Filter>src\helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +199,21 @@
     </ClInclude>
     <ClInclude Include="src\hooks\setrect.h">
       <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\utils.h">
+      <Filter>src\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\getdevicedata.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\features\gui.h">
+      <Filter>src\features</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\json\json.h">
+      <Filter>lib\json</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\settings.h">
+      <Filter>src\helpers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

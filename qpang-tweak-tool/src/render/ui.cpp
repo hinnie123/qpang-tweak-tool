@@ -5,8 +5,11 @@
 #include <fstream>
 
 #include "helpers/globals.h"
+#include "helpers/utils.h"
+#include "helpers/settings.h"
 
 #include "features/resolution.h"
+#include "features/gui.h"
 
 #include "lua/squareinit.h"
 
@@ -15,14 +18,6 @@ namespace ui {
 	IDirect3DSwapChain9* _swapchain = nullptr;
 
 	void init(IDirect3DDevice9* device) {
-		/*_device = device;
-		device->GetSwapChain(0, &_swapchain);
-
-		D3DPRESENT_PARAMETERS presentationParameters;
-		_swapchain->GetPresentParameters(&presentationParameters);
-
-		globals::fullScreen = !presentationParameters.Windowed;*/
-
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 
@@ -38,26 +33,40 @@ namespace ui {
 		ImGui::NewFrame();
 	}
 
-	bool changedVideoSettings = false;
+	void renderOverlay() {
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0.0f, 0.0f });
+
+		ImGui::SetNextWindowPos({ 0.f, 0.f });
+		ImGui::SetNextWindowSize({ (float)features::targetWidth, (float)features::targetHeight });
+
+		ImGui::Begin("#overlay", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoInputs |
+			ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoNav);
+
+		{
+			features::showFps();
+		}
+
+		ImGui::End();
+
+		ImGui::PopStyleVar(2);
+	}
+
 	void render() {
-		features::fixStretch();
+		renderOverlay();
 
 		if (!renderWindow) {
 			ImGui::GetIO().MouseDrawCursor = false;
 			return;
 		}
 
+		SetFocus(globals::qpangWindow);
 		ImGui::GetIO().MouseDrawCursor = true;
 
 		/* Bad "fixes" for mouse input not going through wndproc */ {
-			POINT cursorPos = { };
-			GetCursorPos(&cursorPos);
-
-			ImGui::GetIO().MouseDown[0] = GetAsyncKeyState(VK_LBUTTON) & 1;
-			ImGui::GetIO().MouseDown[1] = GetAsyncKeyState(VK_RBUTTON) & 1;
+			ImGui::GetIO().MouseDown[0] = GetAsyncKeyState(VK_LBUTTON) & 0x8000;
+			ImGui::GetIO().MouseDown[1] = GetAsyncKeyState(VK_RBUTTON) & 0x8000;
 		}
-
-		static bool resolutionTab = true, miscTab = false;
 
 		RECT rect;
 		GetWindowRect(globals::qpangWindow, &rect);
@@ -65,33 +74,40 @@ namespace ui {
 		ImGui::SetNextWindowPos({ (float)(rect.right - rect.left) / 2 - (float)ui::width / 2, (float)(rect.bottom - rect.top) / 2 - (float)ui::height / 2 });
 		ImGui::SetNextWindowSize({ (float)ui::width, (float)ui::height });
 
-		ImGui::Begin("QPang Tweak Tool v0.1 - by Hinnie"); {
+		ImGui::Begin("QPang Tweak Tool v0.1 - by Hinnie", nullptr, ImGuiWindowFlags_NoSavedSettings); {
 			if (ImGui::BeginTabBar("#tabBar")) {
-				if (ImGui::BeginTabItem("Resolution", &resolutionTab)) {
+				if (ImGui::BeginTabItem("Resolution")) {
+					if (ImGui::InputInt("Width", &features::targetWidth) ||
+						ImGui::InputInt("Height", &features::targetHeight)) {
+						settings::saveAll();
+					}
+
 					ImGui::EndTabItem();
 				}
 
-				if (ImGui::BeginTabItem("Misc", &miscTab)) {
+				if (ImGui::BeginTabItem("UI")) {
+					if (ImGui::Checkbox("Show FPS", &features::showFpsEnabled)) {
+						settings::saveAll();
+					}
+
+					if (ImGui::Checkbox("Rainbow Ui", &features::rainbowUiEnabled)) {
+						settings::saveAll();
+					}
+
+					if (features::rainbowUiEnabled) {
+						ImGui::SliderInt("Rainbow Speed", &features::rainbowUiSpeed, 1, 100);
+						settings::saveAll();
+					}
+
+					if (ImGui::ColorPicker4("Ui Color", features::uiColor, ImGuiColorEditFlags_AlphaBar)) {
+						utils::setUiColor(features::uiColor);
+						settings::saveAll();
+					}
+
 					ImGui::EndTabItem();
 				}
 
 				ImGui::EndTabBar();
-			}
-
-			if (resolutionTab) {
-				if (ImGui::InputInt("Width", &globals::targetWidth) ||
-					ImGui::InputInt("Height", &globals::targetHeight)) {
-					// TODO: Force reset here
-				}
-
-				//if (ImGui::Checkbox("Fullscreen", &globals::fullScreen)) {
-				//	// set or unset fullscreen
-				//	
-				//}
-
-				/*if (ImGui::Button("Apply")) {
-					changedVideoSettings = true;
-				}*/
 			}
 
 			ImGui::End();
@@ -114,60 +130,5 @@ namespace ui {
 		ImGui::Render();
 
 		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-
-		//if (changedVideoSettings) {
-		//	changedVideoSettings = false;
-
-		//	// this works, however, the ui needs to be reloaded, and I got no idea how to do that yet
-		//	{
-		//		uintptr_t* renderWindow = *(uintptr_t**)((uintptr_t)globals::onnetRenderSystem + 0x240);
-
-		//		static auto reSizeFn = (void(__thiscall*)(void*, uint32_t, uint32_t))(GetProcAddress(GetModuleHandleA("On3D.dll"), "?ReSize@D3DRenderWindow@OnNet3D@@UAEXII@Z"));
-		//		static auto resetDeviceFn = (void(__thiscall*)(void*))(GetProcAddress(GetModuleHandleA("On3D.dll"), "?ResetDevice@D3DRenderSystem@OnNet3D@@QAEXXZ"));
-
-		//		reSizeFn(renderWindow, globals::targetWidth, globals::targetHeight);
-		//		resetDeviceFn(globals::onnetRenderSystem);
-
-		//		ImGui_ImplDX9_InvalidateDeviceObjects();
-		//		ImGui_ImplDX9_CreateDeviceObjects();
-		//	}
-
-		//	std::string path = std::tmpnam(nullptr);
-		//	std::ofstream out(path);
-
-		//	for (std::string squareInitLuaPart : lua::squareInitLua) {
-		//		replaceAll(squareInitLuaPart, "$SCREEN_WIDTH", std::to_string(globals::targetWidth));
-		//		replaceAll(squareInitLuaPart, "$SCREEN_HEIGHT", std::to_string(globals::targetHeight));
-		//		out << squareInitLuaPart;
-		//	}
-
-		//	out.close();
-
-		//	static auto getLuaStateFn = (DWORD**(*)())((uintptr_t)globals::qpangModule + 0x21cb0);
-		//	static auto luaTinkerDoFileFn = (int(*)(DWORD*, const char*))((uintptr_t)globals::qpangModule + 0x1d8da0);
-
-		//	*(int*)((uintptr_t)globals::qpangModule + 0x3c1d14) = 0;
-		//	luaTinkerDoFileFn(getLuaStateFn()[1], path.c_str());
-		//}
-
-		/*if (changedVideoSettings) {
-			changedVideoSettings = false;
-
-			D3DPRESENT_PARAMETERS presentationParameters;
-			_swapchain->GetPresentParameters(&presentationParameters);
-
-			presentationParameters.BackBufferWidth = globals::targetWidth;
-			presentationParameters.BackBufferHeight = globals::targetHeight;
-			presentationParameters.Windowed = !globals::fullScreen;
-
-			static auto lostDeviceFn = (void(__thiscall*)(void*))(GetProcAddress(GetModuleHandleA("On3D.dll"), "?LostDevice@D3DRenderSystem@OnNet3D@@QAEXXZ"));
-			static auto restoreDeviceFn = (void(__thiscall*)(void*))(GetProcAddress(GetModuleHandleA("On3D.dll"), "?RestoreDevice@D3DRenderSystem@OnNet3D@@QAEXXZ"));
-
-			lostDeviceFn(globals::onnetRenderSystem);
-
-			_device->Reset(&presentationParameters);
-
-			restoreDeviceFn(globals::onnetRenderSystem);
-		}*/
 	}
 }
