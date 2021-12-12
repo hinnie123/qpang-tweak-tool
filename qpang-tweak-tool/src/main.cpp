@@ -15,7 +15,7 @@
 #include "hooks/setrect.h"
 #include "hooks/wndproc.h"
 #include "hooks/getdevicedata.h"
-#include "hooks/endscene.h"
+#include "hooks/present.h"
 #include "hooks/reset.h"
 
 #include "helpers/settings.h"
@@ -105,8 +105,8 @@ void setupApiHooks() {
 	MH_CreateHook(inputDeviceVtable[10], (void*)hooks::hkGetDeviceData, (void**)&hooks::oGetDeviceData);
 	MH_EnableHook(inputDeviceVtable[10]);
 
-	MH_CreateHook(d3d9DeviceVtable[42], (void*)hooks::hkEndscene, (void**)&hooks::oEndscene);
-	MH_EnableHook(d3d9DeviceVtable[42]);
+	MH_CreateHook(d3d9DeviceVtable[17], (void*)hooks::hkPresent, (void**)&hooks::oPresent);
+	MH_EnableHook(d3d9DeviceVtable[17]);
 
 	MH_CreateHook(d3d9DeviceVtable[16], (void*)hooks::hkReset, (void**)&hooks::oReset);
 	MH_EnableHook(d3d9DeviceVtable[16]);

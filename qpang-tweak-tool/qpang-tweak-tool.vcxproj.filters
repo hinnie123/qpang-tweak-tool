@@ -161,9 +161,6 @@
     <ClInclude Include="src\helpers\globals.h">
       <Filter>src\helpers</Filter>
     </ClInclude>
-    <ClInclude Include="src\hooks\endscene.h">
-      <Filter>src\hooks</Filter>
-    </ClInclude>
     <ClInclude Include="src\hooks\reset.h">
       <Filter>src\hooks</Filter>
     </ClInclude>
@@ -216,6 +213,9 @@
       <Filter>src\helpers</Filter>
     </ClInclude>
     <ClInclude Include="src\hooks\getcommandlinew.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\present.h">
       <Filter>src\hooks</Filter>
     </ClInclude>
   </ItemGroup>

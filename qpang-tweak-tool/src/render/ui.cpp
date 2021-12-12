@@ -125,10 +125,13 @@ namespace ui {
 		}
 	}
 
-	void end() {
+	void end(IDirect3DDevice9* device) {
 		ImGui::EndFrame();
 		ImGui::Render();
 
-		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+		if (device->BeginScene() == D3D_OK) {
+			ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+			device->EndScene();
+		}
 	}
 }

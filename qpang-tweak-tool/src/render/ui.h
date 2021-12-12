@@ -19,5 +19,5 @@ namespace ui
 
 	void begin();
 	void render();
-	void end();
+	void end(IDirect3DDevice9* device);
 };
