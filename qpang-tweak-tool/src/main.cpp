@@ -21,6 +21,8 @@
 #include "helpers/settings.h"
 #include "helpers/utils.h"
 
+#include "features/ingame.h"
+
 void setupQpangHooks() {
 	globals::qpangModule = GetModuleHandleA(nullptr);
 	if (!globals::qpangModule) {

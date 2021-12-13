@@ -2,6 +2,7 @@
 
 #include "render/ui.h"
 
+#include "features/ingame.h"
 #include "features/gui.h"
 
 namespace hooks {
@@ -20,6 +21,7 @@ namespace hooks {
 
 		features::fixStretch();
 		features::rainbowUi();
+		//features::setSensitivity(features::sensitivity);
 
 		return oPresent(device, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
 	}

@@ -10,6 +10,7 @@
 
 #include "features/resolution.h"
 #include "features/gui.h"
+#include "features/ingame.h"
 
 #include "lua/squareinit.h"
 
@@ -85,6 +86,12 @@ namespace ui {
 					ImGui::EndTabItem();
 				}
 
+				/*if (ImGui::BeginTabItem("Ingame")) {
+					ImGui::SliderInt("Sensitivity", &features::sensitivity, 1, 300);
+
+					ImGui::EndTabItem();
+				}*/
+
 				if (ImGui::BeginTabItem("UI")) {
 					if (ImGui::Checkbox("Show FPS", &features::showFpsEnabled)) {
 						settings::saveAll();
@@ -99,6 +106,7 @@ namespace ui {
 						settings::saveAll();
 					}
 
+					ImGui::SetNextItemWidth(150);
 					if (ImGui::ColorPicker4("Ui Color", features::uiColor, ImGuiColorEditFlags_AlphaBar)) {
 						utils::setUiColor(features::uiColor);
 						settings::saveAll();

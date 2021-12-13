@@ -93,6 +93,9 @@
     <ClCompile Include="src\helpers\settings.cpp">
       <Filter>src\helpers</Filter>
     </ClCompile>
+    <ClCompile Include="src\features\ingame.cpp">
+      <Filter>src\features</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\minhook\hde\hde32.h">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="src\hooks\present.h">
       <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\features\ingame.h">
+      <Filter>src\features</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

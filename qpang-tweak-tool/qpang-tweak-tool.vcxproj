@@ -166,6 +166,7 @@
     <ClCompile Include="lib\minhook\hook.c" />
     <ClCompile Include="lib\minhook\trampoline.c" />
     <ClCompile Include="src\features\gui.cpp" />
+    <ClCompile Include="src\features\ingame.cpp" />
     <ClCompile Include="src\features\resolution.cpp" />
     <ClCompile Include="src\helpers\settings.cpp" />
     <ClCompile Include="src\helpers\utils.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="lib\minhook\MinHook.h" />
     <ClInclude Include="lib\minhook\trampoline.h" />
     <ClInclude Include="src\features\gui.h" />
+    <ClInclude Include="src\features\ingame.h" />
     <ClInclude Include="src\features\resolution.h" />
     <ClInclude Include="src\helpers\globals.h" />
     <ClInclude Include="src\helpers\settings.h" />
