@@ -53,6 +53,11 @@ namespace ui {
 	}
 
 	void render() {
+		/* Bad "fixes" for mouse input not going through wndproc */ {
+			ImGui::GetIO().MouseDown[0] = GetAsyncKeyState(VK_LBUTTON) & 0x8000;
+			ImGui::GetIO().MouseDown[1] = GetAsyncKeyState(VK_RBUTTON) & 0x8000;
+		}
+
 		renderOverlay();
 
 		if (!renderWindow) {
@@ -62,11 +67,6 @@ namespace ui {
 
 		SetFocus(globals::qpangWindow);
 		ImGui::GetIO().MouseDrawCursor = true;
-
-		/* Bad "fixes" for mouse input not going through wndproc */ {
-			ImGui::GetIO().MouseDown[0] = GetAsyncKeyState(VK_LBUTTON) & 0x8000;
-			ImGui::GetIO().MouseDown[1] = GetAsyncKeyState(VK_RBUTTON) & 0x8000;
-		}
 
 		RECT rect;
 		GetWindowRect(globals::qpangWindow, &rect);

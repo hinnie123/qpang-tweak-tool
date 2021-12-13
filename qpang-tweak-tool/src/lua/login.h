@@ -327,7 +327,7 @@ namespace lua {
 			StaticTextDir(599997, TextDir_Left)
 		CreateStatic(UI_IDD_BACK, 599998, 15, 80, 300, 0, "by Hinnie", 2, LEGACY_LOGIN_RES_BASE+0, UIRECT_NONE)
 			StaticTextDir(599998, TextDir_Left)
-		CreateStatic(UI_IDD_BACK, 599999, 15, 20, 300, 0, "Press [HOME] to open menu", 2, LEGACY_LOGIN_RES_BASE+0, UIRECT_NONE)
+		CreateStatic(UI_IDD_BACK, 599999, 15, 20, 300, 0, "Press [F11] to open menu", 2, LEGACY_LOGIN_RES_BASE+0, UIRECT_NONE)
 			StaticTextDir(599999, TextDir_Left)
 	
 		dofile("UI\\server_select.lua")
