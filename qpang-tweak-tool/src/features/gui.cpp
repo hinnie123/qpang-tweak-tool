@@ -46,6 +46,10 @@ namespace features {
 		if (!uiManager)
 			return;
 
+		if (features::hideUiEnabled) {
+			wasElementVisible.clear();
+		}
+
 		size_t numElements = uiManager->getNumElements();
 		for (size_t i = 0; i < numElements; ++i) {
 			auto element = uiManager->uiElements[i];
