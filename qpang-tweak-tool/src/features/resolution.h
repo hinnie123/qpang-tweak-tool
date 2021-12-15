@@ -11,7 +11,9 @@ namespace features {
 	void fixWorldToScreen(void* unknownPointer);
 	void fixResolution(void* unknownPointer);
 	void fixStretch();
-	wchar_t* fixCmdLine();
+
+	wchar_t* fixCmdLineW();
+	char* fixCmdLineA();
 
 	void beforeFixQuitMessage(wchar_t* message);
 	void fixQuitMessage(float* pos);

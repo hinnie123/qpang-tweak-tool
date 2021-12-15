@@ -19,6 +19,7 @@ namespace hooks {
 
 		if (ui::renderWindow) {
 			ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
+			return true;
 		}
 
 		return CallWindowProcA(oWndProc, hWnd, uMsg, wParam, lParam);

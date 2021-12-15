@@ -4,6 +4,7 @@
 #include "minhook/minhook.h"
 
 #include "hooks/getcommandlinew.h"
+#include "hooks/getcommandlinea.h"
 #include "hooks/createapp.h"
 #include "hooks/rendermessage.h"
 #include "hooks/setunknownposition.h"
@@ -39,6 +40,7 @@ void setupQpangHooks() {
 	auto renderMessageFn = (uintptr_t)globals::qpangModule + 0x19d280;
 	auto luaTinkerDoFileFn = (uintptr_t)globals::qpangModule + 0x1d8da0;
 
+	HOOK(GetCommandLineA, hooks::hkGetCommandLineA, hooks::oGetCommandLineA);
 	HOOK(GetCommandLineW, hooks::hkGetCommandLineW, hooks::oGetCommandLineW);
 	HOOK(createAppFn, hooks::hkCreateApp, hooks::oCreateApp);
 	HOOK(setWorldToScreenResolutionFn, hooks::hkSetWorldToScreenResolution, hooks::oSetWorldToScreenResolution);

@@ -40,43 +40,45 @@ namespace features {
 		drawList->AddText({ 6.f, 8.f }, 0xffffffff, std::format("FPS: {}", (int)ImGui::GetIO().Framerate).c_str());
 	}
 
+	std::unordered_map<UIElement*, bool> wasElementVisible = {};
 	void hideUi() {
-		static const std::array<eUIElements, 16> ingameUiElements = {
-			UI_IDD_SCORE,
-			UI_IDD_NULLDLG,
-			UI_IDD_HITMARK,
-			UI_IDD_BULLET_INFO,
-			UI_IDD_ESSENSE_SLOT,
-			UI_IDD_SNIPING,
-			UI_IDD_WEAPON_SLOT,
-			UI_IDD_PLAYER_STAT,
-			UI_IDD_PLAYER_PVESTAT,
-			UI_IDD_MINIMAP,
-			UI_IDD_WORLDMAP,
-			UI_IDD_ONELINE_MSG,
-			UI_IDD_CURRENT_SCORE,
-			UI_IDD_SKILL_HEHLP,
-			UI_IDD_GAME_PVE_FAIL,
-			UI_IDD_CHATTING,
-		};
-
-		static std::unordered_map<eUIElements, bool> wasElementEnabled = {};
-
 		auto uiManager = GUIManager::getInstance();
-		if (uiManager) {
-			for (const auto id : ingameUiElements) {
-				auto uiElement = uiManager->findElementById(id);
-				if (!uiElement)
-					continue;
+		if (!uiManager)
+			return;
 
-				if (features::hideUiEnabled) {
-					wasElementEnabled[id] = uiElement->bDraw;
-					uiElement->bDraw = false;
-				}
-				else if (wasElementEnabled[id]) {
-					uiElement->bDraw = true;
+		size_t numElements = uiManager->getNumElements();
+		for (size_t i = 0; i < numElements; ++i) {
+			auto element = uiManager->uiElements[i];
+			if (!element)
+				continue;
+
+			if (features::hideUiEnabled) {
+				wasElementVisible[element] = element->bDraw;
+				element->bDraw = false;
+			}
+			else {
+				if (wasElementVisible[element]) {
+					element->bDraw = true;
 				}
 			}
 		}
+	}
+
+	void resetUiVisibility() {
+		auto uiManager = GUIManager::getInstance();
+		if (!uiManager)
+			return;
+
+		size_t numElements = uiManager->getNumElements();
+		for (size_t i = 0; i < numElements; ++i) {
+			auto element = uiManager->uiElements[i];
+			if (!element)
+				continue;
+
+			if (wasElementVisible[element] = element->bDraw)
+				element->bDraw = true;
+		}
+
+		wasElementVisible.clear();
 	}
 }

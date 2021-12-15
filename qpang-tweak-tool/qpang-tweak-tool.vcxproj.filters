@@ -242,5 +242,8 @@
     <ClInclude Include="src\sdk\defs.h">
       <Filter>src\sdk</Filter>
     </ClInclude>
+    <ClInclude Include="src\hooks\getcommandlinea.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

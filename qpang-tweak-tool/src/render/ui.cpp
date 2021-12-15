@@ -110,7 +110,7 @@ namespace ui {
 					}
 #endif
 
-					if (ImGui::Checkbox("Hide Ingame Ui", &features::hideUiEnabled)) {
+					if (ImGui::Checkbox("Hide Ui", &features::hideUiEnabled)) {
 						features::hideUi();
 					}
 

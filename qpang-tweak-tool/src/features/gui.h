@@ -12,4 +12,6 @@ namespace features {
 
 	inline bool hideUiEnabled = false;
 	void hideUi();
+
+	void resetUiVisibility();
 }

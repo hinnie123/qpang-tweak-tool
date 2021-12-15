@@ -51,11 +51,11 @@ namespace features {
 		}
 	}
 
-	wchar_t* cachedCmdLine = nullptr;
-	wchar_t* fixCmdLine() {
+	wchar_t* cachedCmdLineW = nullptr;
+	wchar_t* fixCmdLineW() {
 		settings::ensureDirExists();
 
-		if (cachedCmdLine == nullptr) {
+		if (cachedCmdLineW == nullptr) {
 			std::array<std::wstring, 3> locales = {
 				L"Dutch",
 				L"English",
@@ -81,10 +81,47 @@ namespace features {
 				std::to_wstring(width) + L" -height:" + std::to_wstring(height) + L" -forcevsync:" + std::to_wstring(forceVSync);
 
 			// now copy it over to c-style wchar_t* global
-			cachedCmdLine = new wchar_t[cmdLine.length() + 1];
-			wcscpy(cachedCmdLine, cmdLine.c_str());
+			cachedCmdLineW = new wchar_t[cmdLine.length() + 1];
+			wcscpy(cachedCmdLineW, cmdLine.c_str());
 		}
 
-		return cachedCmdLine;
+		return cachedCmdLineW;
+	}
+
+	char* cachedCmdLineA = nullptr;
+	char* fixCmdLineA() {
+		settings::ensureDirExists();
+
+		if (cachedCmdLineA == nullptr) {
+			std::array<std::string, 3> locales = {
+				"Dutch",
+				"English",
+				"German"
+			};
+
+			int fullscreen = 0;
+			int locale = 1;
+			int forceVSync = 0;
+
+			int width = features::targetWidth;
+			int height = features::targetHeight;
+
+			nlohmann::json j = settings::fileToJson("GameSettings.json");
+			j.at("DisplayMode").get_to(fullscreen);
+			j.at("GameLanguage").get_to(locale);
+			j.at("ForceVSync").get_to(forceVSync);
+
+			char moduleName[MAX_PATH] = {};
+			GetModuleBaseNameA((HANDLE)-1, globals::qpangModule, moduleName, sizeof(moduleName));
+
+			std::string cmdLine = std::string(moduleName) + " -fullscreen:" + std::to_string(fullscreen) + " -locale:" + locales[locale] + " -width:" +
+				std::to_string(width) + " -height:" + std::to_string(height) + " -forcevsync:" + std::to_string(forceVSync);
+
+			// now copy it over to c-style wchar_t* global
+			cachedCmdLineA = new char[cmdLine.length() + 1];
+			strcpy(cachedCmdLineA, cmdLine.c_str());
+		}
+
+		return cachedCmdLineA;
 	}
 }

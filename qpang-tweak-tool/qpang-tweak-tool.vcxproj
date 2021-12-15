@@ -200,6 +200,7 @@
     <ClInclude Include="src\helpers\settings.h" />
     <ClInclude Include="src\helpers\utils.h" />
     <ClInclude Include="src\hooks\createapp.h" />
+    <ClInclude Include="src\hooks\getcommandlinea.h" />
     <ClInclude Include="src\hooks\getcommandlinew.h" />
     <ClInclude Include="src\hooks\getfocus.h" />
     <ClInclude Include="src\hooks\luatinkerdofile.h" />

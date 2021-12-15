@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Windows.h>
 #include "features/resolution.h"
 
 namespace hooks {
@@ -8,6 +7,6 @@ namespace hooks {
 	inline tGetCommandLineW oGetCommandLineW = nullptr;
 
 	wchar_t* __stdcall hkGetCommandLineW() {
-		return features::fixCmdLine();
+		return features::fixCmdLineW();
 	}
 }
