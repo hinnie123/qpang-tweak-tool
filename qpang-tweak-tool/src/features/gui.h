@@ -9,4 +9,7 @@ namespace features {
 
 	inline bool showFpsEnabled = false;
 	void showFps();
+
+	inline bool hideUiEnabled = false;
+	void hideUi();
 }

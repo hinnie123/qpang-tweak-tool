@@ -14,7 +14,7 @@
 
 #include "hooks/setrect.h"
 #include "hooks/wndproc.h"
-#include "hooks/getdevicedata.h"
+#include "hooks/getfocus.h"
 #include "hooks/present.h"
 #include "hooks/reset.h"
 
@@ -22,6 +22,8 @@
 #include "helpers/utils.h"
 
 #include "features/ingame.h"
+
+#define HOOK(from, to, original) if (MH_CreateHook((void*)from, (void*)to, (void**)&original) == MH_OK) { MH_EnableHook((void*)from); }
 
 void setupQpangHooks() {
 	globals::qpangModule = GetModuleHandleA(nullptr);
@@ -37,29 +39,14 @@ void setupQpangHooks() {
 	auto renderMessageFn = (uintptr_t)globals::qpangModule + 0x19d280;
 	auto luaTinkerDoFileFn = (uintptr_t)globals::qpangModule + 0x1d8da0;
 
-	MH_CreateHook(GetCommandLineW, (void*)hooks::hkGetCommandLineW, (void**)&hooks::oGetCommandLineW);
-	MH_EnableHook(GetCommandLineW);
-
-	MH_CreateHook((void*)createAppFn, (void*)hooks::hkCreateApp, (void**)&hooks::oCreateApp);
-	MH_EnableHook((void*)createAppFn);
-
-	MH_CreateHook((void*)setWorldToScreenResolutionFn, (void*)hooks::hkSetWorldToScreenResolution, (void**)&hooks::oSetWorldToScreenResolution);
-	MH_EnableHook((void*)setWorldToScreenResolutionFn);
-
-	MH_CreateHook((void*)setCursorBoundsFn, (void*)hooks::hkSetCursorBounds, (void**)&hooks::oSetCursorBounds);
-	MH_EnableHook((void*)setCursorBoundsFn);
-
-	MH_CreateHook((void*)setResolutionFn, (void*)hooks::hkSetResolution, (void**)&hooks::oSetResolution);
-	MH_EnableHook((void*)setResolutionFn);
-
-	MH_CreateHook((void*)setUnknownPositionFn, (void*)hooks::hkSetUnknownPosition, (void**)&hooks::oSetUnknownPosition);
-	MH_EnableHook((void*)setUnknownPositionFn);
-
-	MH_CreateHook((void*)renderMessageFn, (void*)hooks::hkRenderMessage, (void**)&hooks::oRenderMessage);
-	MH_EnableHook((void*)renderMessageFn);
-
-	MH_CreateHook((void*)luaTinkerDoFileFn, (void*)hooks::hkLuaTinkerDoFile, (void**)&hooks::oLuaTinkerDoFile);
-	MH_EnableHook((void*)luaTinkerDoFileFn);
+	HOOK(GetCommandLineW, hooks::hkGetCommandLineW, hooks::oGetCommandLineW);
+	HOOK(createAppFn, hooks::hkCreateApp, hooks::oCreateApp);
+	HOOK(setWorldToScreenResolutionFn, hooks::hkSetWorldToScreenResolution, hooks::oSetWorldToScreenResolution);
+	HOOK(setCursorBoundsFn, hooks::hkSetCursorBounds, hooks::oSetCursorBounds);
+	HOOK(setResolutionFn, hooks::hkSetResolution, hooks::oSetResolution);
+	HOOK(setUnknownPositionFn, hooks::hkSetUnknownPosition, hooks::oSetUnknownPosition);
+	HOOK(renderMessageFn, hooks::hkRenderMessage, hooks::oRenderMessage);
+	HOOK(luaTinkerDoFileFn, hooks::hkLuaTinkerDoFile, hooks::oLuaTinkerDoFile);
 
 	// The tool is now ready for the launcher to resume the process, let's tell the launcher that by setting this data value to 1337
 	*(int*)((uintptr_t)globals::qpangModule + 0x3c0ef8) = 1337;
@@ -78,8 +65,8 @@ void setupApiHooks() {
 		Sleep(10);
 	}
 
-	auto getOnnet3DEngine = (uintptr_t * (__thiscall*)())(GetProcAddress(on3DModule, "?GetSingleton@?$Singleton@VOnNet3DEngine@OnNet3D@@@OnNet3D@@SAAAVOnNet3DEngine@2@XZ"));
-	auto getOnnetRenderSystem = (uintptr_t * (__thiscall*)(uintptr_t*))(GetProcAddress(on3DModule, "?GetRenderSystem@OnNet3DEngine@OnNet3D@@QAEPAVRenderSystem@2@XZ"));
+	auto getOnnet3DEngine = (uintptr_t*(__thiscall*)())(GetProcAddress(on3DModule, "?GetSingleton@?$Singleton@VOnNet3DEngine@OnNet3D@@@OnNet3D@@SAAAVOnNet3DEngine@2@XZ"));
+	auto getOnnetRenderSystem = (uintptr_t*(__thiscall*)(uintptr_t*))(GetProcAddress(on3DModule, "?GetRenderSystem@OnNet3DEngine@OnNet3D@@QAEPAVRenderSystem@2@XZ"));
 
 	auto onnet3DEngine = getOnnet3DEngine();
 	while (!onnet3DEngine) {
@@ -97,27 +84,17 @@ void setupApiHooks() {
 	auto d3d9Device = *(IDirect3DDevice9**)(onnet3DDevice + 1);
 
 	auto d3d9DeviceVtable = *(void***)d3d9Device;
-	
-	auto keyBoardInputDevice = (IDirectInputDevice8*)((uintptr_t)globals::qpangModule + 0x3a8ce8 + 0x20);
-	auto inputDeviceVtable = **(void****)keyBoardInputDevice;
 
-	MH_CreateHook(SetRect, (void*)hooks::hkSetRect, (void**)&hooks::oSetRect);
-	MH_EnableHook(SetRect);
-
-	MH_CreateHook(inputDeviceVtable[10], (void*)hooks::hkGetDeviceData, (void**)&hooks::oGetDeviceData);
-	MH_EnableHook(inputDeviceVtable[10]);
-
-	MH_CreateHook(d3d9DeviceVtable[17], (void*)hooks::hkPresent, (void**)&hooks::oPresent);
-	MH_EnableHook(d3d9DeviceVtable[17]);
-
-	MH_CreateHook(d3d9DeviceVtable[16], (void*)hooks::hkReset, (void**)&hooks::oReset);
-	MH_EnableHook(d3d9DeviceVtable[16]);
+	HOOK(GetFocus, hooks::hkGetFocus, hooks::oGetFocus);
+	HOOK(SetRect, hooks::hkSetRect, hooks::oSetRect);
+	HOOK(d3d9DeviceVtable[17], hooks::hkPresent, hooks::oPresent);
+	HOOK(d3d9DeviceVtable[16], hooks::hkReset, hooks::oReset);
 
 	hooks::oWndProc = (WNDPROC)SetWindowLongPtrA(globals::qpangWindow, GWL_WNDPROC, (LONG_PTR)hooks::wndProc);
 }
 
 void setupHooks() {
-	if (MH_Initialize() == MB_OK) {
+	if (MH_Initialize() == MH_OK) {
 		setupQpangHooks();
 		setupApiHooks();
 	}

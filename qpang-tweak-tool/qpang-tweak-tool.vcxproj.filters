@@ -37,6 +37,9 @@
     <Filter Include="lib\json">
       <UniqueIdentifier>{afc99931-9556-4257-97fc-3db1d31f9131}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\sdk">
+      <UniqueIdentifier>{d9fc757f-7260-4f52-b227-0ab6c8957dfe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -95,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="src\features\ingame.cpp">
       <Filter>src\features</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sdk\guimanager.cpp">
+      <Filter>src\sdk</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sdk\lua.cpp">
+      <Filter>src\sdk</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -203,9 +212,6 @@
     <ClInclude Include="src\helpers\utils.h">
       <Filter>src\helpers</Filter>
     </ClInclude>
-    <ClInclude Include="src\hooks\getdevicedata.h">
-      <Filter>src\hooks</Filter>
-    </ClInclude>
     <ClInclude Include="src\features\gui.h">
       <Filter>src\features</Filter>
     </ClInclude>
@@ -223,6 +229,18 @@
     </ClInclude>
     <ClInclude Include="src\features\ingame.h">
       <Filter>src\features</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\getfocus.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sdk\guimanager.h">
+      <Filter>src\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sdk\lua.h">
+      <Filter>src\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sdk\defs.h">
+      <Filter>src\sdk</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

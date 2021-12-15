@@ -6,15 +6,19 @@
 
 #include "globals.h"
 
+#include "sdk/guimanager.h"
+#include "sdk/lua.h"
+
 namespace utils {
 	bool setUiColor(DWORD dwColor) {
-		uintptr_t unknownInstance = (uintptr_t)globals::qpangModule + 0x3c4860;
-		if (!*(int*)(unknownInstance + 0x4)) {
+		auto uiManager = GUIManager::getInstance();
+		if (!uiManager)
 			return false;
-		}
 
-		static auto setUiColorFn = (DWORD*(__thiscall*)(void*, DWORD))((uintptr_t)globals::qpangModule + 0x1cd560);
-		setUiColorFn((void*)unknownInstance, dwColor);
+		if (uiManager->getNumElements() == 0)
+			return false;
+
+		uiManager->setGlobalColor(dwColor);
 		return true;
 	}
 
@@ -26,5 +30,13 @@ namespace utils {
 
 		DWORD dwColor = D3DCOLOR_RGBA(r, g, b, a);
 		return setUiColor(dwColor);
+	}
+
+	void callLua(std::string luaFn) {
+		auto luaState = LuaState::getInstance();
+		if (!luaState)
+			return;
+
+		luaState->call(luaFn.c_str());
 	}
 }

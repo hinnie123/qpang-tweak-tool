@@ -172,6 +172,8 @@
     <ClCompile Include="src\helpers\utils.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\render\ui.cpp" />
+    <ClCompile Include="src\sdk\guimanager.cpp" />
+    <ClCompile Include="src\sdk\lua.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\imgui\backends\imgui_impl_dx9.h" />
@@ -199,7 +201,7 @@
     <ClInclude Include="src\helpers\utils.h" />
     <ClInclude Include="src\hooks\createapp.h" />
     <ClInclude Include="src\hooks\getcommandlinew.h" />
-    <ClInclude Include="src\hooks\getdevicedata.h" />
+    <ClInclude Include="src\hooks\getfocus.h" />
     <ClInclude Include="src\hooks\luatinkerdofile.h" />
     <ClInclude Include="src\hooks\present.h" />
     <ClInclude Include="src\hooks\rendermessage.h" />
@@ -216,6 +218,9 @@
     <ClInclude Include="src\lua\squareinit.h" />
     <ClInclude Include="src\lua\waitroom.h" />
     <ClInclude Include="src\render\ui.h" />
+    <ClInclude Include="src\sdk\defs.h" />
+    <ClInclude Include="src\sdk\guimanager.h" />
+    <ClInclude Include="src\sdk\lua.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

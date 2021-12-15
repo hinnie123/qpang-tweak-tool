@@ -14,6 +14,8 @@
 
 #include "lua/squareinit.h"
 
+#include "sdk/guimanager.h"
+
 namespace ui {
 	IDirect3DDevice9* _device = nullptr;
 	IDirect3DSwapChain9* _swapchain = nullptr;
@@ -93,6 +95,25 @@ namespace ui {
 				}*/
 
 				if (ImGui::BeginTabItem("UI")) {
+#ifdef _DEBUG
+					if (ImGui::Button("SHOW ALL")) {
+						auto uiManager = GUIManager::getInstance();
+						if (uiManager) {
+							auto numElements = uiManager->getNumElements();
+							for (size_t i = 0; i < numElements; ++i) {
+								auto element = uiManager->uiElements[i];
+								if (element) {
+									element->bDraw = true;
+								}
+							}
+						}
+					}
+#endif
+
+					if (ImGui::Checkbox("Hide Ingame Ui", &features::hideUiEnabled)) {
+						features::hideUi();
+					}
+
 					if (ImGui::Checkbox("Show FPS", &features::showFpsEnabled)) {
 						settings::saveAll();
 					}

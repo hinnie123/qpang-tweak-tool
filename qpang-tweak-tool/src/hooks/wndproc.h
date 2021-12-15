@@ -13,12 +13,12 @@ namespace hooks {
 				SetCursorPos(features::targetWidth / 2, features::targetHeight / 2);
 			}
 		}
+		else if (uMsg == WM_KEYDOWN && wParam == VK_ESCAPE && ui::renderWindow) {
+			ui::renderWindow = false;
+		}
 
 		if (ui::renderWindow) {
 			ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
-
-			// This blocks keyboard inputs when the menu is open to the game
-			return true;
 		}
 
 		return CallWindowProcA(oWndProc, hWnd, uMsg, wParam, lParam);
