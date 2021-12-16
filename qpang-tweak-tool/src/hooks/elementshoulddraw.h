@@ -7,8 +7,10 @@ namespace hooks {
 	inline tElementShouldDraw oElementShouldDraw = nullptr;
 
 	bool __fastcall hkElementShouldDraw(void* _this, void*) {
-		if (features::hideUiEnabled)
-			return false;
+		if (globals::currentUiState == eUIState::GAME || globals::currentUiState == eUIState::SQUARE) {
+			if (features::hideUiEnabled)
+				return false;
+		}
 
 		return oElementShouldDraw(_this);
 	}
