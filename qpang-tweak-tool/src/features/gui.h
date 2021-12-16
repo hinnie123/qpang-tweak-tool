@@ -11,7 +11,4 @@ namespace features {
 	void showFps();
 
 	inline bool hideUiEnabled = false;
-	void hideUi();
-
-	void resetUiVisibility();
 }

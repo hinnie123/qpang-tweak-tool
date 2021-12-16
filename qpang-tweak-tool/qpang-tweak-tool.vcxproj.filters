@@ -245,5 +245,8 @@
     <ClInclude Include="src\hooks\getcommandlinea.h">
       <Filter>src\hooks</Filter>
     </ClInclude>
+    <ClInclude Include="src\hooks\elementshoulddraw.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

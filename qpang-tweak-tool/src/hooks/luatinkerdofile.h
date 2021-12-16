@@ -12,7 +12,6 @@
 #include "lua/waitroom.h"
 
 #include "features/resolution.h"
-#include "features/gui.h"
 
 namespace hooks {
 	void replaceAll(std::string& str, const std::string& from, const std::string& to) {
@@ -34,8 +33,6 @@ namespace hooks {
 		std::cout << filename << std::endl;
 #endif
 
-		features::resetUiVisibility();
-
 		if (strstr(filename, "login")) {
 			std::string path = std::tmpnam(nullptr);
 			std::ofstream out(path);
@@ -48,9 +45,7 @@ namespace hooks {
 
 			out.close();
 
-			auto retValue = oLuaTinkerDoFile(lua_state, path.c_str());
-			features::hideUi();
-			return retValue;
+			return oLuaTinkerDoFile(lua_state, path.c_str());
 		}
 		if (strstr(filename, "square_init")) {
 			std::string path = std::tmpnam(nullptr);
@@ -64,9 +59,7 @@ namespace hooks {
 
 			out.close();
 
-			auto retValue = oLuaTinkerDoFile(lua_state, path.c_str());
-			features::hideUi();
-			return retValue;
+			return oLuaTinkerDoFile(lua_state, path.c_str());
 		} else if (strstr(filename, "ingame_init")) {
 			std::string path = std::tmpnam(nullptr);
 			std::ofstream out(path);
@@ -79,9 +72,7 @@ namespace hooks {
 
 			out.close();
 
-			auto retValue = oLuaTinkerDoFile(lua_state, path.c_str());
-			features::hideUi();
-			return retValue;
+			return oLuaTinkerDoFile(lua_state, path.c_str());
 		} else if (strstr(filename, "loading0") || strstr(filename, "loading1")) {  // loading0800, loading1024, loading1280
 			std::string path = std::tmpnam(nullptr);
 			std::ofstream out(path);
@@ -94,9 +85,7 @@ namespace hooks {
 
 			out.close();
 
-			auto retValue = oLuaTinkerDoFile(lua_state, path.c_str());
-			features::hideUi();
-			return retValue;
+			return oLuaTinkerDoFile(lua_state, path.c_str());
 		} else if (strstr(filename, "WaitRoom")) {
 			std::string path = std::tmpnam(nullptr);
 			std::ofstream out(path);
@@ -109,13 +98,9 @@ namespace hooks {
 
 			out.close();
 
-			auto retValue = oLuaTinkerDoFile(lua_state, path.c_str());
-			features::hideUi();
-			return retValue;
+			return oLuaTinkerDoFile(lua_state, path.c_str());
 		}
 
-		auto retValue = oLuaTinkerDoFile(lua_state, filename);
-		features::hideUi();
-		return retValue;
+		return oLuaTinkerDoFile(lua_state, filename);
 	}
 }

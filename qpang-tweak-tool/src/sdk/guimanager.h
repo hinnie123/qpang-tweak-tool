@@ -23,7 +23,9 @@ enum eUIElements {
 
 class UIElement {
 public:
-	PAD(0x10c);
+	PAD(0x100);
+	int id;
+	PAD(0x8);
 	bool bDraw;
 public:
 	void setColor(DWORD color) {

@@ -5,6 +5,7 @@
 
 #include "hooks/getcommandlinew.h"
 #include "hooks/getcommandlinea.h"
+#include "hooks/elementshoulddraw.h"
 #include "hooks/createapp.h"
 #include "hooks/rendermessage.h"
 #include "hooks/setunknownposition.h"
@@ -32,6 +33,7 @@ void setupQpangHooks() {
 		return;
 	}
 
+	auto elementShouldDrawFn = (uintptr_t)globals::qpangModule + 0x13b360;
 	auto createAppFn = (uintptr_t)globals::qpangModule + 0x1410;
 	auto setWorldToScreenResolutionFn = (uintptr_t)globals::qpangModule + 0xbf2d0;
 	auto setCursorBoundsFn = (uintptr_t)globals::qpangModule + 0x1e760;
@@ -42,6 +44,7 @@ void setupQpangHooks() {
 
 	HOOK(GetCommandLineA, hooks::hkGetCommandLineA, hooks::oGetCommandLineA);
 	HOOK(GetCommandLineW, hooks::hkGetCommandLineW, hooks::oGetCommandLineW);
+	HOOK(elementShouldDrawFn, hooks::hkElementShouldDraw, hooks::oElementShouldDraw);
 	HOOK(createAppFn, hooks::hkCreateApp, hooks::oCreateApp);
 	HOOK(setWorldToScreenResolutionFn, hooks::hkSetWorldToScreenResolution, hooks::oSetWorldToScreenResolution);
 	HOOK(setCursorBoundsFn, hooks::hkSetCursorBounds, hooks::oSetCursorBounds);

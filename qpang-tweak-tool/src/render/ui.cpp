@@ -48,6 +48,17 @@ namespace ui {
 
 		{
 			features::showFps();
+
+#ifdef _DEBUG
+			auto drawList = ImGui::GetWindowDrawList();
+			auto uiManager = GUIManager::getInstance();
+			if (uiManager) {
+				auto numElements = uiManager->getNumElements();
+				for (size_t i = 0; i < numElements; ++i) {
+					drawList->AddText({ 6.f, 8.f + 18 * i }, 0xffffffff, std::format("{}, {}] {:#x}", i, uiManager->uiElements[i]->id, (uintptr_t)uiManager->uiElements[i]).c_str());
+				}
+			}
+#endif
 		}
 
 		ImGui::End();
@@ -110,9 +121,7 @@ namespace ui {
 					}
 #endif
 
-					if (ImGui::Checkbox("Hide Ui", &features::hideUiEnabled)) {
-						features::hideUi();
-					}
+					ImGui::Checkbox("Hide Ui", &features::hideUiEnabled);
 
 					if (ImGui::Checkbox("Show FPS", &features::showFpsEnabled)) {
 						settings::saveAll();
