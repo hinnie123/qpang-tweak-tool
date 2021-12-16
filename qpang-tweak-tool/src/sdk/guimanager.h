@@ -2,7 +2,17 @@
 
 #include "defs.h"
 
-enum eUIElements {
+enum class eUIState : int {
+	UNKNOWN,
+	LOGIN,
+	WAITROOM,
+	GAME,
+	LOADING,
+	TUTORIAL,
+	SQUARE
+};
+
+enum class eUIElements : int {
 	UI_IDD_WEAPON_SLOT = 25000,
 	UI_IDD_PLAYER_STAT = 25100,
 	UI_IDD_PLAYER_PVESTAT = 25120,

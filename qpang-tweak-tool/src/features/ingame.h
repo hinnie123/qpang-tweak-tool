@@ -1,6 +1,8 @@
 #pragma once
 
 namespace features {
-	inline int sensitivity = 50;
-	void setSensitivity(int sensitivity);
+	inline bool sensitivityEnabled = false;
+	inline float sensitivityValue = 50.f;
+	void sensitivity();
+	void restoreSensitivity();
 }

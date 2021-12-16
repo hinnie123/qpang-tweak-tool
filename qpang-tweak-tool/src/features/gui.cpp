@@ -12,9 +12,8 @@
 
 namespace features {
 	void rainbowUi() {
-		if (!rainbowUiEnabled) {
+		if (!rainbowUiEnabled)
 			return;
-		}
 
 		static float rainbow = 0.f;
 
@@ -31,9 +30,8 @@ namespace features {
 	}
 
 	void showFps() {
-		if (!showFpsEnabled) {
+		if (!showFpsEnabled)
 			return;
-		}
 
 		auto drawList = ImGui::GetWindowDrawList();
 		drawList->AddRectFilled({ 0.f, 0.f }, { 70.f, 30.f }, 0x7f000000);

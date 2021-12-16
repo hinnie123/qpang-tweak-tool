@@ -42,9 +42,10 @@ namespace settings {
 				{"targetWidth", features::targetWidth},
 				{"targetHeight", features::targetHeight}
 			}},
-			/*{"ingame", {
-				{"sensitivity", features::sensitivity}
-			}},*/
+			{"ingame", {
+				{"sensitivityEnabled", features::sensitivityEnabled},
+				{"sensitivityValue", features::sensitivityValue}
+			}},
 			{"gui", {
 				{"uiColor", features::uiColor},
 				{"rainbowUiEnabled", features::rainbowUiEnabled},
@@ -63,15 +64,16 @@ namespace settings {
 		if (std::filesystem::exists(targetDir + settingsName)) {
 			nlohmann::json j = fileToJson(settingsName);
 
-			SAFE_JSON(j.at("resolution").at("targetWidth").get_to(features::targetWidth))
-			SAFE_JSON(j.at("resolution").at("targetHeight").get_to(features::targetHeight))
+			SAFE_JSON(j.at("resolution").at("targetWidth").get_to(features::targetWidth));
+			SAFE_JSON(j.at("resolution").at("targetHeight").get_to(features::targetHeight));
 
-			//SAFE_JSON( j.at("ingame").at("sensitivity").get_to(features::sensitivity))
+			SAFE_JSON(j.at("ingame").at("sensitivityEnabled").get_to(features::sensitivityEnabled));
+			SAFE_JSON(j.at("ingame").at("sensitivityValue").get_to(features::sensitivityValue));
 
-			SAFE_JSON(j.at("gui").at("uiColor").get_to(features::uiColor))
-			SAFE_JSON(j.at("gui").at("rainbowUiEnabled").get_to(features::rainbowUiEnabled))
-			SAFE_JSON(j.at("gui").at("rainbowUiSpeed").get_to(features::rainbowUiSpeed))
-			SAFE_JSON(j.at("gui").at("showFpsEnabled").get_to(features::showFpsEnabled))
+			SAFE_JSON(j.at("gui").at("uiColor").get_to(features::uiColor));
+			SAFE_JSON(j.at("gui").at("rainbowUiEnabled").get_to(features::rainbowUiEnabled));
+			SAFE_JSON(j.at("gui").at("rainbowUiSpeed").get_to(features::rainbowUiSpeed));
+			SAFE_JSON(j.at("gui").at("showFpsEnabled").get_to(features::showFpsEnabled));
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace hooks {
 
 		features::fixStretch();
 		features::rainbowUi();
-		//features::setSensitivity(features::sensitivity);
+		features::sensitivity();
 
 		return oPresent(device, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
 	}

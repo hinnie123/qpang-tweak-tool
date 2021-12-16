@@ -99,11 +99,23 @@ namespace ui {
 					ImGui::EndTabItem();
 				}
 
-				/*if (ImGui::BeginTabItem("Ingame")) {
-					ImGui::SliderInt("Sensitivity", &features::sensitivity, 1, 300);
+				if (ImGui::BeginTabItem("Ingame")) {
+					if (ImGui::Checkbox("Override sensitivity", &features::sensitivityEnabled)) {
+						if (!features::sensitivityEnabled) {
+							features::restoreSensitivity();
+						}
+
+						settings::saveAll();
+					}
+
+					if (features::sensitivityEnabled) {
+						if (ImGui::SliderFloat("Sensitivity", &features::sensitivityValue, 1.f, 100.f, "%.1f%%")) {
+							settings::saveAll();
+						}
+					}
 
 					ImGui::EndTabItem();
-				}*/
+				}
 
 				if (ImGui::BeginTabItem("UI")) {
 #ifdef _DEBUG

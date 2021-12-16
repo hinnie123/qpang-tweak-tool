@@ -103,16 +103,17 @@
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>
       </FunctionLevelLinking>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <AdditionalIncludeDirectories>src/;lib/;lib/imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -211,6 +212,7 @@
     <ClInclude Include="src\hooks\setcursorbounds.h" />
     <ClInclude Include="src\hooks\setrect.h" />
     <ClInclude Include="src\hooks\setresolution.h" />
+    <ClInclude Include="src\hooks\setuistate.h" />
     <ClInclude Include="src\hooks\setunknownposition.h" />
     <ClInclude Include="src\hooks\setworldtoscreenresolution.h" />
     <ClInclude Include="src\hooks\wndproc.h" />
