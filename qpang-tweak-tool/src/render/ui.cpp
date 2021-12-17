@@ -49,17 +49,17 @@ namespace ui {
 		{
 			features::showFps();
 
-#ifdef _DEBUG
-			auto drawList = ImGui::GetWindowDrawList();
-			auto uiManager = GUIManager::getInstance();
-			if (uiManager) {
-				auto numElements = uiManager->getNumElements();
-				for (size_t i = 0; i < numElements; ++i) {
-					auto element = uiManager->uiElements[i];
-					drawList->AddText({ 6.f, 8.f + 18 * i }, 0xffffffff, std::format("{}, {}] {:#x}", i, element->id, (uintptr_t)element).c_str());
-				}
-			}
-#endif
+//#ifdef _DEBUG
+//			auto drawList = ImGui::GetWindowDrawList();
+//			auto uiManager = GUIManager::getInstance();
+//			if (uiManager) {
+//				auto numElements = uiManager->getNumElements();
+//				for (size_t i = 0; i < numElements; ++i) {
+//					auto element = uiManager->uiElements[i];
+//					drawList->AddText({ 6.f, 8.f + 18 * i }, 0xffffffff, std::format("{}, {}] {:#x}", i, element->id, (uintptr_t)element).c_str());
+//				}
+//			}
+//#endif
 		}
 
 		ImGui::End();

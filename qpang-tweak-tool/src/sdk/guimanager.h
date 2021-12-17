@@ -30,7 +30,14 @@ enum class eUIElements : int {
 	UI_IDD_WORLDMAP = 36400,
 	UI_IDD_GAME_PVE_FAIL = 38350,
 
-	UI_IDD_LOGIN = 100
+	UI_IDD_LOGIN = 100,
+	UI_IDD_SERVER_SELECT = 11600,
+	UI_IDD_SERVER_SELECT_SVR1 = UI_IDD_SERVER_SELECT + 20,
+	UI_IDD_SERVER_SELECT_SVR2 = UI_IDD_SERVER_SELECT + 30,
+	UI_IDD_SERVER_SELECT_CHN1 = UI_IDD_SERVER_SELECT + 40,
+	UI_IDD_SERVER_SELECT_CHN2 = UI_IDD_SERVER_SELECT + 60,
+	UI_IDD_SERVER_SELECT_CHN3 = UI_IDD_SERVER_SELECT + 80,
+	UI_IDD_SERVER_SELECT_CHN4 = UI_IDD_SERVER_SELECT + 100,
 };
 
 class UIElement {
@@ -50,6 +57,28 @@ public:
 
 	void setDimensions(int width, int height) {
 		GetVirtualFunc<void(__thiscall*)(void*, int, int)>(this, 3)(this, width, height);
+	}
+
+	void setPosAndDim(float x, float y, float w, float h) {
+		float pos[3] = { x + w / 2, y + h / 2, 0.f };
+
+		this->setPos(pos);
+		this->setDimensions(w, h);
+
+		RECT rect;
+		SetRect(&rect, x, y, x + w, x + h);
+
+		this->setRect(&rect);
+		((void(__thiscall*)(void*))0x5ef480)(this);
+	}
+
+	void setRect(RECT* rect) {
+		GetVirtualFunc<void(__thiscall*)(void*, RECT*)>(this, 15)(this, rect);
+	}
+
+	void setPos(float x, float y) {
+		float pos[3] = { x, y, 0.f };
+		this->setPos(pos);
 	}
 
 	void setPos(float pos[3]) {

@@ -24,6 +24,7 @@ namespace hooks {
 		features::rainbowUi();
 		features::sensitivity();
 
+		//features::positionUiElements();
 		features::loginScreenSaver();
 
 		return oPresent(device, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);

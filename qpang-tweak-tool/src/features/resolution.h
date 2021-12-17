@@ -17,4 +17,6 @@ namespace features {
 
 	void beforeFixQuitMessage(wchar_t* message);
 	void fixQuitMessage(float* pos);
+
+	void positionUiElements();
 }

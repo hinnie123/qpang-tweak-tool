@@ -124,4 +124,56 @@ namespace features {
 
 		return cachedCmdLineA;
 	}
+
+	void positionUiElement(UIElement* element) {
+		if (element->id == 0) {
+			element->setDimensions(targetWidth, targetHeight);
+		}
+
+		if (element->hasId(eUIElements::UI_IDD_LOGIN)) {
+			element->setPos(targetWidth / 2, targetHeight - 158 * 2);
+		}
+
+		if (element->hasId(eUIElements::UI_IDD_SERVER_SELECT)) {
+			element->setPos(targetWidth / 2, targetHeight / 2);
+		}
+
+		if (element->hasId(eUIElements::UI_IDD_SERVER_SELECT_SVR1)) {
+			element->setPos(targetWidth / 2 - 148, targetHeight / 2 - 125);
+		}
+
+		if (element->hasId(eUIElements::UI_IDD_SERVER_SELECT_SVR2)) {
+			element->setPos(targetWidth / 2 - 148, targetHeight / 2 - 125 + 84);
+		}
+
+		if (element->hasId(eUIElements::UI_IDD_SERVER_SELECT_CHN1)) {
+			element->setPos(targetWidth / 2 + 192, targetHeight / 2 - 118);
+		}
+
+		if (element->hasId(eUIElements::UI_IDD_SERVER_SELECT_CHN2)) {
+			element->setPos(targetWidth / 2 + 192, targetHeight / 2 - 118 + 52 * 1);
+		}
+
+		if (element->hasId(eUIElements::UI_IDD_SERVER_SELECT_CHN3)) {
+			element->setPos(targetWidth / 2 + 192, targetHeight / 2 - 118 + 52 * 2);
+		}
+
+		if (element->hasId(eUIElements::UI_IDD_SERVER_SELECT_CHN4)) {
+			element->setPos(targetWidth / 2 + 192, targetHeight / 2 - 118 + 52 * 3);
+		}
+	}
+
+	void positionUiElements() {
+		auto uiManager = GUIManager::getInstance();
+		if (!uiManager)
+			return;
+		
+		for (size_t i = 0; i < uiManager->getNumElements(); ++i) {
+			auto element = uiManager->uiElements[i];
+			if (!element)
+				continue;
+
+			positionUiElement(element);
+		}
+	}
 }

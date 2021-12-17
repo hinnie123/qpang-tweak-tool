@@ -19,8 +19,8 @@ namespace features {
 	float x = 1.f;
 	float y = 1.f;
 
-	float xSpeed = 150.f;
-	float ySpeed = 150.f;
+	float xSpeed = 200.f;
+	float ySpeed = 200.f;
 
 	float r = 255.f;
 	float g = 255.f;
@@ -65,10 +65,15 @@ namespace features {
 		randomizeColor();
 	}
 
-	bool didResetColor = false;
+	bool didScreenSaver = false;
+	bool didResetColor = true;
+	float timePassedInLogin = 0.f;
 	void loginScreenSaver() {
-		// Only try to do this when you're in the login menu
-		if (globals::currentUiState != eUIState::LOGIN) {
+		if (didScreenSaver)
+			return;
+
+		// Only try to do this when you're in the login menu and not in the server select list
+		if (globals::currentUiState != eUIState::LOGIN || (loginDialog && !loginDialog->shouldDraw)) {
 			// Set the color to what the user has configured, instead of the color
 			// that was being generated and used by this screensaver
 			if (!didResetColor) {
@@ -76,15 +81,22 @@ namespace features {
 				didResetColor = true;
 			}
 			
+			didScreenSaver = true;
 			return;
 		}
 
+		float deltaTime = ImGui::GetIO().DeltaTime;
+
+		timePassedInLogin += deltaTime;
+		if (timePassedInLogin < 30)
+			return;
+
+		didResetColor = false;
 		if (loginDialog == nullptr) {
 			setup();
 			return;
 		}
 
-		float deltaTime = ImGui::GetIO().DeltaTime;
 		x += xSpeed * deltaTime;
 		y += ySpeed * deltaTime;
 
