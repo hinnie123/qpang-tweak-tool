@@ -55,7 +55,8 @@ namespace ui {
 			if (uiManager) {
 				auto numElements = uiManager->getNumElements();
 				for (size_t i = 0; i < numElements; ++i) {
-					drawList->AddText({ 6.f, 8.f + 18 * i }, 0xffffffff, std::format("{}, {}] {:#x}", i, uiManager->uiElements[i]->id, (uintptr_t)uiManager->uiElements[i]).c_str());
+					auto element = uiManager->uiElements[i];
+					drawList->AddText({ 6.f, 8.f + 18 * i }, 0xffffffff, std::format("{}, {}] {:#x}", i, element->id, (uintptr_t)element).c_str());
 				}
 			}
 #endif
@@ -126,7 +127,7 @@ namespace ui {
 							for (size_t i = 0; i < numElements; ++i) {
 								auto element = uiManager->uiElements[i];
 								if (element) {
-									element->bDraw = true;
+									element->shouldDraw = true;
 								}
 							}
 						}

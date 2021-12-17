@@ -8,4 +8,6 @@ namespace utils {
 	bool setUiColor(float color[4]);
 
 	void callLua(std::string luaFn);
+
+	float randomFloat(float min, float max);
 }

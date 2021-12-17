@@ -4,6 +4,7 @@
 
 #include "features/ingame.h"
 #include "features/gui.h"
+#include "features/loginscreensaver.h"
 
 namespace hooks {
 	typedef HRESULT(__stdcall* tPresent)(IDirect3DDevice9*, const RECT*, const RECT*, HWND, const RGNDATA*);
@@ -22,6 +23,8 @@ namespace hooks {
 		features::fixStretch();
 		features::rainbowUi();
 		features::sensitivity();
+
+		features::loginScreenSaver();
 
 		return oPresent(device, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
 	}

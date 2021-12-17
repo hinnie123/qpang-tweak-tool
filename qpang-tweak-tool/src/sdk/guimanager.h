@@ -28,16 +28,34 @@ enum class eUIElements : int {
 	UI_IDD_ONELINE_MSG = 30930,
 	UI_IDD_SKILL_HEHLP = 31100,
 	UI_IDD_WORLDMAP = 36400,
-	UI_IDD_GAME_PVE_FAIL = 38350
+	UI_IDD_GAME_PVE_FAIL = 38350,
+
+	UI_IDD_LOGIN = 100
 };
 
 class UIElement {
 public:
-	PAD(0x100);
+	PAD(0xf0);
+	int startX;
+	int startY;
+	int endX;
+	int endY;
 	int id;
 	PAD(0x8);
-	bool bDraw;
+	bool shouldDraw;
 public:
+	bool hasId(eUIElements id) {
+		return (eUIElements)this->id == id;
+	}
+
+	void setDimensions(int width, int height) {
+		GetVirtualFunc<void(__thiscall*)(void*, int, int)>(this, 3)(this, width, height);
+	}
+
+	void setPos(float pos[3]) {
+		GetVirtualFunc<void(__thiscall*)(void*, float*)>(this, 17)(this, pos);
+	}
+
 	void setColor(DWORD color) {
 		GetVirtualFunc<void(__thiscall*)(void*, DWORD)>(this, 65)(this, color);
 	}

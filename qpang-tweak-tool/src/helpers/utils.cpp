@@ -3,6 +3,7 @@
 #include "utils.h"
 
 #include <d3d9types.h>
+#include <random>
 
 #include "globals.h"
 
@@ -38,5 +39,12 @@ namespace utils {
 			return;
 
 		luaState->call(luaFn.c_str());
+	}
+
+	float randomFloat(float min, float max) {
+		std::random_device rd;
+		std::default_random_engine eng(rd());
+		std::uniform_real_distribution<float> distr(min, max);
+		return distr(eng);
 	}
 }
