@@ -755,7 +755,7 @@ namespace lua {
 	    ControlTextDir(UI_IDN_PLAYER_STM, TextDir_vCenter)
 	    NumberBox_SetValue( UI_IDN_PLAYER_STM, 0, -2 )
 
-	    CreateNullDialog(UI_IDD_PLAYER_PVESTAT, 3, SCREEN_HEIGHT - 66, 163, 108, 5)
+	    CreateNullDialog(UI_IDD_PLAYER_PVESTAT, 3, SCREEN_HEIGHT - 110, 163, 108, 5)
 
 	    CreatePictureBox(UI_IDD_PLAYER_PVESTAT, UI_IDP_PLAYER_PVEBACK, 0, 0, 163, 64, 6, GAME_RES_BASE+78, UIRECT_NINE)
 	    CreatePictureBox(UI_IDD_PLAYER_PVESTAT, UI_IDP_PLAYER_PVEBACK, 0, 66, 163, 42, 6, GAME_RES_BASE+78, UIRECT_NINE)
