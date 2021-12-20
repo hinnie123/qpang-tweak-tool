@@ -5,6 +5,7 @@
 
 #include "hooks/getcommandlinew.h"
 #include "hooks/getcommandlinea.h"
+#include "hooks/clientgamecgmove.h"
 #include "hooks/setuistate.h"
 #include "hooks/elementshoulddraw.h"
 #include "hooks/createapp.h"
@@ -34,6 +35,7 @@ void setupQpangHooks() {
 		return;
 	}
 
+	auto clientGameCGMoveFn = (uintptr_t)globals::qpangModule + 0x25d620;
 	auto setUiStateFn = (uintptr_t)globals::qpangModule + 0x609b0;
 	auto elementShouldDrawFn = (uintptr_t)globals::qpangModule + 0x13b360;
 	auto createAppFn = (uintptr_t)globals::qpangModule + 0x1410;
@@ -46,6 +48,7 @@ void setupQpangHooks() {
 
 	HOOK(GetCommandLineA, hooks::hkGetCommandLineA, hooks::oGetCommandLineA);
 	HOOK(GetCommandLineW, hooks::hkGetCommandLineW, hooks::oGetCommandLineW);
+	HOOK(clientGameCGMoveFn, hooks::hkClientGameCGMove, hooks::oClientGameCGMove);
 	HOOK(setUiStateFn, hooks::hkSetUiState, hooks::oSetUiState);
 	HOOK(elementShouldDrawFn, hooks::hkElementShouldDraw, hooks::oElementShouldDraw);
 	HOOK(createAppFn, hooks::hkCreateApp, hooks::oCreateApp);

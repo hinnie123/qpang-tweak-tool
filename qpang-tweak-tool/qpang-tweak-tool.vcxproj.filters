@@ -257,5 +257,8 @@
     <ClInclude Include="src\features\loginscreensaver.h">
       <Filter>src\features</Filter>
     </ClInclude>
+    <ClInclude Include="src\hooks\clientgamecgmove.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
