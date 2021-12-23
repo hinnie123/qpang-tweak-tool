@@ -260,5 +260,8 @@
     <ClInclude Include="src\hooks\clientgamecgmove.h">
       <Filter>src\hooks</Filter>
     </ClInclude>
+    <ClInclude Include="src\hooks\handlegcjoin.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
