@@ -38,7 +38,8 @@ namespace features {
 
 	bool isTargettingQuitMessage = false;
 	void beforeFixQuitMessage(wchar_t* message) {
-		if (wcsstr(message, L"quit?") || wcsstr(message, L"verlaten?") || wcsstr(message, L"tutorial?") || wcsstr(message, L"training")) {
+		if (wcsstr(message, L"quit?") || wcsstr(message, L"verlaten?") || wcsstr(message, L"tutorial?") || wcsstr(message, L"training") || wcsstr(message, L"coin?") 
+			|| wcsstr(message, L"munt?")) {
 			isTargettingQuitMessage = true;
 		}
 	}

@@ -169,6 +169,7 @@
     <ClCompile Include="src\features\gui.cpp" />
     <ClCompile Include="src\features\ingame.cpp" />
     <ClCompile Include="src\features\loginscreensaver.cpp" />
+    <ClCompile Include="src\features\pve.cpp" />
     <ClCompile Include="src\features\resolution.cpp" />
     <ClCompile Include="src\helpers\settings.cpp" />
     <ClCompile Include="src\helpers\utils.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="src\features\gui.h" />
     <ClInclude Include="src\features\ingame.h" />
     <ClInclude Include="src\features\loginscreensaver.h" />
+    <ClInclude Include="src\features\pve.h" />
     <ClInclude Include="src\features\resolution.h" />
     <ClInclude Include="src\helpers\globals.h" />
     <ClInclude Include="src\helpers\settings.h" />
@@ -205,11 +207,13 @@
     <ClInclude Include="src\hooks\clientgamecgmove.h" />
     <ClInclude Include="src\hooks\createapp.h" />
     <ClInclude Include="src\hooks\elementshoulddraw.h" />
+    <ClInclude Include="src\hooks\fillgcroompacket.h" />
     <ClInclude Include="src\hooks\getcommandlinea.h" />
     <ClInclude Include="src\hooks\getcommandlinew.h" />
     <ClInclude Include="src\hooks\getfocus.h" />
     <ClInclude Include="src\hooks\handlegcjoin.h" />
     <ClInclude Include="src\hooks\luatinkerdofile.h" />
+    <ClInclude Include="src\hooks\neteventgcmasterlog.h" />
     <ClInclude Include="src\hooks\present.h" />
     <ClInclude Include="src\hooks\rendermessage.h" />
     <ClInclude Include="src\hooks\reset.h" />

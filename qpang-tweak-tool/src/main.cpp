@@ -5,6 +5,8 @@
 
 #include "hooks/getcommandlinew.h"
 #include "hooks/getcommandlinea.h"
+#include "hooks/fillgcroompacket.h"
+#include "hooks/neteventgcmasterlog.h"
 #include "hooks/handlegcjoin.h"
 #include "hooks/clientgamecgmove.h"
 #include "hooks/setuistate.h"
@@ -30,53 +32,6 @@
 
 #define HOOK(from, to, original) if (MH_CreateHook((void*)from, (void*)to, (void**)&original) == MH_OK) { MH_EnableHook((void*)from); }
 
-typedef int(__stdcall* tNetEventGCMasterLog)(void*);
-inline tNetEventGCMasterLog oNetEventGCMasterLog = nullptr;
-
-int __stdcall hkNetEventGCMasterLog(void* packet) {
-	uintptr_t retAddr = (uintptr_t)_ReturnAddress();
-	if (retAddr == 0x42CE6E) {
-		void* edxPtr = nullptr;
-		__asm {
-			mov edxPtr, edx;
-		}
-
-		if (edxPtr != nullptr) {
-			uint32_t a1 = *(uint32_t*)((uintptr_t)packet + 88);
-			uint32_t a2 = *(uint32_t*)((uintptr_t)packet + 92);
-			float posX = *(float*)((uintptr_t)packet + 108);
-			float posY = *(float*)((uintptr_t)packet + 112);
-			float posZ = *(float*)((uintptr_t)packet + 116);
-
-			uint32_t val1 = *(uint32_t*)((uintptr_t)packet + 120);
-			uint32_t val2 = *(uint32_t*)((uintptr_t)packet + 124);
-			uint64_t a3 = ((uint64_t)val1) << 32 | val2;
-
-			void* newPacket = malloc(132);
-			memset(newPacket, 0, 132);
-
-			*(int*)((uintptr_t)newPacket + 20) = 516;
-
-			*(uint32_t*)((uintptr_t)newPacket + 88) = a1;
-			*(uint32_t*)((uintptr_t)newPacket + 92) = a2;
-
-			*(float*)((uintptr_t)newPacket + 96) = posX;
-			*(float*)((uintptr_t)newPacket + 100) = posY;
-			*(float*)((uintptr_t)newPacket + 104) = posZ;
-
-			*(uint64_t*)((uintptr_t)newPacket + 112) = a3;
-
-			static auto netEventShootN2PFn = (char(__thiscall*)(void*, void*))(0x4225B0);
-			netEventShootN2PFn(edxPtr, newPacket);
-
-			free(newPacket);
-			newPacket = nullptr;
-		}
-	}
-
-	return 0;
-}
-
 void setupQpangHooks() {
 	*(wchar_t*)(0x733BBC) = L'\0';
 
@@ -85,6 +40,8 @@ void setupQpangHooks() {
 		return;
 	}
 
+	auto fillCGRoomPacketFn = (uintptr_t)globals::qpangModule + 0x24e6d0;
+	auto netEventGCMasterLogFn = (uintptr_t)globals::qpangModule + 0xbebb0;
 	auto handleGCJoinFn = (uintptr_t)globals::qpangModule + 0x34d40;
 	auto clientGameCGMoveFn = (uintptr_t)globals::qpangModule + 0x25d620;
 	auto setUiStateFn = (uintptr_t)globals::qpangModule + 0x609b0;
@@ -99,7 +56,8 @@ void setupQpangHooks() {
 
 	HOOK(GetCommandLineA, hooks::hkGetCommandLineA, hooks::oGetCommandLineA);
 	HOOK(GetCommandLineW, hooks::hkGetCommandLineW, hooks::oGetCommandLineW);
-	HOOK(0x4BEBB0, hkNetEventGCMasterLog, oNetEventGCMasterLog);
+	HOOK(fillCGRoomPacketFn, hooks::hkFillCGRoomPacket, hooks::oFillCGRoomPacket);
+	HOOK(netEventGCMasterLogFn, hooks::hkNetEventGCMasterLog, hooks::oNetEventGCMasterLog);
 	HOOK(handleGCJoinFn, hooks::hkHandleGCJoin, hooks::oHandleGCJoin);
 	HOOK(clientGameCGMoveFn, hooks::hkClientGameCGMove, hooks::oClientGameCGMove);
 	HOOK(setUiStateFn, hooks::hkSetUiState, hooks::oSetUiState);
