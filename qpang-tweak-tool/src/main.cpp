@@ -33,6 +33,7 @@
 #define HOOK(from, to, original) if (MH_CreateHook((void*)from, (void*)to, (void**)&original) == MH_OK) { MH_EnableHook((void*)from); }
 
 void setupQpangHooks() {
+	// TODO: Make this a toggle to disable escalator sounds and make it save/load and add it to the menu.
 	*(wchar_t*)(0x733BBC) = L'\0';
 
 	globals::qpangModule = GetModuleHandleA(nullptr);
@@ -75,9 +76,9 @@ void setupQpangHooks() {
 }
 
 void setupApiHooks() {
-	globals::qpangWindow = FindWindowA(0, "QPang");
+	globals::qpangWindow = FindWindowA("QPang", "QPang");
 	while (!globals::qpangWindow) {
-		globals::qpangWindow = FindWindowA(0, "QPang");
+		globals::qpangWindow = FindWindowA("QPang", "QPang");
 		Sleep(10);
 	}
 
