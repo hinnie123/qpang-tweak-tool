@@ -21,19 +21,19 @@ namespace features {
 		*(uint32_t*)((uintptr_t)newPacket + 100) = 0;
 		*(uint32_t*)((uintptr_t)newPacket + 104) = 0;
 		*(uint32_t*)((uintptr_t)newPacket + 108) = 0;
-		*(uint32_t*)((uintptr_t)newPacket + 112) = 0;
+		*(uint32_t*)((uintptr_t)newPacket + 112) = *(uint32_t*)((uintptr_t)packet + 112); // prev/best time left in ms
 		*(uint32_t*)((uintptr_t)newPacket + 116) = *(uint32_t*)((uintptr_t)packet + 92); // gold coins
 		*(uint32_t*)((uintptr_t)newPacket + 120) = *(uint32_t*)((uintptr_t)packet + 96); // silver coins
 		*(uint32_t*)((uintptr_t)newPacket + 124) = *(uint32_t*)((uintptr_t)packet + 108); // bronze coins
 		*(uint32_t*)((uintptr_t)newPacket + 128) = 0;
 		*(uint32_t*)((uintptr_t)newPacket + 132) = 0;
 		*(uint32_t*)((uintptr_t)newPacket + 136) = 0;
-		*(uint32_t*)((uintptr_t)newPacket + 140) = 0;
+		*(uint32_t*)((uintptr_t)newPacket + 140) = *(uint32_t*)((uintptr_t)packet + 116); // current time left in ms
 
 		*(uint8_t*)((uintptr_t)newPacket + 144) = *(uint8_t*)((uintptr_t)packet + 104); // didSucceed
 
-		*(uint16_t*)((uintptr_t)newPacket + 146) = 1;
-		*(uint16_t*)((uintptr_t)newPacket + 148) = 1;
+		*(uint16_t*)((uintptr_t)newPacket + 146) = 0;
+		*(uint16_t*)((uintptr_t)newPacket + 148) = 0;
 
 		// Call the GCPvEScoreResult net event handler function:
 		static auto netEventPveScoreResultFn = (void* (__thiscall*)(void*, void*))(0x429f30);
