@@ -4,6 +4,46 @@
 #include <cstdint>
 
 namespace features {
+	void masterLogActAsPveScoreResult(void* packet)
+	{
+		void* newPacket = malloc(1000);
+		if (!newPacket)
+			return;
+
+		memset(newPacket, 0, 1000);
+
+		// Set the variables of our "GCPvEScoreResult" packet:
+		*(int*)((uintptr_t)newPacket + 20) = 534;
+
+		*(uint32_t*)((uintptr_t)newPacket + 88) = *(uint32_t*)((uintptr_t)packet + 88); // playerId
+		*(uint32_t*)((uintptr_t)newPacket + 92) = 0;
+		*(uint32_t*)((uintptr_t)newPacket + 96) = 0;
+		*(uint32_t*)((uintptr_t)newPacket + 100) = 0;
+		*(uint32_t*)((uintptr_t)newPacket + 104) = 0;
+		*(uint32_t*)((uintptr_t)newPacket + 108) = 0;
+		*(uint32_t*)((uintptr_t)newPacket + 112) = 0;
+		*(uint32_t*)((uintptr_t)newPacket + 116) = *(uint32_t*)((uintptr_t)packet + 92); // gold coins
+		*(uint32_t*)((uintptr_t)newPacket + 120) = *(uint32_t*)((uintptr_t)packet + 96); // silver coins
+		*(uint32_t*)((uintptr_t)newPacket + 124) = *(uint32_t*)((uintptr_t)packet + 108); // bronze coins
+		*(uint32_t*)((uintptr_t)newPacket + 128) = 0;
+		*(uint32_t*)((uintptr_t)newPacket + 132) = 0;
+		*(uint32_t*)((uintptr_t)newPacket + 136) = 0;
+		*(uint32_t*)((uintptr_t)newPacket + 140) = 0;
+
+		*(uint8_t*)((uintptr_t)newPacket + 144) = *(uint8_t*)((uintptr_t)packet + 104); // didSucceed
+
+		*(uint16_t*)((uintptr_t)newPacket + 146) = 1;
+		*(uint16_t*)((uintptr_t)newPacket + 148) = 1;
+
+		// Call the GCPvEScoreResult net event handler function:
+		static auto netEventPveScoreResultFn = (void* (__thiscall*)(void*, void*))(0x429f30);
+		netEventPveScoreResultFn(*(void**)0x7c109c, newPacket);
+
+		// Cleanup memory:
+		free(newPacket);
+		newPacket = nullptr;
+	}
+
 	void masterLogActAsShootN2PPacket(void* edx, void* packet)
 	{
 		if (!edx)
