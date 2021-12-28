@@ -44,9 +44,14 @@ namespace features {
 		newPacket = nullptr;
 	}
 
-	void masterLogActAsShootN2PPacket(void* edx, void* packet)
+	void masterLogActAsShootN2PPacket(void* packet)
 	{
-		if (!edx)
+		auto ptr = *(void**)0x7c109c;
+		if (!ptr)
+			return;
+
+		ptr = *(void**)((uintptr_t)ptr + 976);
+		if (!ptr)
 			return;
 
 		// Read all GCPvEShootN2P packet members that reside in the GCMasterLog packet:
@@ -81,7 +86,7 @@ namespace features {
 
 		// Call the GCPvEShootN2P net event handler function:
 		static auto netEventShootN2PFn = (char(__thiscall*)(void*, void*))(0x4225b0);
-		netEventShootN2PFn(edx, newPacket);
+		netEventShootN2PFn(ptr, newPacket);
 
 		// Cleanup memory:
 		free(newPacket);
