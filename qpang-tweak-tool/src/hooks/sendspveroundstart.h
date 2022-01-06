@@ -6,8 +6,7 @@ namespace hooks {
 	typedef void(__thiscall* tSendsPveRoundStartFn)(void*, int);
 	inline tSendsPveRoundStartFn oSendsPveRoundStartFn = nullptr;
 
-	void __fastcall hkSendsPveRoundStartFn(void* _this, void*, int a2)
-	{
+	void __fastcall hkSendsPveRoundStartFn(void* _this, void*, int a2) {
 		if (globals::shouldSendStartRound && a2 == 9) {
 
 			// Normally, the game now sends pve round start in this function, but we're going to do this ourselves.
