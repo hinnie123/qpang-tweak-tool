@@ -5,6 +5,9 @@
 
 #include "hooks/getcommandlinew.h"
 #include "hooks/getcommandlinea.h"
+#include "hooks/sendspveroundstart.h"
+#include "hooks/handlejoinsandroundend.h"
+#include "hooks/handlestartandpvestart.h"
 #include "hooks/fillgcroompacket.h"
 #include "hooks/neteventgcmasterlog.h"
 #include "hooks/handlegcjoin.h"
@@ -41,6 +44,9 @@ void setupQpangHooks() {
 		return;
 	}
 
+	auto sendsPveRoundStartFn = (uintptr_t)globals::qpangModule + 0x35a70;
+	auto handleJoinsAndRoundEndFn = (uintptr_t)globals::qpangModule + 0x36f00;
+	auto handleStartAndPveStartFn = (uintptr_t)globals::qpangModule + 0x36fb0;
 	auto fillCGRoomPacketFn = (uintptr_t)globals::qpangModule + 0x24e6d0;
 	auto netEventGCMasterLogFn = (uintptr_t)globals::qpangModule + 0xbebb0;
 	auto handleGCJoinFn = (uintptr_t)globals::qpangModule + 0x34d40;
@@ -57,6 +63,9 @@ void setupQpangHooks() {
 
 	HOOK(GetCommandLineA, hooks::hkGetCommandLineA, hooks::oGetCommandLineA);
 	HOOK(GetCommandLineW, hooks::hkGetCommandLineW, hooks::oGetCommandLineW);
+	HOOK(sendsPveRoundStartFn, hooks::hkSendsPveRoundStartFn, hooks::oSendsPveRoundStartFn);
+	HOOK(handleJoinsAndRoundEndFn, hooks::hkHandleJoinsAndRoundEnd, hooks::oHandleJoinsAndRoundEnd);
+	HOOK(handleStartAndPveStartFn, hooks::hkHandleStartAndPveStart, hooks::oHandleStartAndPveStart);
 	HOOK(fillCGRoomPacketFn, hooks::hkFillCGRoomPacket, hooks::oFillCGRoomPacket);
 	HOOK(netEventGCMasterLogFn, hooks::hkNetEventGCMasterLog, hooks::oNetEventGCMasterLog);
 	HOOK(handleGCJoinFn, hooks::hkHandleGCJoin, hooks::oHandleGCJoin);

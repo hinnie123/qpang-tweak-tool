@@ -275,5 +275,14 @@
     <ClInclude Include="src\features\pve.h">
       <Filter>src\features</Filter>
     </ClInclude>
+    <ClInclude Include="src\hooks\handlestartandpvestart.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\handlejoinsandroundend.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hooks\sendspveroundstart.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

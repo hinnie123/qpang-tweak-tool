@@ -5,6 +5,8 @@
 #include "sdk/guimanager.h"
 
 namespace globals {
+	inline bool shouldSendStartRound = false;
+
 	inline eUIState currentUiState = eUIState::UNKNOWN;
 	inline eUIState previousUiState = eUIState::UNKNOWN;
 
