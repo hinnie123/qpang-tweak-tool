@@ -4,17 +4,40 @@
 #include <cstdint>
 
 namespace features {
-	void masterLogActAsPveScoreResult(void* packet)
+	void masterLogActAsPveSpecialAttack(void* packet)
 	{
-		void* newPacket = malloc(1000);
+		void* newPacket = malloc(100);
 		if (!newPacket)
 			return;
 
-		memset(newPacket, 0, 1000);
+		memset(newPacket, 0, 100);
+
+		*(int*)((uintptr_t)newPacket + 20) = 535; // 535 = GCPvESpecialAttack
+
+		*(uint32_t*)((uintptr_t)newPacket + 88) = *(uint32_t*)((uintptr_t)packet + 88); // npcUid
+		*(uint32_t*)((uintptr_t)newPacket + 92) = *(uint32_t*)((uintptr_t)packet + 92); // unknown variable
+		*(uint8_t*)((uintptr_t)newPacket + 96) = *(uint8_t*)((uintptr_t)packet + 104); // resetAttack
+
+		// Call the GCPvESpecialAttack net event handler function:
+		static auto netEventPveSpecialAttackFn = (void* (__thiscall*)(void*, void*))(0x429fe0);
+		netEventPveSpecialAttackFn(*(void**)0x7c109c, newPacket);
+
+		// Cleanup memory:
+		free(newPacket);
+		newPacket = nullptr;
+	}
+
+	void masterLogActAsPveScoreResult(void* packet)
+	{
+		void* newPacket = malloc(152);
+		if (!newPacket)
+			return;
+
+		memset(newPacket, 0, 152);
+
+		*(int*)((uintptr_t)newPacket + 20) = 534; // 534 = GCPvEScoreResult
 
 		// Set the variables of our "GCPvEScoreResult" packet:
-		*(int*)((uintptr_t)newPacket + 20) = 534;
-
 		*(uint32_t*)((uintptr_t)newPacket + 88) = *(uint32_t*)((uintptr_t)packet + 88); // playerId
 		*(uint32_t*)((uintptr_t)newPacket + 92) = 0;
 		*(uint32_t*)((uintptr_t)newPacket + 96) = 0;
@@ -66,15 +89,15 @@ namespace features {
 		uint64_t unkVal = ((uint64_t)val1) << 32 | val2;
 
 		// Allocate a new packet as our "GCPvEShootN2P" packet:
-		void* newPacket = malloc(132);
+		void* newPacket = malloc(120);
 		if (!newPacket)
 			return;
 
-		memset(newPacket, 0, 132);
+		memset(newPacket, 0, 120);
+
+		*(int*)((uintptr_t)newPacket + 20) = 516; // 516 = GCPvEShootN2P
 
 		// Set the variables of our "GCPvEShootN2P" packet:
-		*(int*)((uintptr_t)newPacket + 20) = 516;
-
 		*(uint32_t*)((uintptr_t)newPacket + 88) = npcUid;
 		*(uint32_t*)((uintptr_t)newPacket + 92) = weaponBodyPartId;
 

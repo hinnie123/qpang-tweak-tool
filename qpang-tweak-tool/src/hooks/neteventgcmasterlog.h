@@ -15,11 +15,18 @@ namespace hooks {
 		if (retAddr != netEventHandlerRetAddr)
 			return 0;
 
-		// This member is set to 1337 if the server sent a PveScoreResult packet.
-		if (*(uint32_t*)((uintptr_t)packet + 128) == 1337)
+		switch (*(uint32_t*)((uintptr_t)packet + 128))
+		{
+		case 1337:
 			features::masterLogActAsPveScoreResult(packet);
-		else
+			break;
+		case 1338:
+			features::masterLogActAsPveSpecialAttack(packet);
+			break;
+		default:
 			features::masterLogActAsShootN2PPacket(packet);
+			break;
+		}
 
 		return 0;
 	}
