@@ -36,9 +36,6 @@
 #define HOOK(from, to, original) if (MH_CreateHook((void*)from, (void*)to, (void**)&original) == MH_OK) { MH_EnableHook((void*)from); }
 
 void setupQpangHooks() {
-	// TODO: Make this a toggle to disable escalator sounds and make it save/load and add it to the menu.
-	*(wchar_t*)(0x733BBC) = L'\0';
-
 	globals::qpangModule = GetModuleHandleA(nullptr);
 	if (!globals::qpangModule) {
 		return;
@@ -97,8 +94,8 @@ void setupApiHooks() {
 		Sleep(10);
 	}
 
-	auto getOnnet3DEngine = (uintptr_t*(__thiscall*)())(GetProcAddress(on3DModule, "?GetSingleton@?$Singleton@VOnNet3DEngine@OnNet3D@@@OnNet3D@@SAAAVOnNet3DEngine@2@XZ"));
-	auto getOnnetRenderSystem = (uintptr_t*(__thiscall*)(uintptr_t*))(GetProcAddress(on3DModule, "?GetRenderSystem@OnNet3DEngine@OnNet3D@@QAEPAVRenderSystem@2@XZ"));
+	auto getOnnet3DEngine = (uintptr_t * (__thiscall*)())(GetProcAddress(on3DModule, "?GetSingleton@?$Singleton@VOnNet3DEngine@OnNet3D@@@OnNet3D@@SAAAVOnNet3DEngine@2@XZ"));
+	auto getOnnetRenderSystem = (uintptr_t * (__thiscall*)(uintptr_t*))(GetProcAddress(on3DModule, "?GetRenderSystem@OnNet3DEngine@OnNet3D@@QAEPAVRenderSystem@2@XZ"));
 
 	auto onnet3DEngine = getOnnet3DEngine();
 	while (!onnet3DEngine) {
@@ -140,6 +137,16 @@ void setupTargetResolution() {
 	features::targetHeight = GetSystemMetrics(SM_CYSCREEN);
 }
 
+void disableGlitchedPvESound()
+{
+	DWORD oldProtection = 0;
+	VirtualProtect((LPVOID)0x733BBC, sizeof(wchar_t), PAGE_EXECUTE_READWRITE, &oldProtection);
+
+	*(wchar_t*)(0x733BBC) = L'\0';
+
+	VirtualProtect((LPVOID)0x733BBC, sizeof(wchar_t), oldProtection, &oldProtection);
+}
+
 void startThread() {
 	// Uncomment if you want to open a console that you can print to
 #ifdef _DEBUG
@@ -151,6 +158,7 @@ void startThread() {
 	setupTargetResolution();
 	settings::loadAll();
 
+	disableGlitchedPvESound();
 	setupHooks();
 
 	// setUiColor returns false if the instance doesn't have any ui elements yet to change the color of

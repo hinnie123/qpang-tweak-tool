@@ -38,7 +38,7 @@ namespace features {
 
 	bool isTargettingQuitMessage = false;
 	void beforeFixQuitMessage(wchar_t* message) {
-		if (wcsstr(message, L"quit?") || wcsstr(message, L"verlaten?") || wcsstr(message, L"tutorial?") || wcsstr(message, L"training") || wcsstr(message, L"coin?") 
+		if (wcsstr(message, L"quit?") || wcsstr(message, L"verlaten?") || wcsstr(message, L"tutorial?") || wcsstr(message, L"training") || wcsstr(message, L"coin?")
 			|| wcsstr(message, L"munt?")) {
 			isTargettingQuitMessage = true;
 		}
@@ -168,7 +168,7 @@ namespace features {
 		auto uiManager = GUIManager::getInstance();
 		if (!uiManager)
 			return;
-		
+
 		for (size_t i = 0; i < uiManager->getNumElements(); ++i) {
 			auto element = uiManager->uiElements[i];
 			if (!element)

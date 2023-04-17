@@ -23,6 +23,7 @@ namespace hooks {
 		features::fixStretch();
 		features::rainbowUi();
 		features::sensitivity();
+		features::setHighFov();
 
 		//features::positionUiElements();
 		features::loginScreenSaver();

@@ -101,6 +101,11 @@ namespace ui {
 				}
 
 				if (ImGui::BeginTabItem("Ingame")) {
+					if (ImGui::Checkbox("Higher fov", &features::higherFov)) {
+						features::setHighFov();
+						settings::saveAll();
+					}
+
 					if (ImGui::Checkbox("Override sensitivity", &features::sensitivityEnabled)) {
 						if (!features::sensitivityEnabled) {
 							features::restoreSensitivity();

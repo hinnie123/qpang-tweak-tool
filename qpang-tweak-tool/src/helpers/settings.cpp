@@ -13,14 +13,10 @@
 #define SAFE_JSON(x) try { x; } catch (nlohmann::json::exception& ex) {}
 
 namespace settings {
-	const std::string settingsName = "TweakToolSettings.json";
-	std::string targetDir = "";
+	const std::string settingsName = "Settings.json";
+	std::string targetDir = "QPangTweakTool/";
 
 	void ensureDirExists() {
-		if (targetDir.empty()) {
-			targetDir = "Launcher/Settings/";
-		}
-
 		MakeSureDirectoryPathExists(targetDir.c_str());
 	}
 
@@ -43,6 +39,7 @@ namespace settings {
 				{"targetHeight", features::targetHeight}
 			}},
 			{"ingame", {
+				{"higherFov", features::higherFov},
 				{"sensitivityEnabled", features::sensitivityEnabled},
 				{"sensitivityValue", features::sensitivityValue}
 			}},
@@ -67,6 +64,7 @@ namespace settings {
 			SAFE_JSON(j.at("resolution").at("targetWidth").get_to(features::targetWidth));
 			SAFE_JSON(j.at("resolution").at("targetHeight").get_to(features::targetHeight));
 
+			SAFE_JSON(j.at("ingame").at("higherFov").get_to(features::higherFov));
 			SAFE_JSON(j.at("ingame").at("sensitivityEnabled").get_to(features::sensitivityEnabled));
 			SAFE_JSON(j.at("ingame").at("sensitivityValue").get_to(features::sensitivityValue));
 
