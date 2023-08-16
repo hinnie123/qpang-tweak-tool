@@ -35,12 +35,31 @@
 
 #define HOOK(from, to, original) if (MH_CreateHook((void*)from, (void*)to, (void**)&original) == MH_OK) { MH_EnableHook((void*)from); }
 
+HINSTANCE mainModule;
 void setupQpangHooks() {
 	globals::qpangModule = GetModuleHandleA(nullptr);
 	if (!globals::qpangModule) {
 		return;
 	}
 
+#ifdef V2013
+	auto sendsPveRoundStartFn = (uintptr_t)globals::qpangModule + 0x35e00;
+	auto handleJoinsAndRoundEndFn = (uintptr_t)globals::qpangModule + 0x37290;
+	auto handleStartAndPveStartFn = (uintptr_t)globals::qpangModule + 0x37340;
+	auto fillCGRoomPacketFn = (uintptr_t)globals::qpangModule + 0x250370;
+	auto netEventGCMasterLogFn = (uintptr_t)globals::qpangModule + 0xbfbe0;
+	auto handleGCJoinFn = (uintptr_t)globals::qpangModule + 0x350d0;
+	auto clientGameCGMoveFn = (uintptr_t)globals::qpangModule + 0x25f210;
+	auto setUiStateFn = (uintptr_t)globals::qpangModule + 0x61720;
+	auto elementShouldDrawFn = (uintptr_t)globals::qpangModule + 0x13c700;
+	auto createAppFn = (uintptr_t)globals::qpangModule + 0x1430;
+	auto setWorldToScreenResolutionFn = (uintptr_t)globals::qpangModule + 0xc0300;
+	auto setCursorBoundsFn = (uintptr_t)globals::qpangModule + 0x1e9d0;
+	auto setResolutionFn = (uintptr_t)globals::qpangModule + 0xf7d70;
+	auto setUnknownPositionFn = (uintptr_t)globals::qpangModule + 0x13c630;
+	auto renderMessageFn = (uintptr_t)globals::qpangModule + 0x19e9b0;
+	auto luaTinkerDoFileFn = (uintptr_t)globals::qpangModule + 0x1da910;
+#else
 	auto sendsPveRoundStartFn = (uintptr_t)globals::qpangModule + 0x35a70;
 	auto handleJoinsAndRoundEndFn = (uintptr_t)globals::qpangModule + 0x36f00;
 	auto handleStartAndPveStartFn = (uintptr_t)globals::qpangModule + 0x36fb0;
@@ -57,6 +76,7 @@ void setupQpangHooks() {
 	auto setUnknownPositionFn = (uintptr_t)globals::qpangModule + 0x13b290;
 	auto renderMessageFn = (uintptr_t)globals::qpangModule + 0x19d280;
 	auto luaTinkerDoFileFn = (uintptr_t)globals::qpangModule + 0x1d8da0;
+#endif
 
 	HOOK(GetCommandLineA, hooks::hkGetCommandLineA, hooks::oGetCommandLineA);
 	HOOK(GetCommandLineW, hooks::hkGetCommandLineW, hooks::oGetCommandLineW);
@@ -78,7 +98,11 @@ void setupQpangHooks() {
 	HOOK(luaTinkerDoFileFn, hooks::hkLuaTinkerDoFile, hooks::oLuaTinkerDoFile);
 
 	// The tool is now ready for the launcher to resume the process, let's tell the launcher that by setting this data value to 1337
-	*(int*)((uintptr_t)globals::qpangModule + 0x3c0ef8) = 1337;
+#ifdef V2013
+	*(int*)0x7D64D4 = 1337;
+#else
+	*(int*)0x7D34AC = 1337;
+#endif
 }
 
 void setupApiHooks() {
@@ -139,12 +163,18 @@ void setupTargetResolution() {
 
 void disableGlitchedPvESound()
 {
+#ifdef V2013
+	void* address = (void*)0x736bc4;
+#else
+	void* address = (void*)0x733bbc;
+#endif
+
 	DWORD oldProtection = 0;
-	VirtualProtect((LPVOID)0x733BBC, sizeof(wchar_t), PAGE_EXECUTE_READWRITE, &oldProtection);
+	VirtualProtect((LPVOID)address, sizeof(wchar_t), PAGE_EXECUTE_READWRITE, &oldProtection);
 
-	*(wchar_t*)(0x733BBC) = L'\0';
+	*(wchar_t*)(address) = L'\0';
 
-	VirtualProtect((LPVOID)0x733BBC, sizeof(wchar_t), oldProtection, &oldProtection);
+	VirtualProtect((LPVOID)address, sizeof(wchar_t), oldProtection, &oldProtection);
 }
 
 void startThread() {
@@ -174,6 +204,8 @@ BOOL WINAPI DllMain(
 	_In_ LPVOID lpvReserved
 ) {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
+		mainModule = hinstDLL;
+
 		auto threadHandle = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)startThread, nullptr, 0, nullptr);
 		if (threadHandle) {
 			CloseHandle(threadHandle);

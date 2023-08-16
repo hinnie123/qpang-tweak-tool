@@ -19,8 +19,13 @@ namespace features {
 		*(uint8_t*)((uintptr_t)newPacket + 96) = *(uint8_t*)((uintptr_t)packet + 104); // resetAttack
 
 		// Call the GCPvESpecialAttack net event handler function:
+#ifdef V2013
+		static auto netEventPveSpecialAttackFn = (void* (__thiscall*)(void*, void*))(0x42a320);
+		netEventPveSpecialAttackFn(*(void**)0x7c409c, newPacket);
+#else
 		static auto netEventPveSpecialAttackFn = (void* (__thiscall*)(void*, void*))(0x429fe0);
 		netEventPveSpecialAttackFn(*(void**)0x7c109c, newPacket);
+#endif
 
 		// Cleanup memory:
 		free(newPacket);
@@ -59,8 +64,13 @@ namespace features {
 		*(uint16_t*)((uintptr_t)newPacket + 148) = 0;
 
 		// Call the GCPvEScoreResult net event handler function:
+#ifdef V2013
+		static auto netEventPveScoreResultFn = (void* (__thiscall*)(void*, void*))(0x42a270);
+		netEventPveScoreResultFn(*(void**)0x7c409c, newPacket);
+#else
 		static auto netEventPveScoreResultFn = (void* (__thiscall*)(void*, void*))(0x429f30);
 		netEventPveScoreResultFn(*(void**)0x7c109c, newPacket);
+#endif
 
 		// Cleanup memory:
 		free(newPacket);
@@ -69,7 +79,11 @@ namespace features {
 
 	void masterLogActAsShootN2PPacket(void* packet)
 	{
+#ifdef V2013
+		auto ptr = *(void**)0x7c409c;
+#else
 		auto ptr = *(void**)0x7c109c;
+#endif
 		if (!ptr)
 			return;
 
@@ -108,9 +122,14 @@ namespace features {
 		*(uint64_t*)((uintptr_t)newPacket + 112) = unkVal;
 
 		// Call the GCPvEShootN2P net event handler function:
+#ifdef V2013
+		static auto netEventShootN2PFn = (char(__thiscall*)(void*, void*))(0x4228a0);
+		netEventShootN2PFn(ptr, newPacket);
+#else
 		static auto netEventShootN2PFn = (char(__thiscall*)(void*, void*))(0x4225b0);
 		netEventShootN2PFn(ptr, newPacket);
-
+#endif
+		
 		// Cleanup memory:
 		free(newPacket);
 		newPacket = nullptr;

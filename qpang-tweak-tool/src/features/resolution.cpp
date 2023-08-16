@@ -32,8 +32,13 @@ namespace features {
 	}
 
 	void fixStretch() {
+#ifdef V2013
+		*(int*)((uintptr_t)globals::qpangModule + 0x3c3f14) = features::targetWidth;
+		*(int*)((uintptr_t)globals::qpangModule + 0x3c3f18) = features::targetHeight;
+#else
 		*(int*)((uintptr_t)globals::qpangModule + 0x3c0f14) = features::targetWidth;
 		*(int*)((uintptr_t)globals::qpangModule + 0x3c0f18) = features::targetHeight;
+#endif
 	}
 
 	bool isTargettingQuitMessage = false;

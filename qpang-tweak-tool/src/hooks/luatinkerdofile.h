@@ -33,6 +33,10 @@ namespace hooks {
 		std::cout << filename << std::endl;
 #endif
 
+#ifdef V2013
+		return oLuaTinkerDoFile(lua_state, filename);
+#endif
+
 		if (strstr(filename, "login")) {
 			std::string path = std::tmpnam(nullptr);
 			std::ofstream out(path);
