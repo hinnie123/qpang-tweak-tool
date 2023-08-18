@@ -10,7 +10,12 @@ namespace hooks {
 
 	int __stdcall hkNetEventGCMasterLog(void* packet) {
 		uintptr_t retAddr = (uintptr_t)_ReturnAddress();
+
+#ifdef V2013
+		uintptr_t netEventHandlerRetAddr = 0x42d1de;
+#else
 		uintptr_t netEventHandlerRetAddr = 0x42ce6e;
+#endif
 
 		if (retAddr != netEventHandlerRetAddr)
 			return 0;
