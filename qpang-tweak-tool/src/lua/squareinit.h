@@ -4,6 +4,140 @@
 #include <string>
 
 namespace lua {
+#ifdef V2013
+	inline std::vector<std::string> squareInitLua = { R"(
+
+		SCREEN_WIDTH = $SCREEN_WIDTH
+		SCREEN_HEIGHT = $SCREEN_HEIGHT   
+
+		-- Prerequisite For All State Entry Point ---------------------------------
+		dofile("UI\\GlobalVar.lua")
+
+		SCREEN_WIDTH = $SCREEN_WIDTH
+		SCREEN_HEIGHT = $SCREEN_HEIGHT   
+
+		dofile("UI\\mnemonic.lua")
+
+		SCREEN_WIDTH = $SCREEN_WIDTH
+		SCREEN_HEIGHT = $SCREEN_HEIGHT   
+
+		dofile("UI\\StringTable.lua")
+
+		SCREEN_WIDTH = $SCREEN_WIDTH
+		SCREEN_HEIGHT = $SCREEN_HEIGHT   
+
+		dofile("UI\\common_res.lua")
+
+		SCREEN_WIDTH = $SCREEN_WIDTH
+		SCREEN_HEIGHT = $SCREEN_HEIGHT   
+
+		dofile("UI\\square_id.lua")
+
+		--------------------------------------------- 
+		SCREEN_WIDTH = $SCREEN_WIDTH
+		SCREEN_HEIGHT = $SCREEN_HEIGHT
+
+		------------ Square MainBar(squarebar.lua)
+		MAINBAR_OFFX = SCREEN_WIDTH - 206
+		MAINBAR_OFFY = SCREEN_HEIGHT - 69
+		MAINMENU_OFFX = SCREEN_WIDTH - 169
+		MAINMENU_OFFY = 1
+
+		------------ Square Minimap(squaremap.lua)
+		SQMINIMAP_OFFX = SCREEN_WIDTH - 169
+		SQMINIMAP_OFFY = 35
+
+		------------ NoteBox(notebox.lua)
+		NOTEBOX_OFFX = SCREEN_WIDTH - 201
+		NOTEBOX_OFFY = SCREEN_HEIGHT - 172
+
+		------------ CurrentState(currentstate.lua)
+		SQUARE_NAME_OFFX = SCREEN_WIDTH / 2 - 109
+		SQUARE_NAME_WIDTH = 0
+
+		------------ Square Chatting & Tip(Square_chatting.lua)
+		SQCHATVIEW_OFFX = 0
+		SQCHATVIEW_OFFY = SCREEN_HEIGHT - 156
+		SQCHATEDIT_OFFX = 0
+		SQCHATEDIT_OFFY = SCREEN_HEIGHT - 34
+		SQTIP_OFFX = 0
+		SQTIP_OFFY = SCREEN_HEIGHT - 18
+		SQTIP_WIDTH = SCREEN_WIDTH - 209
+
+		------------ Character View(character_view.lua)
+		CHARVIEW_OFFX = SCREEN_WIDTH / 2 - 548 / 2 - 254 / 2
+		CHARVIEW_OFFY = SCREEN_HEIGHT / 2 - 565 / 2
+
+		------------ Npc Talk(First Square)(firstinsquare.lua)
+		FIRSTSQ_UPPER_OFFX = SCREEN_WIDTH / 2 - 400
+		FIRSTSQ_UPPER_OFFY = 0
+		FIRSTSQ_LOWER_OFFX = SCREEN_WIDTH / 2 - 400
+		FIRSTSQ_LOWER_OFFY = SCREEN_HEIGHT - 240
+
+		------------ Messenger(messenger.lua)
+		MSG_OFFX = SCREEN_WIDTH - 201
+		MSG_OFFY = SCREEN_HEIGHT - 303
+		MSG_FRLIST_OFFX = SCREEN_WIDTH - 401
+		MSG_FRLIST_OFFY = SCREEN_HEIGHT - 322
+		MSG_MEMO_OFFX = 0
+		MSG_MEMO_OFFY = SCREEN_HEIGHT - 157
+		MSG_MEMOVIEW_OFFX = 0
+		MSG_MEMOVIEW_OFFY = SCREEN_HEIGHT - 138
+		MSG_MEMOEDIT_OFFX = 0
+		MSG_MEMOEDIT_OFFY = SCREEN_HEIGHT - 138
+		MSG_CONNECTFRIEND_OFFX = SCREEN_WIDTH / 2 - 41
+		MSG_CONNECTFRIEND_OFFY = SCREEN_HEIGHT / 2 - 102
+
+		------------ Function Card Use(funcitem.lua)
+		FUNCITEM_OFFX = 339
+		FUNCITEM_OFFY = 263
+
+		------------ Guide Movie(guide.lua)
+		GUIDE_MOVIE_OFFX = 234
+		GUIDE_MOVIE_OFFY = 175
+
+		------------ Trade(usertrade.lua)
+		MY_INVEN_OFFX = SCREEN_WIDTH / 2 - 800 / 2
+		MY_INVEN_OFFY = SCREEN_HEIGHT / 2 - 407 / 2
+
+		OTHER_TRADE_OFFX = SCREEN_WIDTH / 2 - 800 / 2 + 636
+		OTHER_TRADE_OFFY = SCREEN_HEIGHT / 2 - 407 / 2
+
+		------------ Inventory(inventory.lua)
+		INVENTORY_OFFX = SCREEN_WIDTH / 2 - 548 / 2 + 254 / 2
+		INVENTORY_OFFY = SCREEN_HEIGHT / 2 - 565 / 2
+
+		------------ CardSlot(cardslot.lua)
+		CARDSLOT_OFFX = SCREEN_WIDTH / 2 - 147
+		CARDSLOT_OFFY = SCREEN_HEIGHT / 2 - 282
+
+		------------ Survey(surveyui.lua)
+		SURVEY_VIEW_OFFX = 319
+		SURVEY_VIEW_OFFY = 112
+		SURVEY_CONF_OFFX = 339
+		SURVEY_CONF_OFFY = 324
+
+		------------ Screen Shot Offset
+		SCREEN_SHOT_OFFX = SCREEN_WIDTH / 2 - 350 / 2
+		SCREEN_SHOT_OFFY = SCREEN_HEIGHT - 85
+
+		------------ Npc_Talk
+		NPC_TALK_OFFX = SCREEN_WIDTH / 2 - 400
+		NPC_TALK_OFFY = SCREEN_HEIGHT - 378
+
+		dofile("UI\\common_ui.lua")
+
+		SCREEN_WIDTH = $SCREEN_WIDTH
+		SCREEN_HEIGHT = $SCREEN_HEIGHT   
+
+		-- Square Screen
+		dofile("UI\\square_screen.lua")	
+
+		SCREEN_WIDTH = $SCREEN_WIDTH
+		SCREEN_HEIGHT = $SCREEN_HEIGHT   
+
+	)" };
+#else
 	inline std::vector<std::string> squareInitLua = { R"(
 
 		dofile('UI\\GlobalVar.lua')
@@ -382,4 +516,5 @@ namespace lua {
 			StaticTextDir(UI_IDS_SCREENSHOT, TextDir_Left)
 
 	)" };
+#endif
 }

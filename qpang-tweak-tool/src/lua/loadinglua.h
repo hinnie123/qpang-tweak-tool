@@ -4,6 +4,7 @@
 #include <string>
 
 namespace lua {
+
 	inline std::vector<std::string> loadingLua = { R"(
 
 		SCREEN_WIDTH = $SCREEN_WIDTH
@@ -23,7 +24,15 @@ namespace lua {
 		GAUGE_HEIGHT = SCREEN_HEIGHT / 65.4545454545
 
 		dofile("UI\\loading_id.lua")
+
+		SCREEN_WIDTH = $SCREEN_WIDTH
+		SCREEN_HEIGHT = $SCREEN_HEIGHT   
+
 		dofile("UI\\loading_res.lua")
+
+		SCREEN_WIDTH = $SCREEN_WIDTH
+		SCREEN_HEIGHT = $SCREEN_HEIGHT   
+
 		--dofile("UI\\loading_screen.lua") BELOW:
 
 		CreateDialog(UI_IDD_BACK, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, NULL_WINDOW_TITLE, 8, 0, UIRECT_ONE)
@@ -38,4 +47,5 @@ namespace lua {
 
 
 	)" };
+
 }
