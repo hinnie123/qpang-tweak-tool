@@ -35,7 +35,6 @@
 
 #define HOOK(from, to, original) if (MH_CreateHook((void*)from, (void*)to, (void**)&original) == MH_OK) { MH_EnableHook((void*)from); }
 
-HINSTANCE mainModule;
 void setupQpangHooks() {
 	globals::qpangModule = GetModuleHandleA(nullptr);
 	if (!globals::qpangModule) {
@@ -204,8 +203,6 @@ BOOL WINAPI DllMain(
 	_In_ LPVOID lpvReserved
 ) {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
-		mainModule = hinstDLL;
-
 		auto threadHandle = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)startThread, nullptr, 0, nullptr);
 		if (threadHandle) {
 			CloseHandle(threadHandle);
