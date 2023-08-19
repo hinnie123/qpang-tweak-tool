@@ -5,12 +5,12 @@
 
 namespace lua {
 #ifdef V2013
-	inline std::vector<std::string> waitRoomLua = { R"(
+	inline std::string waitRoomLua = R"(
 
 		SCREEN_WIDTH = $SCREEN_WIDTH
 		SCREEN_HEIGHT = $SCREEN_HEIGHT   
 
-		-- Prerequisite For All State Entry Point ---------------------------------
+		-- Prerequisite For All State Entry Point
 		dofile("UI\\GlobalVar.lua")
 
 		SCREEN_WIDTH = $SCREEN_WIDTH
@@ -388,9 +388,7 @@ namespace lua {
 		UI_IDS_BUYGIFT_ATTR8_INPUT = UI_IDD_BUYGIFT+17
 
 		)"
-
-		,
-
+	
 		R"(
 
 		UI_IDP_BUYGIFT_CAPTION = UI_IDD_BUYGIFT+18
@@ -497,8 +495,6 @@ namespace lua {
 		UI_IDP_CHANNEL_MEMBERS_RUNNER =UI_IDD_CHANNEL_MEMBERS+9
 
 		)"
-
-		,
 
 		R"(
 
@@ -910,8 +906,6 @@ namespace lua {
 
 		)"
 
-		,
-
 		R"(
 
 		UI_IDW_MESSENGER_BLUEBG3 = UI_IDD_MESSENGER+30
@@ -1309,8 +1303,6 @@ namespace lua {
 
 		)"
 
-		,
-
 		R"(
 
 		UI_IDD_GAMEROOM_SLOT5 = 15500
@@ -1645,8 +1637,6 @@ namespace lua {
 		UI_IDP_OPTBASIC_SOUND_MINUS = UI_IDD_OPTION_BASIC+85
 
 		)"
-
-		,
 
 		R"(
 
@@ -2047,8 +2037,6 @@ namespace lua {
 
 		)"
 
-		,
-
 		R"(
 	
 
@@ -2356,8 +2344,6 @@ namespace lua {
 
 		)"
 
-		,
-
 		R"(
 
 		SCREEN_WIDTH = $SCREEN_WIDTH
@@ -2378,9 +2364,9 @@ namespace lua {
 			StaticTextDir(UI_IDS_SCREENSHOT, TextDir_Left)    
 
 
-	)" };
+	)";
 #else
-	inline std::vector<std::string> waitRoomLua = { R"(
+	inline std::string waitRoomLua = R"(
 
 		SCREEN_WIDTH = $SCREEN_WIDTH
 		SCREEN_HEIGHT = $SCREEN_HEIGHT
@@ -2760,8 +2746,6 @@ namespace lua {
 		UI_IDL_CHANNEL_LIST_INNERBOX = UI_IDD_CHANNEL_LIST+8
 		UI_IDP_CHANNEL_LIST_RUNNER = UI_IDD_CHANNEL_LIST+9)"
 
-		,
-
 		R"(
 
 		UI_IDD_NEWS = 6100
@@ -3133,10 +3117,7 @@ namespace lua {
 		UI_IDB_MESSENGER_WHISPER3 = UI_IDD_MESSENGER+36
 		UI_IDP_MESSENGER_TITLE3 = UI_IDD_MESSENGER+37)"
 
-		,
-
 		R"(
-
 
 		UI_IDW_MESSENGER_BLUEBG4 = UI_IDD_MESSENGER+40
 		UI_IDS_MESSENGER_NICK4 = UI_IDD_MESSENGER+41
@@ -3504,8 +3485,6 @@ namespace lua {
 		UI_IDP_GAMEROOM_SLOT4_NICKBG = UI_IDD_GAMEROOM_SLOT4+13
 		UI_IDP_GAMEROOM_SLOT4_LOCKSLOT = UI_IDD_GAMEROOM_SLOT4+14)"
 
-		,
-
 		R"(
 
 
@@ -3826,10 +3805,7 @@ namespace lua {
 		UI_IDP_OPTBASIC_TEXT22 = UI_IDD_OPTION_BASIC+72
 		UI_IDP_OPTBASIC_TEXT23 = UI_IDD_OPTION_BASIC+73)"
 
-		,
-
 		R"(
-
 
 		UI_IDP_OPTBASIC_MOUSE_PLUS = UI_IDD_OPTION_BASIC+80
 		UI_IDP_OPTBASIC_BGM_PLUS = UI_IDD_OPTION_BASIC+81
@@ -4193,8 +4169,6 @@ namespace lua {
 		SCREEN_WIDTH = $SCREEN_WIDTH
 		SCREEN_HEIGHT = $SCREEN_HEIGHT)"
 
-		,
-
 		R"(
 	
 		CreateNullDialog( UI_IDD_CHAR_VIEW , CHARVIEW_OFFX , CHARVIEW_OFFY,  229, 502 - 24, 8 )
@@ -4349,8 +4323,6 @@ namespace lua {
 
 		SCREEN_WIDTH = $SCREEN_WIDTH
 		SCREEN_HEIGHT = $SCREEN_HEIGHT)"
-
-		,
 
 		R"(
 
@@ -4535,8 +4507,6 @@ namespace lua {
 			ShowDialog(UI_IDD_SQTIP)
 			SetVisible(UI_IDD_SQTIP, TRUE)
 		end)"
-
-		,
 
 		R"(
 
@@ -4732,8 +4702,6 @@ namespace lua {
 			CreatePanoramaPictureBox(UI_IDD_SQCHAT, UI_IDP_SQCHAT_NEWMEMO, -9999, -10, 25, 20, 0, SQUARE_RES_BASE+203, UIRECT_ONE)
 		)"
 
-		,
-
 		R"(
 
 		CreateNullDialog(UI_IDD_MEMOLIST, MSG_MEMO_OFFX, MSG_MEMO_OFFY, 300, 140, 10)
@@ -4862,6 +4830,6 @@ namespace lua {
 		CreateStatic(UI_IDD_SCREENSHOT , UI_IDS_SCREENSHOT, 0, 0 , 450 , 20 , STR_NULL, -1, COMMON_RES_BASE+17,UIRECT_NONE)
 			StaticTextDir(UI_IDS_SCREENSHOT, TextDir_Left)    
 
-	)" };
+	)";
 #endif
 }

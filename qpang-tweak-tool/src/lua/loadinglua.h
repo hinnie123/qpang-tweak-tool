@@ -5,7 +5,7 @@
 
 namespace lua {
 
-	inline std::vector<std::string> loadingLua = { R"(
+	inline std::string loadingLua = R"(
 
 		SCREEN_WIDTH = $SCREEN_WIDTH
 		SCREEN_HEIGHT = $SCREEN_HEIGHT
@@ -46,6 +46,6 @@ namespace lua {
 		AllDialogSortingLayer()
 
 
-	)" };
+	)";
 
 }

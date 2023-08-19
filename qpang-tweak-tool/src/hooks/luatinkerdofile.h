@@ -12,6 +12,9 @@
 #include "lua/waitroom.h"
 
 #include "features/resolution.h"
+#include "sdk/lua.h"
+
+#define REPLACE_UI_LUA(name, lua) if (strstr(filename, name)) { executeUiLua(lua); return; }
 
 namespace hooks {
 	void replaceAll(std::string& str, const std::string& from, const std::string& to) {
@@ -25,89 +28,28 @@ namespace hooks {
 		}
 	}
 
-	typedef int(__cdecl* tLuaTinkerDoFile)(DWORD*, const char*);
+	void executeUiLua(std::string lua) {
+		replaceAll(lua, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
+		replaceAll(lua, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
+
+		LuaState::getInstance()->doString(lua);
+	}
+
+	typedef void(__cdecl* tLuaTinkerDoFile)(LuaState*, const char*);
 	inline tLuaTinkerDoFile oLuaTinkerDoFile = nullptr;
 
-	int __cdecl hkLuaTinkerDoFile(DWORD* lua_state, const char* filename) {
+	void __cdecl hkLuaTinkerDoFile(LuaState* lua_state, const char* filename) {
 #ifdef _DEBUG
 		std::cout << filename << std::endl;
 #endif
 
-		if (strstr(filename, "login")) {
-			std::string path = std::tmpnam(nullptr);
-			std::ofstream out(path);
+		REPLACE_UI_LUA("login", lua::loginLua)
+		REPLACE_UI_LUA("loading0", lua::loadingLua)
+		REPLACE_UI_LUA("loading1", lua::loadingLua)
+		REPLACE_UI_LUA("square_init", lua::squareInitLua)
+		REPLACE_UI_LUA("WaitRoom", lua::waitRoomLua)
+		REPLACE_UI_LUA("ingame_init", lua::ingameInitLua)
 
-			for (std::string loginLuaPart : lua::loginLua) {
-				replaceAll(loginLuaPart, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
-				replaceAll(loginLuaPart, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
-				out << loginLuaPart;
-			}
-
-			out.close();
-
-			return oLuaTinkerDoFile(lua_state, path.c_str());
-		}
-
-		if (strstr(filename, "loading0") || strstr(filename, "loading1")) {  // loading0800, loading1024, loading1280
-			std::string path = std::tmpnam(nullptr);
-			std::ofstream out(path);
-
-			for (std::string loadingLuaPart : lua::loadingLua) {
-				replaceAll(loadingLuaPart, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
-				replaceAll(loadingLuaPart, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
-				out << loadingLuaPart;
-			}
-
-			out.close();
-
-			return oLuaTinkerDoFile(lua_state, path.c_str());
-		}
-
-		if (strstr(filename, "square_init")) {
-			std::string path = std::tmpnam(nullptr);
-			std::ofstream out(path);
-
-			for (std::string squareInitLuaPart : lua::squareInitLua) {
-				replaceAll(squareInitLuaPart, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
-				replaceAll(squareInitLuaPart, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
-				out << squareInitLuaPart;
-			}
-
-			out.close();
-
-			return oLuaTinkerDoFile(lua_state, path.c_str());
-		}
-
-		if (strstr(filename, "WaitRoom")) {
-			std::string path = std::tmpnam(nullptr);
-			std::ofstream out(path);
-
-			for (std::string waitRoomLuaPart : lua::waitRoomLua) {
-				replaceAll(waitRoomLuaPart, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
-				replaceAll(waitRoomLuaPart, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
-				out << waitRoomLuaPart;
-			}
-
-			out.close();
-
-			return oLuaTinkerDoFile(lua_state, path.c_str());
-		}
-
-		 if (strstr(filename, "ingame_init")) {
-			std::string path = std::tmpnam(nullptr);
-			std::ofstream out(path);
-
-			for (std::string ingameInitLuaPart : lua::ingameInitLua) {
-				replaceAll(ingameInitLuaPart, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
-				replaceAll(ingameInitLuaPart, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
-				out << ingameInitLuaPart;
-			}
-
-			out.close();
-
-			return oLuaTinkerDoFile(lua_state, path.c_str());
-		}
-
-		return oLuaTinkerDoFile(lua_state, filename);
+		oLuaTinkerDoFile(lua_state, filename);
 	}
 }

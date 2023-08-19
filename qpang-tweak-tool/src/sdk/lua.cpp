@@ -24,3 +24,13 @@ int LuaState::call(const char* luaFn) {
 	
 	return luaTinkerCallFn(this, luaFn);
 }
+
+void LuaState::doString(std::string_view buffer) {
+#ifdef V2013
+	static auto luaTinkerDoString = (void(__cdecl*)(void*, const char*))(0x5daa00);
+#else
+	static auto luaTinkerDoString = (void(__cdecl*)(void*, const char*))(0x5d8e90);
+#endif
+
+	return luaTinkerDoString(this, buffer.data());
+}

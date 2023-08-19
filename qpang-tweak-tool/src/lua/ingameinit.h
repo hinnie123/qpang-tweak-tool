@@ -4,7 +4,7 @@
 
 namespace lua {
 #ifdef V2013
-    inline std::vector<std::string> ingameInitLua = { R"DEL(
+    inline std::string ingameInitLua = R"DEL(
 
 	    SCREEN_WIDTH = $SCREEN_WIDTH
 	    SCREEN_HEIGHT = $SCREEN_HEIGHT
@@ -387,8 +387,6 @@ namespace lua {
         StaticTextDir(UI_IDS_KEY_ADVICE, TextDir_vCenter)
         SetVisible(UI_IDS_KEY_ADVICE, FALSE))DEL"
 
-        ,
-
         R"DEL(
 
         CreateListView(
@@ -604,8 +602,6 @@ namespace lua {
         StaticTextDir(UI_IDS_ESSENSE_SLOT_MSG, TextDir_Center)
 
         CreateNullDialog(UI_IDD_SNIPING, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10) )DEL"
-
-        ,
 
         R"DEL(
 
@@ -846,8 +842,6 @@ namespace lua {
 	    CreateStatic(UI_IDD_GAME_EVENTER, UI_IDS_GAME_EVENTER_MAXHP, 573, 23, 35, 14, "Max", 1, COMMON_RES_BASE+8, UIRECT_NONE)
         ControlTextDir(UI_IDS_GAME_EVENTER_MAXHP, TextDir_vLeft))DEL"
 
-        ,
-
         R"DEL(CreateNullDialog(UI_IDD_GAME_WAVEWARNING, SCREEN_WIDTH / 2 - 639 / 2, 202, 639, 108, 10)
 
 	    CreatePictureBox(UI_IDD_GAME_WAVEWARNING, UI_IDP_GAME_WAVEWARNING_WAVE, 0, 22, 421, 62, 8, GAME_RES_BASE+85, UIRECT_ONE)
@@ -1075,8 +1069,6 @@ namespace lua {
             local IDN_RESULT_EXP = UI_IDN_RESULT_EXP1 + ID_OFFSET
             local IDG_RESULT_EXP = UI_IDG_RESULT_EXP1 + ID_OFFSET)DEL"
 
-            ,
-
             R"DEL(
     
             local IDP_RESULT_BONUS1 = UI_IDP_RESULT_BONUS1_1 + ID_OFFSET
@@ -1207,9 +1199,9 @@ namespace lua {
 
 	    AllDialogSortingLayer()
 
-	)DEL" };
+	)DEL";
 #else
-    inline std::vector<std::string> ingameInitLua = { R"DEL(
+    inline std::string ingameInitLua = R"DEL(
 
 	    SCREEN_WIDTH = $SCREEN_WIDTH
 	    SCREEN_HEIGHT = $SCREEN_HEIGHT
@@ -1592,8 +1584,6 @@ namespace lua {
         StaticTextDir(UI_IDS_KEY_ADVICE, TextDir_vCenter)
         SetVisible(UI_IDS_KEY_ADVICE, FALSE))DEL"
 
-        ,
-
         R"DEL(
 
         CreateListView(
@@ -1809,8 +1799,6 @@ namespace lua {
         StaticTextDir(UI_IDS_ESSENSE_SLOT_MSG, TextDir_Center)
 
         CreateNullDialog(UI_IDD_SNIPING, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10) )DEL"
-
-        ,
 
         R"DEL(
 
@@ -2051,8 +2039,6 @@ namespace lua {
 	    CreateStatic(UI_IDD_GAME_EVENTER, UI_IDS_GAME_EVENTER_MAXHP, 573, 23, 35, 14, "Max", 1, COMMON_RES_BASE+8, UIRECT_NONE)
         ControlTextDir(UI_IDS_GAME_EVENTER_MAXHP, TextDir_vLeft))DEL"
 
-        ,
-
         R"DEL(CreateNullDialog(UI_IDD_GAME_WAVEWARNING, SCREEN_WIDTH / 2 - 639 / 2, 202, 639, 108, 10)
 
 	    CreatePictureBox(UI_IDD_GAME_WAVEWARNING, UI_IDP_GAME_WAVEWARNING_WAVE, 0, 22, 421, 62, 8, GAME_RES_BASE+85, UIRECT_ONE)
@@ -2280,8 +2266,6 @@ namespace lua {
             local IDN_RESULT_EXP = UI_IDN_RESULT_EXP1 + ID_OFFSET
             local IDG_RESULT_EXP = UI_IDG_RESULT_EXP1 + ID_OFFSET)DEL"
 
-            ,
-
             R"DEL(
     
             local IDP_RESULT_BONUS1 = UI_IDP_RESULT_BONUS1_1 + ID_OFFSET
@@ -2412,6 +2396,6 @@ namespace lua {
 
 	    AllDialogSortingLayer()
 
-	)DEL" };
+	)DEL";
 #endif
 }

@@ -5,7 +5,7 @@
 
 namespace lua {
 #ifdef V2013
-	inline std::vector<std::string> loginLua = { R"(
+	inline std::string loginLua = R"(
 
 		dofile("UI\\GlobalVar.lua")
 		dofile("UI\\mnemonic.lua")
@@ -300,9 +300,9 @@ namespace lua {
 		CreateStatic(UI_IDD_SCREENSHOT, UI_IDS_SCREENSHOT, 0, 0, 450, 20, STR_NULL, -1, COMMON_RES_BASE+17, UIRECT_NONE)
 			StaticTextDir(UI_IDS_SCREENSHOT, TextDir_Left)  
 
-	)" };
+	)";
 #else
-    inline std::vector<std::string> loginLua = { R"(
+    inline std::string loginLua = R"(
 
 		dofile("UI\\GlobalVar.lua")
 		dofile("UI\\mnemonic.lua")
@@ -572,8 +572,6 @@ namespace lua {
 
 		EnableSkinColor(UI_IDD_LOGIN))"
 
-		,
-
 		R"(
 
 		CreateCaptionBar(UI_IDD_LOGIN, UI_IDC_LOGIN_CAPTION, 14, -22, 112, 24 , 2, LEGACY_COMMON_RES_BASE+0, UIRECT_THREE)
@@ -636,6 +634,6 @@ namespace lua {
 		CreateStatic(UI_IDD_SCREENSHOT, UI_IDS_SCREENSHOT, 0, 0, 450, 20, STR_NULL, -1, LEGACY_COMMON_RES_BASE+17, UIRECT_NONE)
 			StaticTextDir(UI_IDS_SCREENSHOT, TextDir_Left)    
 
-	)" };
+	)";
 #endif
 }

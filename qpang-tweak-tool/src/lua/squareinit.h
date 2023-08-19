@@ -5,12 +5,12 @@
 
 namespace lua {
 #ifdef V2013
-	inline std::vector<std::string> squareInitLua = { R"(
+	inline std::string squareInitLua = R"(
 
 		SCREEN_WIDTH = $SCREEN_WIDTH
 		SCREEN_HEIGHT = $SCREEN_HEIGHT   
 
-		-- Prerequisite For All State Entry Point ---------------------------------
+		-- Prerequisite For All State Entry Point
 		dofile("UI\\GlobalVar.lua")
 
 		SCREEN_WIDTH = $SCREEN_WIDTH
@@ -136,9 +136,9 @@ namespace lua {
 		SCREEN_WIDTH = $SCREEN_WIDTH
 		SCREEN_HEIGHT = $SCREEN_HEIGHT   
 
-	)" };
+	)";
 #else
-	inline std::vector<std::string> squareInitLua = { R"(
+	inline std::string squareInitLua = R"(
 
 		dofile('UI\\GlobalVar.lua')
 		dofile('UI\\mnemonic.lua')
@@ -435,8 +435,6 @@ namespace lua {
 			CreateButton(UI_IDD_MEMOVIEW, UI_IDB_MEMOVIEW_CLOSE, 285, 9, 10, 10, STR_NULL, 2, COMMON_RES_BASE+9, UIRECT_ONE)
 			CreateButton(UI_IDD_MEMOVIEW, UI_IDB_MEMOVIEW_DEL, 230, 103, 65, 13, STR_NULL, 2, COMMON_RES_BASE+16, UIRECT_ONE))"
 
-		,
-
 		R"(
 
 		CreateNullDialog(UI_IDD_MEMOEDIT, MSG_MEMOEDIT_OFFX, MSG_MEMOEDIT_OFFY, 300, 121, 5)
@@ -515,6 +513,6 @@ namespace lua {
 		CreateStatic(UI_IDD_SCREENSHOT , UI_IDS_SCREENSHOT, 0, 0 , 450 , 20 , STR_NULL, -1, LEGACY_COMMON_RES_BASE+17,UIRECT_NONE)
 			StaticTextDir(UI_IDS_SCREENSHOT, TextDir_Left)
 
-	)" };
+	)";
 #endif
 }
