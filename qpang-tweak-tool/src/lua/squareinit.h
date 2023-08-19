@@ -237,7 +237,15 @@ namespace lua {
 		dofile("UI\\server_select.lua")
 		dofile("UI\\cardslot.lua")
 		dofile("UI\\character_view.lua")
+
+		SCREEN_WIDTH = $SCREEN_WIDTH - 117 * 2
+		SCREEN_HEIGHT = $SCREEN_HEIGHT + 49 * 2
+
 		dofile("UI\\roomlist.lua")
+
+		SCREEN_WIDTH = $SCREEN_WIDTH
+		SCREEN_HEIGHT = $SCREEN_HEIGHT
+
 		dofile("UI\\makeroom.lua")
 		dofile("UI\\NoteBox.lua")
 		dofile("UI\\character_create.lua")
