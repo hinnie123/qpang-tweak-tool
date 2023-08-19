@@ -7,7 +7,7 @@ namespace utils {
 	bool setUiColor(DWORD dwColor);
 	bool setUiColor(float color[4]);
 
-	void callLua(std::string luaFn);
-
 	float randomFloat(float min, float max);
+
+	void replaceAll(std::string& str, const std::string& from, const std::string& to);
 }

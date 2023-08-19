@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include "helpers/globals.h"
+#include "helpers/utils.h"
 
 #include "lua/login.h"
 #include "lua/squareinit.h"
@@ -17,20 +18,9 @@
 #define REPLACE_UI_LUA(name, lua) if (strstr(filename, name)) { executeUiLua(lua); return; }
 
 namespace hooks {
-	void replaceAll(std::string& str, const std::string& from, const std::string& to) {
-		if (from.empty())
-			return;
-
-		size_t startPos = 0;
-		while ((startPos = str.find(from, startPos)) != std::string::npos) {
-			str.replace(startPos, from.length(), to);
-			startPos += to.length();
-		}
-	}
-
 	void executeUiLua(std::string lua) {
-		replaceAll(lua, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
-		replaceAll(lua, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
+		utils::replaceAll(lua, "$SCREEN_WIDTH", std::to_string(features::targetWidth));
+		utils::replaceAll(lua, "$SCREEN_HEIGHT", std::to_string(features::targetHeight));
 
 		LuaState::getInstance()->doString(lua);
 	}
